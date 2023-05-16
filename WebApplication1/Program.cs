@@ -1,3 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using WebApplication1.Data;
+using WebApplication1.Repositories;
+
 namespace WebApplication1
 {
     public class Program
@@ -8,6 +12,11 @@ namespace WebApplication1
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddDbContext<MovieDbContext>(options => options.UseSqlServer(
+                builder.Configuration.GetConnectionString("MovieDbConnectionString")
+                ));
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
 
             var app = builder.Build();
 

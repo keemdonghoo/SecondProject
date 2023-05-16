@@ -2,5 +2,8 @@
 {
     public class Favorite
     {
+        public long FavoriteUID { get; set; }
+
+        public string Name { get; set; }    
     }
 }

@@ -2,5 +2,8 @@
 {
     public class Board
     {
+        public long BoardUID { get; set; } 
+
+        public string Name { get; set; }    
     }
 }

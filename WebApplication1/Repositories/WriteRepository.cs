@@ -12,57 +12,62 @@ namespace WebApplication1.Repositories
             this.movieDbContext = movieDbContext;
         }
 
-        public Task<Post> AddPost(Post post)
+        public Task<Post> AddPostAsync(Post post)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Review> AddReview(Review review)
+        public Task<Review> AddReviewAsync(Review review)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Post?> DeletePost(long id)
+        public Task<Post?> DeletePostAsync(long id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Board?>> GetAllPost()
+        public Task<IEnumerable<Board?>> GetAllPostAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<Review?> GetIdReview(long id)
+        public Task<Review?> GetIdReviewAsync(long id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Movie> GetMovieDetail(long id)
+        public Task<Movie> GetMovieDetailAsync(long id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Movie>> GetNowMovie()
+        public Task<IEnumerable<Movie>> GetNowMovieAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<Post?> GetPost(long id)
+        public Task<Post?> GetPostAsync(long id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Like> IncLikeCnt()
+        public Task<Like> IncLikeCntAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<Post?> IncViewCnt()
+        public Task<Post?> IncViewCntAsync()
         {
-            throw new NotImplementedException();
+            var existingWrite = await movieDbContext.
+            if (existingWrite == null) return null;
+
+            existingWrite.ViewCnt++;
+            await movieDbContext.SaveChangesAsync();
+            return existingWrite;
         }
 
-        public Task<Post?> UpdatePost(Post post)
+        public Task<Post?> UpdatePostAsync(Post post)
         {
             throw new NotImplementedException();
         }

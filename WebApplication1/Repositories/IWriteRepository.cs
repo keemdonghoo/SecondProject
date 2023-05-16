@@ -5,30 +5,31 @@ namespace WebApplication1.Repositories
     public interface IWriteRepository
     {
         //현재 상영중인 영화 목록 불러오기
-        Task<IEnumerable<Movie>> GetNowMovie();
+        Task<IEnumerable<Movie>> GetNowMovieAsync();
         //특정 영화의 상세정보 불러오기
-        Task<Movie> GetMovieDetail(long id);
+        Task<Movie> GetMovieDetailAsync(long id);
 
         //특정 게시글의 댓글 작성하기
-        Task<Review> AddReview(Review review);
+        Task<Review> AddReviewAsync(Review review);
         //특정 게시글의 댓글 불러오기 
-        Task<Review?> GetIdReview(long id);
+        Task<Review?> GetIdReviewAsync(long id);
 
         //게시글 목록 불러오기
-        Task<IEnumerable<Board?>> GetAllPost();
+        Task<IEnumerable<Board?>> GetAllPostAsync(); 
         //새로운 게시글 생성하기
-        Task<Post> AddPost(Post post);
+        Task<Post> AddPostAsync(Post post);
 
         //특정 ID의 게시글 읽어오기
-        Task<Post?> GetPost(long id);
+        Task<Post?> GetPostAsync(long id);
         //특정 게시글 수정하기
-        Task<Post?> UpdatePost(Post post);
+        Task<Post?> UpdatePostAsync(Post post);
         //특정 게시글 삭제하기
-        Task<Post?> DeletePost(long id);
+        Task<Post?> DeletePostAsync(long id);
         //특정 게시글 조회수 +1
-        Task<Post?> IncViewCnt();
+        Task<Post?> IncViewCntAsync();
         //특정 게시글 좋아요 +1
-        Task<Like> IncLikeCnt();
+        Task<Like> IncLikeCntAsync();
 
+        //관리자 
     }
 }

@@ -8,13 +8,13 @@ namespace WebApplication1.Models.Domain
     public class Post
     {
         public User User { get; set; }
-        public long UserUID { get; set; }
+        public long UserId { get; set; }
         public Board Board { get; set; }
-        public long BoardUID { get; set; }
+        public long BoardId { get; set; }
 
 
 
-        public int PostUID  { get; set; }
+        public int PostId  { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
         public DateTime Date { get; set; }

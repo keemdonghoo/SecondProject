@@ -19,5 +19,21 @@ namespace WebApplication1.Models.Domain
         public bool IsAdmin { get; set; }
       
         public string? Email { get; set; }
+
+        public ICollection<Post> Posts { get; set; } = new HashSet<Post>();
+
+        public ICollection<Review> Reviews { get; set; } = new HashSet<Review>();
+
+        public ICollection<Favorite> Favorites { get; set; } = new HashSet<Favorite>();
+
+        public ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();    
+
+        public ICollection<Like> Likes { get; set; } = new HashSet<Like>();
+
+
+
+       
+
+
     }
 }

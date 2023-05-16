@@ -5,7 +5,7 @@ namespace WebApplication1.Models.Domain
     [Table("Movie")]
     public class Movie
     {
-        public long MoiveUID { get; set; }  
+        public long MoiveId { get; set; }  
 
         public string Title { get; set; }   
 

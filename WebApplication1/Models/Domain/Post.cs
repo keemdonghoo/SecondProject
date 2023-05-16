@@ -1,4 +1,8 @@
-﻿namespace WebApplication1.Models.Domain
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
+using TeamProject.Models.Domain;
+
+namespace WebApplication1.Models.Domain
 {
     [Table("Post")]
     //게시글
@@ -16,8 +20,15 @@
         public string Content { get; set; }
         public DateTime Date { get; set; }
 
+
+
         [DefaultValue(0)]
         public int ViewCnt { get; set; }
+
+        [DefaultValue(0)]
+        public int LikeCnt { get; set; }
+
+
 
         public ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
 
@@ -27,7 +38,5 @@
 
 
 
-        [DefaultValue(0)]
-        public int LikeCnt { get; set; }
     }
 }

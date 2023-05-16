@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 using WebApplication1.Data;
 using WebApplication1.Models.Domain;
 
@@ -38,26 +39,30 @@ namespace WebApplication1.Repositories
             throw new NotImplementedException();
         }
 
+        //특정 MovieUID의 영화 상세정보 가져오기
         public async Task<Movie> GetMovieDetailAsync(long uid)
         {
             throw new NotImplementedException();
         }
 
+        //현재 상영중인 영화 목록 가져오기
         public async Task<IEnumerable<Movie>> GetNowMovieAsync()
         {
             throw new NotImplementedException();
         }
 
+        //특정 UserUID의 게시글 가져오기
         public async Task<Post?> GetPostAsync(long uid)
         {
-            throw new NotImplementedException();
+            return await movieDbContext.Posts.FirstOrDefaultAsync(x => x.UserId == uid);
         }
 
+        //좋아요 토글
         public async Task<bool> ToggleLikeAsync(long userUid, long postUid)
         {
             // UserUID와 PostUID로 기존의 Like를 찾는다.
             var existingLike = await movieDbContext.Likes
-                .FirstOrDefaultAsync(l => l.UserUID == userUid && l.PostUID == postUid);
+                .FirstOrDefaultAsync(l => l.UserId == userUid && l.PostId == postUid);
 
             // 만약 Like가 이미 있다면, 삭제한다.
             if (existingLike != null)
@@ -66,7 +71,7 @@ namespace WebApplication1.Repositories
             }
             else // 그렇지 않으면 새로운 Like를 추가한다.
             {
-                var newLike = new Like { UserUID = userUid, PostUID = postUid };
+                var newLike = new Like { UserId = userUid, PostId = postUid };
                 await movieDbContext.Likes.AddAsync(newLike);
             }
 
@@ -78,7 +83,7 @@ namespace WebApplication1.Repositories
             return existingLike == null;
         }
 
-
+        //조회수 증가
         public async Task<Post?> IncViewCntAsync(long uid)
         {
             var existingWrite = await movieDbContext.Posts.FindAsync(uid);
@@ -89,9 +94,17 @@ namespace WebApplication1.Repositories
             return existingWrite;
         }
 
+        //특정 PostUID의 게시글 수정하기
         public async Task<Post?> UpdatePostAsync(Post post)
         {
-            throw new NotImplementedException();
+            var existingWrite = await movieDbContext.Posts.FindAsync(post.PostId);
+            if (existingWrite == null) return null;
+
+            existingWrite.Title = post.Title;
+            existingWrite.Content = post.Content;
+
+            await movieDbContext.SaveChangesAsync();  // UPDATE
+            return existingWrite;
         }
     }
 }

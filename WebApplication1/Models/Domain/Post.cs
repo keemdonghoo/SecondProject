@@ -1,7 +1,6 @@
-﻿using System.ComponentModel;
-
-namespace WebApplication1.Models.Domain
+﻿namespace WebApplication1.Models.Domain
 {
+    [Table("Post")]
     //게시글
     public class Post
     {
@@ -19,6 +18,14 @@ namespace WebApplication1.Models.Domain
 
         [DefaultValue(0)]
         public int ViewCnt { get; set; }
+
+        public ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
+
+        public ICollection<Attachment> Attachments { get; set; } = new HashSet<Attachment>();
+
+        public ICollection<Like> Likes { get; set; } = new HashSet<Like>();
+
+
 
         [DefaultValue(0)]
         public int LikeCnt { get; set; }

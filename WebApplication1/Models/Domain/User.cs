@@ -8,7 +8,7 @@ namespace WebApplication1.Models.Domain
     public class User
     {
         
-        public long Uid { get; set; }
+        public long UserId { get; set; }
         public string Name { get; set; }
         public string PassWord { get; set; }
         public string UserName { get; set; }

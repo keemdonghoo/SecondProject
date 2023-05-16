@@ -5,10 +5,10 @@ namespace WebApplication1.Models.Domain
     [Table("Favorite")]
     public class Favorite
     {
-        public long FavoriteUID { get; set; }
+        public long FavoriteId { get; set; }
 
         public User User { get; set; }
-        public long UserUID { get; set; }
+        public long UserId { get; set; }
 
         public string Name { get; set; }   
         

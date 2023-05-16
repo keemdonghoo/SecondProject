@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApplication1.Models.Domain
 {
+    [Table("project_user")]
 
     public class User
     {
@@ -17,7 +18,6 @@ namespace WebApplication1.Models.Domain
         [DefaultValue(false)]
         public bool IsAdmin { get; set; }
       
-
         public string? Email { get; set; }
     }
 }

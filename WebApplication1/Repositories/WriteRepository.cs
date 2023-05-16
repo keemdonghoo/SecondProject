@@ -59,12 +59,12 @@ namespace WebApplication1.Repositories
 
         public Task<Post?> IncViewCntAsync()
         {
-            var existingWrite = await movieDbContext.
-            if (existingWrite == null) return null;
+            //var existingWrite = await movieDbContext.
+            //if (existingWrite == null) return null;
 
-            existingWrite.ViewCnt++;
-            await movieDbContext.SaveChangesAsync();
-            return existingWrite;
+            //existingWrite.ViewCnt++;
+            //await movieDbContext.SaveChangesAsync();
+            //return existingWrite;
         }
 
         public Task<Post?> UpdatePostAsync(Post post)

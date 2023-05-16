@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using TeamProject.Models.Domain;
 
 namespace WebApplication1.Models.Domain
@@ -18,13 +19,23 @@ namespace WebApplication1.Models.Domain
         public string Title { get; set; }
         public string Content { get; set; }
         public DateTime Date { get; set; }
+
+
+
+        [DefaultValue(0)]
         public int ViewCnt { get; set; }
+
+        [DefaultValue(0)]
+        public int LikeCnt { get; set; }
+
+
 
         public ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
 
         public ICollection<Attachment> Attachments { get; set; } = new HashSet<Attachment>();
 
         public ICollection<Like> Likes { get; set; } = new HashSet<Like>();
+
 
 
     }

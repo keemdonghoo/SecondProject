@@ -1,4 +1,6 @@
-﻿using WebApplication1.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
+using WebApplication1.Data;
 using WebApplication1.Models.Domain;
 
 namespace WebApplication1.Repositories
@@ -12,59 +14,97 @@ namespace WebApplication1.Repositories
             this.movieDbContext = movieDbContext;
         }
 
-        public Task<Post> AddPostAsync(Post post)
+        public async Task<Post> AddPostAsync(Post post)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Review> AddReviewAsync(Review review)
+        public async Task<Review> AddReviewAsync(Review review)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Post?> DeletePostAsync(long id)
+        public async Task<Post?> DeletePostAsync(long uid)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Board?>> GetAllPostAsync()
+        public async Task<IEnumerable<Board?>> GetAllPostAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<Review?> GetIdReviewAsync(long id)
+        public async Task<Review?> GetIdReviewAsync(long uid)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Movie> GetMovieDetailAsync(long id)
+        //특정 MovieUID의 영화 상세정보 가져오기
+        public async Task<Movie> GetMovieDetailAsync(long uid)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Movie>> GetNowMovieAsync()
+        //현재 상영중인 영화 목록 가져오기
+        public async Task<IEnumerable<Movie>> GetNowMovieAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<Post?> GetPostAsync(long id)
+        //특정 UserUID의 게시글 가져오기
+        public async Task<Post?> GetPostAsync(long uid)
         {
-            throw new NotImplementedException();
+            return await movieDbContext.Posts.FirstOrDefaultAsync(x => x.UserId == uid);
         }
 
-        public Task<Like> IncLikeCntAsync()
+        //좋아요 토글
+        public async Task<bool> ToggleLikeAsync(long userUid, long postUid)
         {
-            throw new NotImplementedException();
+            // UserUID와 PostUID로 기존의 Like를 찾는다.
+            var existingLike = await movieDbContext.Likes
+                .FirstOrDefaultAsync(l => l.UserId == userUid && l.PostId == postUid);
+
+            // 만약 Like가 이미 있다면, 삭제한다.
+            if (existingLike != null)
+            {
+                movieDbContext.Likes.Remove(existingLike);
+            }
+            else // 그렇지 않으면 새로운 Like를 추가한다.
+            {
+                var newLike = new Like { UserId = userUid, PostId = postUid };
+                await movieDbContext.Likes.AddAsync(newLike);
+            }
+
+            // 변경 사항을 저장한다.
+            await movieDbContext.SaveChangesAsync();
+
+            // 변경 후의 상태를 반환한다.
+            // Like가 삭제되었다면 false를, 추가되었다면 true를 반환한다.
+            return existingLike == null;
         }
 
-        public Task<Post?> IncViewCntAsync()
+        //조회수 증가
+        public async Task<Post?> IncViewCntAsync(long uid)
         {
-            throw new NotImplementedException();
+            var existingWrite = await movieDbContext.Posts.FindAsync(uid);
+            if (existingWrite == null) return null;
+
+            existingWrite.ViewCnt++;
+            await movieDbContext.SaveChangesAsync();
+            return existingWrite;
         }
 
-        public Task<Post?> UpdatePostAsync(Post post)
+        //특정 PostUID의 게시글 수정하기
+        public async Task<Post?> UpdatePostAsync(Post post)
         {
-            throw new NotImplementedException();
+            var existingWrite = await movieDbContext.Posts.FindAsync(post.PostId);
+            if (existingWrite == null) return null;
+
+            existingWrite.Title = post.Title;
+            existingWrite.Content = post.Content;
+
+            await movieDbContext.SaveChangesAsync();  // UPDATE
+            return existingWrite;
         }
     }
 }

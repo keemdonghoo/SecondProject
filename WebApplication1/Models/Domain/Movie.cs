@@ -8,7 +8,7 @@ namespace WebApplication1.Models.Domain
         public long MoiveId { get; set; }  
 
         public string Title { get; set; }   
-
+        //
         public DateTime RegDate { get; set; }   
 
         public string OverView { get; set; }

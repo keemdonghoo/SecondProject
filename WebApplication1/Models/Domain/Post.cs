@@ -1,5 +1,9 @@
-﻿namespace WebApplication1.Models.Domain
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using TeamProject.Models.Domain;
+
+namespace WebApplication1.Models.Domain
 {
+    [Table("Post")]
     //게시글
     public class Post
     {
@@ -15,5 +19,13 @@
         public string Content { get; set; }
         public DateTime Date { get; set; }
         public int ViewCnt { get; set; }
+
+        public ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
+
+        public ICollection<Attachment> Attachments { get; set; } = new HashSet<Attachment>();
+
+        public ICollection<Like> Likes { get; set; } = new HashSet<Like>();
+
+
     }
 }

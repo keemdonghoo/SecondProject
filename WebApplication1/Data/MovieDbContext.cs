@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TeamProject.Models.Domain;
 using WebApplication1.Models.Domain;
 
 namespace WebApplication1.Data
@@ -17,5 +18,7 @@ namespace WebApplication1.Data
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Review> Reviews { get; set; }
+
+        public DbSet<Attachment> Attachments { get; set; }
     }
 }

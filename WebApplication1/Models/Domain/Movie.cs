@@ -1,5 +1,8 @@
-﻿namespace WebApplication1.Models.Domain
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace WebApplication1.Models.Domain
 {
+    [Table("Movie")]
     public class Movie
     {
         public long MoiveUID { get; set; }  
@@ -15,6 +18,8 @@
         public string PostPath { get; set; }
 
         public float RateAvg { get; set; }  
+
+        public ICollection<Favorite> Favorites { get; set; } = new HashSet<Favorite>();
 
     }
 }

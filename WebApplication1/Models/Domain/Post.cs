@@ -1,4 +1,6 @@
-﻿namespace WebApplication1.Models.Domain
+﻿using System.ComponentModel;
+
+namespace WebApplication1.Models.Domain
 {
     //게시글
     public class Post
@@ -14,6 +16,11 @@
         public string Title { get; set; }
         public string Content { get; set; }
         public DateTime Date { get; set; }
+
+        [DefaultValue(0)]
         public int ViewCnt { get; set; }
+
+        [DefaultValue(0)]
+        public int LikeCnt { get; set; }
     }
 }

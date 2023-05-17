@@ -14,30 +14,63 @@ namespace TeamProject.Repositories
             this.movieDbContext = movieDbContext;
         }
 
+        //새로운 게시글 생성하기
         public async Task<Post> AddPostAsync(Post post)
         {
-            throw new NotImplementedException();
+            await movieDbContext.Posts.AddAsync(post);
+            var changes = await movieDbContext.SaveChangesAsync();
+
+            if (changes == 0)
+            {
+                throw new Exception("데이터베이스에 게시글을 추가하지 못했습니다 :(");
+            }
+
+            return post;
         }
 
-        public async Task<Review> AddReviewAsync(Review review)
+
+        //특정 게시글의 댓글 작성하기
+        public async Task<Comment> AddReviewAsync(Comment comment)
         {
-            throw new NotImplementedException();
+            await movieDbContext.Comments.AddAsync(comment);
+            var changes = await movieDbContext.SaveChangesAsync();
+
+            if (changes == 0)
+            {
+                throw new Exception("데이터베이스에 댓글을 추가하지 못했습니다.");
+            }
+
+            return comment;
         }
 
-        public async Task<Post?> DeletePostAsync(long uid)
+        //특정 게시글 삭제하기
+        public async Task<Post?> DeletePostAsync(long postId)
         {
-            throw new NotImplementedException();
+            var existingPost = await movieDbContext.Posts.FindAsync(postId);
+            if (existingPost != null)
+            {
+                movieDbContext.Posts.Remove(existingPost);
+                await movieDbContext.SaveChangesAsync();  // DELETE
+                return existingPost;
+            }
+            return null;
         }
 
-        public async Task<IEnumerable<Board?>> GetAllPostAsync()
+        //Board게시판의 게시글 목록 불러오기
+        public async Task<List<Post>?> GetAllPostAsync(long boardId)
         {
-            throw new NotImplementedException();
+            var board = await movieDbContext.Boards.Include(b => b.Posts).FirstOrDefaultAsync(b => b.BoardId == boardId);
+            return board?.Posts.OrderByDescending(p => p.Date).ToList();
         }
 
-        public async Task<Review?> GetIdReviewAsync(long uid)
+
+        //특정 게시글의 댓글 불러오기
+        public async Task<List<Comment>?> GetIdReviewAsync(long postId)
         {
-            throw new NotImplementedException();
+            var post = await movieDbContext.Posts.Include(p => p.Comments).FirstOrDefaultAsync(p => p.PostId == postId);
+            return post?.Comments.OrderByDescending(c => c.RegDate).ToList();
         }
+
 
         //특정 MovieUID의 영화 상세정보 가져오기
         public async Task<Movie> GetMovieDetailAsync(long uid)
@@ -51,11 +84,12 @@ namespace TeamProject.Repositories
             throw new NotImplementedException();
         }
 
-        //특정 UserUID의 게시글 가져오기
-        public async Task<Post?> GetPostAsync(long uid)
+        //특정 UserId의 모든 게시글 가져오기
+        public async Task<List<Post>> GetPostAsync(long userId)
         {
-            return await movieDbContext.Posts.FirstOrDefaultAsync(x => x.UserId == uid);
+            return await movieDbContext.Posts.Where(x => x.UserId == userId).ToListAsync();
         }
+
 
         //좋아요 토글
         public async Task<bool> ToggleLikeAsync(long userUid, long postUid)
@@ -94,17 +128,19 @@ namespace TeamProject.Repositories
             return existingWrite;
         }
 
-        //특정 PostUID의 게시글 수정하기
+        //특정 PostId의 게시글 수정하기
         public async Task<Post?> UpdatePostAsync(Post post)
         {
             var existingWrite = await movieDbContext.Posts.FindAsync(post.Id);
             if (existingWrite == null) return null;
 
-            existingWrite.Title = post.Title;
-            existingWrite.Content = post.Content;
+            movieDbContext.Entry(existingWrite).CurrentValues.SetValues(post);
 
             await movieDbContext.SaveChangesAsync();  // UPDATE
             return existingWrite;
         }
+
+
+
     }
 }

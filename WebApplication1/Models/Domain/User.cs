@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WebApplication1.Models.Domain
+namespace TeamProject.Models.Domain
 {
     [Table("project_user")]
 

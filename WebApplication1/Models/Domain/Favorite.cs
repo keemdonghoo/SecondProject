@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WebApplication1.Models.Domain
+namespace TeamProject.Models.Domain
 {
     [Table("Favorite")]
     public class Favorite

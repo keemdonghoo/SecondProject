@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
-using WebApplication1.Models.Domain;
+using TeamProject.Models.Domain;
 
 namespace TeamProject.Models.Domain
 {

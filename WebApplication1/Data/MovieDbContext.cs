@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TeamProject.Models.Domain;
-using WebApplication1.Models.Domain;
+using TeamProject.Models.Domain;
 
-namespace WebApplication1.Data
+namespace TeamProject.Data
 {
     public class MovieDbContext : DbContext
     {

@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using WebApplication1.Data;
-using WebApplication1.Repositories;
+using TeamProject.Data;
+using TeamProject.Repositories;
 
-namespace WebApplication1
+namespace TeamProject
 {
     public class Program
     {

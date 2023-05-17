@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using TeamProject.Models.Domain;
 
-namespace WebApplication1.Models.Domain
+namespace TeamProject.Models.Domain
 {
     [Table("Post")]
     //게시글

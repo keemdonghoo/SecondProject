@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WebApplication1.Models.Domain
+namespace TeamProject.Models.Domain
 {
     [Table("Comment")]
     public class Comment
@@ -13,7 +13,7 @@ namespace WebApplication1.Models.Domain
 
         public User User { get; set; }
         public long UserId { get; set; }
-
+             
         public Post Post { get; set; }
         public long PostId { get; set; }
 

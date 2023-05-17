@@ -10,18 +10,16 @@ namespace TeamProject
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Razor 에서 Session 기반 TempData 사용 설정
             builder.Services
-                    .AddRazorPages()
-                    .AddSessionStateTempDataProvider();
+                .AddRazorPages()
+                .AddSessionStateTempDataProvider();
 
-            // Controller 에서 Session 기반 TempData 사용 설정
             builder.Services
-                    .AddControllersWithViews()
-                    .AddSessionStateTempDataProvider();
+                .AddControllersWithViews()
+                .AddSessionStateTempDataProvider();
 
+            
 
-            // 1. 세션빌더에 세션 사용 설정 추가
             builder.Services.AddSession(options => {
                 // Session Timeout 설정 
                 options.IdleTimeout = TimeSpan.FromMinutes(1);
@@ -31,10 +29,14 @@ namespace TeamProject
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+
             builder.Services.AddDbContext<MovieDbContext>(options => options.UseSqlServer(
                 builder.Configuration.GetConnectionString("MovieDbConnectionString")
                 ));
+
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+
 
             var app = builder.Build();
 
@@ -46,6 +48,10 @@ namespace TeamProject
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            // 이 위치에 세션을 사용하도록 설정합니다.
+            app.UseSession();
+
 
             app.UseAuthorization();
 

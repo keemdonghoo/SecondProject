@@ -1,0 +1,44 @@
+﻿@model TeamProject.Models.Domain.User
+
+@{
+    ViewData["Title"] = $"마이페이지 - 개인정보 관리";
+}
+
+<div class="container mt-5">
+    <h2>마이페이지</h2>
+    <hr>
+
+    @if (Model != null)
+    {
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="name" class="form-label">이름:</label>
+                    <span class="form-control">@Model.Name</span>
+                </div>
+                <div class="mb-3">
+                    <label for="kind" class="form-label">관리자 여부:</label>
+                    <span class="form-control">@Model.IsAdmin</span>
+                </div>
+                <div class="mb-3">
+                    <label for="sno" class="form-label">닉네임:</label>
+                    <span class="form-control">@Model.NickName</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a class="btn btn-primary" asp-controller="User" asp-action="Update" asp-route-id="@Model.Id">수정</a>
+            <a class="btn btn-primary ms-2" asp-controller="User" asp-action="List">마이페이지</a>
+            <button type="button" class="btn btn-danger ms-2" id="btnDel">회원탈퇴</button>
+            <a class="btn btn-primary ms-2" asp-controller="User" asp-action="Write">작성</a>
+        </div>
+    }
+    else
+    {
+        <script>
+            alert("데이터가 없습니다!");
+            history.back();
+        </script>
+    }
+</div>

@@ -1,6 +1,6 @@
-﻿using WebApplication1.Models.Domain;
+﻿using TeamProject.Models.Domain;
 
-namespace WebApplication1.Repositories
+namespace TeamProject.Repositories
 {
     public interface IUserRepository
     {

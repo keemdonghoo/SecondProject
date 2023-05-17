@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using WebApplication1.Data;
-using WebApplication1.Repositories;
+using TeamProject.Data;
+using TeamProject.Repositories;
 
-namespace WebApplication1
+namespace TeamProject
 {
     public class Program
     {
@@ -10,13 +10,33 @@ namespace WebApplication1
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services
+                .AddRazorPages()
+                .AddSessionStateTempDataProvider();
+
+            builder.Services
+                .AddControllersWithViews()
+                .AddSessionStateTempDataProvider();
+
+            
+
+            builder.Services.AddSession(options => {
+                // Session Timeout 설정 
+                options.IdleTimeout = TimeSpan.FromMinutes(1);
+            });
+
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
 
             builder.Services.AddDbContext<MovieDbContext>(options => options.UseSqlServer(
                 builder.Configuration.GetConnectionString("MovieDbConnectionString")
                 ));
+
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+
 
             var app = builder.Build();
 
@@ -28,6 +48,10 @@ namespace WebApplication1
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            // 이 위치에 세션을 사용하도록 설정합니다.
+            app.UseSession();
+
 
             app.UseAuthorization();
 

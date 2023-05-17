@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WebApplication1.Models.Domain
+namespace TeamProject.Models.Domain
 {
     [Table("Board")]
     public class Board
     {
-        public long BoardId { get; set; } 
+        public long Id { get; set; } 
 
         public string Name { get; set; }    
 

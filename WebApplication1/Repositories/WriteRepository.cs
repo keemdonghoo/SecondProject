@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
-using WebApplication1.Data;
-using WebApplication1.Models.Domain;
+using TeamProject.Data;
+using TeamProject.Models.Domain;
 
-namespace WebApplication1.Repositories
+namespace TeamProject.Repositories
 {
     public class WriteRepository : IWriteRepository
     {
@@ -97,7 +97,7 @@ namespace WebApplication1.Repositories
         //특정 PostUID의 게시글 수정하기
         public async Task<Post?> UpdatePostAsync(Post post)
         {
-            var existingWrite = await movieDbContext.Posts.FindAsync(post.PostId);
+            var existingWrite = await movieDbContext.Posts.FindAsync(post.Id);
             if (existingWrite == null) return null;
 
             existingWrite.Title = post.Title;

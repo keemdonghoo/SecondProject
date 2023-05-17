@@ -59,7 +59,7 @@ namespace TeamProject.Repositories
         //Board게시판의 게시글 목록 불러오기
         public async Task<List<Post>?> GetAllPostAsync(long boardId)
         {
-            var board = await movieDbContext.Boards.Include(b => b.Posts).FirstOrDefaultAsync(b => b.BoardId == boardId);
+            var board = await movieDbContext.Boards.Include(b => b.Posts).FirstOrDefaultAsync(b => b.Id == boardId);
             return board?.Posts.OrderByDescending(p => p.Date).ToList();
         }
 
@@ -67,7 +67,7 @@ namespace TeamProject.Repositories
         //특정 게시글의 댓글 불러오기
         public async Task<List<Comment>?> GetIdReviewAsync(long postId)
         {
-            var post = await movieDbContext.Posts.Include(p => p.Comments).FirstOrDefaultAsync(p => p.PostId == postId);
+            var post = await movieDbContext.Posts.Include(p => p.Comments).FirstOrDefaultAsync(p => p.Id == postId);
             return post?.Comments.OrderByDescending(c => c.RegDate).ToList();
         }
 

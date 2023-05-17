@@ -10,6 +10,24 @@ namespace TeamProject
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // Razor 에서 Session 기반 TempData 사용 설정
+            builder.Services
+                    .AddRazorPages()
+                    .AddSessionStateTempDataProvider();
+
+            // Controller 에서 Session 기반 TempData 사용 설정
+            builder.Services
+                    .AddControllersWithViews()
+                    .AddSessionStateTempDataProvider();
+
+
+            // 1. 세션빌더에 세션 사용 설정 추가
+            builder.Services.AddSession(options => {
+                // Session Timeout 설정 
+                options.IdleTimeout = TimeSpan.FromMinutes(1);
+            });
+
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 

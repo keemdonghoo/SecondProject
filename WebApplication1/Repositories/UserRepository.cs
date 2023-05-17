@@ -34,18 +34,18 @@ namespace TeamProject.Repositories
         public async Task<IEnumerable<User>> GetAllAsync()
         {
             var user = await movieDbContext.Users.ToListAsync();
-            return user.OrderByDescending(x => x.Uid).ToList();
+            return user.OrderByDescending(x => x.Id).ToList();
             
         }
 
         public async Task<User?> GetAsync(long id)
         {
-            return await movieDbContext.Users.FirstOrDefaultAsync(x => x.Uid == id);
+            return await movieDbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<User?> UpdateAsync(User user)
         {
-            var existingUser = await movieDbContext.Users.FindAsync(user.Uid);
+            var existingUser = await movieDbContext.Users.FindAsync(user.Id);
             if (existingUser != null) return null;
 
             existingUser.PassWord = user.PassWord;

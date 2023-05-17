@@ -5,7 +5,7 @@ namespace TeamProject.Models.Domain
     [Table("Movie")]
     public class Movie
     {
-        public long MoiveId { get; set; }  
+        public long Id { get; set; }  
 
         public string Title { get; set; }   
         //

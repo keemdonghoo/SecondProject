@@ -131,7 +131,7 @@ namespace TeamProject.Repositories
         //특정 PostId의 게시글 수정하기
         public async Task<Post?> UpdatePostAsync(Post post)
         {
-            var existingWrite = await movieDbContext.Posts.FindAsync(post.PostId);
+            var existingWrite = await movieDbContext.Posts.FindAsync(post.Id);
             if (existingWrite == null) return null;
 
             movieDbContext.Entry(existingWrite).CurrentValues.SetValues(post);

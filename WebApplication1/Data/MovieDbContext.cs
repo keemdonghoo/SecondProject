@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TeamProject.Models.Domain;
-using TeamProject.Models.Domain;
 
 namespace TeamProject.Data
 {
@@ -20,5 +19,21 @@ namespace TeamProject.Data
         public DbSet<Review> Reviews { get; set; }
 
         public DbSet<Attachment> Attachments { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Comment>()
+                  .HasOne(c => c.User)
+                  .WithMany()
+                  .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Like>().HasKey(l => new { l.UserId, l.PostId });
+
+            modelBuilder.Entity<Like>()
+                             .HasOne(c => c.User)
+                             .WithMany()
+                             .OnDelete(DeleteBehavior.NoAction);
+
+        }
     }
 }

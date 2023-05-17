@@ -5,7 +5,7 @@ namespace TeamProject.Models.Domain
     [Table("Favorite")]
     public class Favorite
     {
-        public long FavoriteId { get; set; }
+        public long Id { get; set; }
 
         public User User { get; set; }
         public long UserId { get; set; }

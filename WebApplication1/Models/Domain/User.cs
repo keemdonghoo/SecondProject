@@ -3,12 +3,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TeamProject.Models.Domain
 {
-    [Table("project_user")]
+    [Table("User")]
 
     public class User
     {
         
-        public long UserId { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
         public string PassWord { get; set; }
         public string UserName { get; set; }
@@ -26,9 +26,7 @@ namespace TeamProject.Models.Domain
 
         public ICollection<Favorite> Favorites { get; set; } = new HashSet<Favorite>();
 
-        public ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();    
-
-        public ICollection<Like> Likes { get; set; } = new HashSet<Like>();
+        
 
 
 

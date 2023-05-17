@@ -19,6 +19,8 @@ namespace TeamProject.Models.Domain
         public string PostPath { get; set; }
         //영화 평균 평점
         public float RateAvg { get; set; }  
+
+
         //영화 좋아요와 1:N
         public ICollection<Favorite> Favorites { get; set; } = new HashSet<Favorite>();
 

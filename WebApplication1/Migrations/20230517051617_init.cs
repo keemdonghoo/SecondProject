@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace TeamProject.Migrations
 {
     /// <inheritdoc />
@@ -234,6 +236,15 @@ namespace TeamProject.Migrations
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.InsertData(
+                table: "User",
+                columns: new[] { "Id", "Email", "IsAdmin", "Name", "NickName", "PassWord", "PhoneNum", "UserName" },
+                values: new object[,]
+                {
+                    { 1L, "admin@ggg.aaa", true, "주인장", "주인장", "1234", "01011111111", "Admin1" },
+                    { 2L, "ilhoho@ggg.aaa", false, "일반회원", "일회1", "1234", "01022222222", "User1" }
                 });
 
             migrationBuilder.CreateIndex(

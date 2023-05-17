@@ -32,6 +32,8 @@ namespace TeamProject.Models.Domain
 
         public ICollection<Like> Likes { get; set; } = new HashSet<Like>();
 
+        public ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
+
 
 
     }

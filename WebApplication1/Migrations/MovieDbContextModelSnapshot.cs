@@ -37,7 +37,7 @@ namespace TeamProject.Migrations
                     b.ToTable("FavoriteMovie");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Domain.Attachment", b =>
+            modelBuilder.Entity("TeamProject.Models.Domain.Attachment", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -63,7 +63,7 @@ namespace TeamProject.Migrations
                     b.ToTable("Attachment");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Domain.Board", b =>
+            modelBuilder.Entity("TeamProject.Models.Domain.Board", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -80,7 +80,7 @@ namespace TeamProject.Migrations
                     b.ToTable("Board");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Domain.Comment", b =>
+            modelBuilder.Entity("TeamProject.Models.Domain.Comment", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -110,7 +110,7 @@ namespace TeamProject.Migrations
                     b.ToTable("Comment");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Domain.Favorite", b =>
+            modelBuilder.Entity("TeamProject.Models.Domain.Favorite", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -132,7 +132,7 @@ namespace TeamProject.Migrations
                     b.ToTable("Favorite");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Domain.Like", b =>
+            modelBuilder.Entity("TeamProject.Models.Domain.Like", b =>
                 {
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
@@ -147,7 +147,7 @@ namespace TeamProject.Migrations
                     b.ToTable("Like");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Domain.Movie", b =>
+            modelBuilder.Entity("TeamProject.Models.Domain.Movie", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -182,7 +182,7 @@ namespace TeamProject.Migrations
                     b.ToTable("Movie");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Domain.Post", b =>
+            modelBuilder.Entity("TeamProject.Models.Domain.Post", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -222,7 +222,7 @@ namespace TeamProject.Migrations
                     b.ToTable("Post");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Domain.Review", b =>
+            modelBuilder.Entity("TeamProject.Models.Domain.Review", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -255,7 +255,7 @@ namespace TeamProject.Migrations
                     b.ToTable("Review");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Domain.User", b =>
+            modelBuilder.Entity("TeamProject.Models.Domain.User", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -292,26 +292,50 @@ namespace TeamProject.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("User");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Email = "admin@ggg.aaa",
+                            IsAdmin = true,
+                            Name = "주인장",
+                            NickName = "주인장",
+                            PassWord = "1234",
+                            PhoneNum = "01011111111",
+                            UserName = "Admin1"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            Email = "ilhoho@ggg.aaa",
+                            IsAdmin = false,
+                            Name = "일반회원",
+                            NickName = "일회1",
+                            PassWord = "1234",
+                            PhoneNum = "01022222222",
+                            UserName = "User1"
+                        });
                 });
 
             modelBuilder.Entity("FavoriteMovie", b =>
                 {
-                    b.HasOne("WebApplication1.Models.Domain.Favorite", null)
+                    b.HasOne("TeamProject.Models.Domain.Favorite", null)
                         .WithMany()
                         .HasForeignKey("FavoritesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebApplication1.Models.Domain.Movie", null)
+                    b.HasOne("TeamProject.Models.Domain.Movie", null)
                         .WithMany()
                         .HasForeignKey("MoviesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Domain.Attachment", b =>
+            modelBuilder.Entity("TeamProject.Models.Domain.Attachment", b =>
                 {
-                    b.HasOne("WebApplication1.Models.Domain.Post", "Post")
+                    b.HasOne("TeamProject.Models.Domain.Post", "Post")
                         .WithMany("Attachments")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -320,15 +344,15 @@ namespace TeamProject.Migrations
                     b.Navigation("Post");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Domain.Comment", b =>
+            modelBuilder.Entity("TeamProject.Models.Domain.Comment", b =>
                 {
-                    b.HasOne("WebApplication1.Models.Domain.Post", "Post")
-                        .WithMany()
+                    b.HasOne("TeamProject.Models.Domain.Post", "Post")
+                        .WithMany("Comments")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebApplication1.Models.Domain.User", "User")
+                    b.HasOne("TeamProject.Models.Domain.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -339,9 +363,9 @@ namespace TeamProject.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Domain.Favorite", b =>
+            modelBuilder.Entity("TeamProject.Models.Domain.Favorite", b =>
                 {
-                    b.HasOne("WebApplication1.Models.Domain.User", "User")
+                    b.HasOne("TeamProject.Models.Domain.User", "User")
                         .WithMany("Favorites")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -350,15 +374,15 @@ namespace TeamProject.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Domain.Like", b =>
+            modelBuilder.Entity("TeamProject.Models.Domain.Like", b =>
                 {
-                    b.HasOne("WebApplication1.Models.Domain.Post", "Post")
+                    b.HasOne("TeamProject.Models.Domain.Post", "Post")
                         .WithMany("Likes")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebApplication1.Models.Domain.User", "User")
+                    b.HasOne("TeamProject.Models.Domain.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -369,15 +393,15 @@ namespace TeamProject.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Domain.Post", b =>
+            modelBuilder.Entity("TeamProject.Models.Domain.Post", b =>
                 {
-                    b.HasOne("WebApplication1.Models.Domain.Board", "Board")
+                    b.HasOne("TeamProject.Models.Domain.Board", "Board")
                         .WithMany("Posts")
                         .HasForeignKey("BoardId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebApplication1.Models.Domain.User", "User")
+                    b.HasOne("TeamProject.Models.Domain.User", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -388,15 +412,15 @@ namespace TeamProject.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Domain.Review", b =>
+            modelBuilder.Entity("TeamProject.Models.Domain.Review", b =>
                 {
-                    b.HasOne("WebApplication1.Models.Domain.Movie", "Movie")
+                    b.HasOne("TeamProject.Models.Domain.Movie", "Movie")
                         .WithMany()
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebApplication1.Models.Domain.User", "User")
+                    b.HasOne("TeamProject.Models.Domain.User", "User")
                         .WithMany("Reviews")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -407,19 +431,21 @@ namespace TeamProject.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Domain.Board", b =>
+            modelBuilder.Entity("TeamProject.Models.Domain.Board", b =>
                 {
                     b.Navigation("Posts");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Domain.Post", b =>
+            modelBuilder.Entity("TeamProject.Models.Domain.Post", b =>
                 {
                     b.Navigation("Attachments");
+
+                    b.Navigation("Comments");
 
                     b.Navigation("Likes");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Domain.User", b =>
+            modelBuilder.Entity("TeamProject.Models.Domain.User", b =>
                 {
                     b.Navigation("Favorites");
 

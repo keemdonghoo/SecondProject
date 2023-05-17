@@ -67,7 +67,7 @@ namespace TeamProject.Controllers
             };
 
             user = await userRepository.AddAsync(user);
-            return RedirectToAction("Detail", new { id = user.UserId });
+            return RedirectToAction("Detail", new { id = user.Id });
         }
     }
 }

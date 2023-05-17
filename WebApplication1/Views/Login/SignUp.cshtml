@@ -36,11 +36,8 @@
                             <ul>
                                 <li class="active"><a asp-controller="Home" asp-action="Index">Homepage</a></li> <!--홈버튼-->
                                 <li>
-                                    <a href="#">Favorites <span class="arrow_carrot-down"></span></a>
-                                    <ul class="dropdown">
-                                        <li><a href="./signup.html">Sign Up</a></li><!--로그인-->
-                                        <li><a href="./login.html">Login</a></li>
-                                    </ul>
+                                    <a href="#">Favorites </a>
+
                                 </li>
                                 <li><a href="#">Review</a></li>
                             </ul>
@@ -50,7 +47,7 @@
                 <div class="col-lg-2">
                     <div class="header__right">
                         <a href="#" class="search-switch"><span class="icon_search"></span></a>
-                        <a asp-controller="Login" asp-action="SignUp"><span class="icon_profile"></span></a>
+                        <a asp-controller="Login" asp-action="Login"><span class="icon_profile"></span></a>
                     </div>
                 </div>
             </div>
@@ -62,49 +59,33 @@
 
     </header>
 
+    <!-- Signup Section Begin -->
+    <section class="signup spad">
 
+        <div class="login__form">
+            <h3>Sign Up</h3>
+            <form>
 
-    
-    <hr>
-    <form method="post">
-        <div class="mb-3">
-            <label for="Name">아이디</label>
-            <input type="text" class="form-control" placeholder="아이디를 입력하세요" asp-for="Name">
-            <div><span class="text-danger">@TempData["NameError"]</span></div>
-        </div>
+                <div class="input__item">
+                    <input type="text" placeholder="ID">
+                    <span class="icon_profile"></span>
+                    <button type="submit" class="site-btn">중복확인</button>
+                </div>
+                <div class="input__item">
+                    <input type="text" placeholder="Password">
+                    <span class="icon_lock"></span>
+                </div>
+                <div class="input__item">
+                    <input type="text" placeholder="Your Name">
+                    <span class="icon_profile"></span>
+                </div>
+                <button type="submit" class="site-btn">회원가입</button>
 
-        <div class="mb-3 mt-3">
-            <label for="PassWord">비밀번호</label>
-            <input type="text" class="form-control" placeholder="비밀번호 입력하세요" asp-for="PassWord">
-            <div><span class="text-danger">@TempData["PassWordError"]</span></div>
-        </div>
-
-        <div class="mb-3 mt-3">
-            <label for="UserName">이름</label>
-            <input type="text" class="form-control" placeholder="이름을 입력하세요" asp-for="UserName">
-            <div><span class="text-danger">@TempData["UserNameError"]</span></div>
-        </div>
-        <div class="mb-3 mt-3">
-            <label for="PhoneNum">전화번호</label>
-            <input type="text" class="form-control" placeholder="전화번호를 입력하세요" asp-for="PhoneNum">
-            <div><span class="text-danger">@TempData["PhoneNumError"]</span></div>
-        </div>
-        <div class="mb-3 mt-3">
-            <label for="NickName">닉네임</label>
-            <input type="text" class="form-control" placeholder="닉네임을 입력하세요" asp-for="NickName">
-            <div><span class="text-danger">@TempData["NickNameError"]</span></div>
-        </div>
-        <div class="mb-3 mt-3">
-            <label for="Email">이메일</label>
-            <input type="text" class="form-control" placeholder="이메일을 입력하세요" asp-for="Email">
+            </form>
 
         </div>
-
-        <button type="submit" class="btn btn-outline-dark">작성완료</button>
-        <a class="btn btn-outline-dark"
-           asp-controller="Board"
-           asp-action="List">목록</a>
-    </form>
+    </section>
+    <!-- Signup Section End -->
 
 
 

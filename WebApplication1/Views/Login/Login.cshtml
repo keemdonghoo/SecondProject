@@ -3,3 +3,104 @@
 *@
 @{
 }
+<body>
+
+    <header class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2">
+                    <div class="header__logo">
+                        <a asp-controller="Home" asp-action="Index">
+                            <!--홈버튼-->
+                            <img src="~/img/logo.png" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="header__nav">
+                        <nav class="header__menu mobile-menu">
+                            <ul>
+                                <li class="active"><a asp-controller="Home" asp-action="Index">Homepage</a></li> <!--홈버튼-->
+                                <li>
+                                    <a href="#">Favorites</a>
+                                    
+                                </li>
+                                <li><a href="#">Review</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="header__right">
+                        <a href="#" class="search-switch"><span class="icon_search"></span></a>
+                        <a asp-controller="Login" asp-action="Login"><span class="icon_profile"></span></a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="mobile-menu-wrap"></div>
+
+        </div>
+
+
+    </header>
+
+    <section class="login spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="login__form">
+                        <h3>Login</h3>
+                        <form action="#">
+                            <div class="input__item">
+                                <input type="text" placeholder="아이디를 입력하세요">
+                                <span class="icon_mail"></span>
+                            </div>
+                            <div class="input__item">
+                                <input type="text" placeholder="비밀번호를 입력하세요">
+                                <span class="icon_lock"></span>
+                            </div>
+                            <button type="submit" class="site-btn">Login Now</button>  <!--로그인하기-->
+                        </form>
+                        <a href="#" class="forget_pass">Forgot Your Password?</a> <!--아이디 빌밀번호찾기-->
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="login__register">
+                        <h3>Dont’t Have An Account?</h3>
+                        <a asp-controller="Login" asp-action="SignUp" class="primary-btn">Register Now</a> <!--회원가입 페이지-->
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+    <footer class="footer">
+        <div class="page-up">
+            <a href="#" id="scrollToTopButton"><span class="arrow_carrot-up"></span></a>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="footer__logo">
+                        <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="footer__nav">
+                        <ul>
+                            <li class="active"><a href="./index.html">Homepage</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <p>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>

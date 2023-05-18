@@ -18,7 +18,7 @@
                     <div class="header__logo">
                         <a asp-controller="Home" asp-action="Index">
                             <!--홈버튼-->
-                            <img src="img/logo.png" alt="">
+                            <img src="~/img/logo.png" alt="">
                         </a>
                     </div>
                 </div>
@@ -26,7 +26,8 @@
                     <div class="header__nav">
                         <nav class="header__menu mobile-menu">
                             <ul>
-                                <li class="active"><a asp-controller="Home" asp-action="Index">Homepage</a></li> <!--홈버튼-->
+                                <li class="active"><a asp-controller="Home" asp-action="Index">Home</a></li> <!--홈버튼-->
+                                <li class="active"><a asp-controller="Board" asp-action="List">게시판</a></li> <!--게시판-->
                                 <li>
                                     <a href="#">Favorites </a>
                                     
@@ -101,13 +102,13 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="footer__logo">
-                        <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                        <a href="../Views/Home/Index.cshtml"><img src="~/img/logo.png" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="footer__nav">
                         <ul>
-                            <li class="active"><a href="./index.html">Homepage</a></li>
+                            <li class="active"><a href="../Views/Home/Index.cshtml">Homepage</a></li>
                         </ul>
                     </div>
                 </div>
@@ -143,4 +144,4 @@
     <script src="~/js/main.js"></script>
 
 </body>
-</ht
+</html>

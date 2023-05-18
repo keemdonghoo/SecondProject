@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Board\" />
+    <Folder Include="Pages\" />
   </ItemGroup>
 
 </Project>

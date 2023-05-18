@@ -78,11 +78,6 @@ namespace TeamProject.Repositories
             throw new NotImplementedException();
         }
 
-        //현재 상영중인 영화 목록 가져오기
-        public async Task<IEnumerable<Movie>> GetNowMovieAsync()
-        {
-            throw new NotImplementedException();
-        }
 
         //특정 UserId의 모든 게시글 가져오기
         public async Task<List<Post>> GetPostAsync(long userId)

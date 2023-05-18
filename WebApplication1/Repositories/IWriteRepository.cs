@@ -4,8 +4,6 @@ namespace TeamProject.Repositories
 {
     public interface IWriteRepository
     {
-        //현재 상영중인 영화 목록 불러오기
-        Task<IEnumerable<Movie>> GetNowMovieAsync();
         //특정 영화의 상세정보 불러오기
         Task<Movie> GetMovieDetailAsync(long uid);
 

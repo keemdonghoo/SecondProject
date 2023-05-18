@@ -3,20 +3,16 @@ using TeamProject.Repositories;
 
 namespace TeamProject.Controllers
 {
-    public class MovieController : Controller
+    //게시판 컨트롤러
+    public class BoardController : Controller
     {
         private readonly IWriteRepository writeRepository;
 
-        public MovieController(IWriteRepository writeRepository)
+        public BoardController(IWriteRepository writeRepository)
         {
             this.writeRepository = writeRepository;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-        
         //게시글 목록 읽어오기
         [HttpGet]
         public async Task<IActionResult> List(long boardId)
@@ -25,6 +21,5 @@ namespace TeamProject.Controllers
 
             return View(writes);
         }
-
     }
 }

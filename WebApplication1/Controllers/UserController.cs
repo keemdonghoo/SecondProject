@@ -17,9 +17,17 @@ namespace TeamProject.Controllers
         }
 
         [HttpGet]
-        public IActionResult MyPage()
+        public async Task<IActionResult> MyPage(long id)
         {
-            return View();
+			var user = await userRepository.GetAsync(id);
+            return View(user);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> List()
+        {
+            var users = await userRepository.GetAllAsync();
+            return View(users);   // View(object) <- Model 로 넘어감
         }
 
         [HttpGet]
@@ -103,9 +111,9 @@ namespace TeamProject.Controllers
 		[HttpPost]
         public async Task<IActionResult> Delete(long id)
         {
-            var deleteCoupon = await userRepository.DeleteAsync(id);
+            var deleteUser = await userRepository.DeleteAsync(id);
 
-            if (deleteCoupon != null)
+            if (deleteUser != null)
             {
                 // 삭제 성공
                 return View("DeleteOk", 1);

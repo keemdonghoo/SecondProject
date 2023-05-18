@@ -1,6 +1,5 @@
 ﻿@model List<TeamProject.Models.Domain.Post>
 @{
-    ViewData["Title"] = "KMOVIES";
 }
 @* 게시글 내용 보기 *@
 <h2>게시판</h2>
@@ -23,7 +22,7 @@
                     <a asp-controller="Board" asp-action="Detail"
                        asp-route-id="@write.Id">@write.Title</a>
                 </td>
-                <td>@write.UserId</td>
+                <td>@write.User.NickName</td>
                 <td>@write.ViewCnt</td>
                 <td>@write.Date</td>
             </tr>

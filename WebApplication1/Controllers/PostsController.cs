@@ -9,11 +9,11 @@ namespace TeamProject.Controllers
     //게시글 컨트롤러
     public class PostsController : Controller
     {
-        private readonly MovieDbContext movieDbContext;
+        private readonly IWriteRepository writeRepository;
 
-        public PostsController(MovieDbContext movieDbContext)
+        public PostsController(IWriteRepository writeRepository)
         {
-            this.movieDbContext = movieDbContext;
+            this.writeRepository = writeRepository;
         }
 
         // GET: Posts/Create
@@ -29,8 +29,7 @@ namespace TeamProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                movieDbContext.Add(post);
-                await movieDbContext.SaveChangesAsync();
+                await writeRepository.AddPostAsync(post);
                 return RedirectToAction(nameof(Index));
             }
             return View(post);
@@ -43,9 +42,7 @@ namespace TeamProject.Controllers
             {
                 return NotFound();
             }
-            //FirstOrDefaultAsync
-            var post = await movieDbContext.Posts
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var post = await writeRepository.GetPostAsync(id.Value);
             if (post == null)
             {
                 return NotFound();
@@ -54,7 +51,7 @@ namespace TeamProject.Controllers
             return View(post);
         }
 
-        // ...
     }
+
 
 }

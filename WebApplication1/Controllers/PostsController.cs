@@ -6,6 +6,7 @@ using TeamProject.Repositories;
 
 namespace TeamProject.Controllers
 {
+    //게시글 컨트롤러
     public class PostsController : Controller
     {
         private readonly MovieDbContext movieDbContext;
@@ -36,7 +37,7 @@ namespace TeamProject.Controllers
         }
 
         // GET: Posts/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> PostDetails(int? id)
         {
             if (id == null)
             {

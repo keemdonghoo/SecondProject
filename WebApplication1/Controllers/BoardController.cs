@@ -15,11 +15,11 @@ namespace TeamProject.Controllers
 
         //게시글 목록 읽어오기
         [HttpGet]
-        public async Task<IActionResult> List(long boardId)
+        public async Task<IActionResult> List(long boardId, int pageNum, int pageSize)
         {
-            var writes = await writeRepository.GetAllPostAsync(boardId);
-
-            return View(writes);
+            var posts = await writeRepository.GetAllPostAsync(boardId, pageNum, pageSize);
+            return View(posts);
         }
+
     }
 }

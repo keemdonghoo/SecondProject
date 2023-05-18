@@ -1,5 +1,30 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model TeamProject.Models.Domain.Post
 @{
+    ViewData["Title"] = "KMOVIES";
 }
+
+<script>
+    function onPageSizeChanged() {
+        var selectBox = document.getElementById("pageSizeSelectBox");
+        var pageSize = selectBox.options[selectBox.selectedIndex].value;
+
+        // 여기서는 간단히 페이지를 새로고침합니다.
+        // 실제로는 현재 보고 있는 게시판의 URL로 이동해야 합니다.
+        location.href = "@Url.Action("List", "YourControllerName")?pageNum=1&pageSize=" + pageSize;
+    }
+</script>
+
+<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+    <div style="width: 60%;">
+        <h2 style="text-align: center;">@Model.Title</h2>
+        <p>@Model.Content</p>
+
+        <div style="margin-top: 20px;">
+            <select id="pageSizeSelectBox" onchange="onPageSizeChanged()">
+                <option value="10">10개씩 보기</option>
+                <option value="15">15개씩 보기</option>
+                <option value="20">20개씩 보기</option>
+            </select>
+        </div>
+    </div>
+</div>

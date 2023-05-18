@@ -20,6 +20,5 @@ namespace TeamProject.Controllers
             var posts = await writeRepository.GetAllPostAsync(boardId, pageNum, pageSize);
             return View(posts);
         }
-
     }
 }

@@ -46,11 +46,14 @@ namespace TeamProject.Repositories
         public async Task<User?> UpdateAsync(User user)
         {
             var existingUser = await movieDbContext.Users.FindAsync(user.Id);
-            if (existingUser != null) return null;
+            if (existingUser == null) return null;
 
+            existingUser.Name = user.Name;
             existingUser.PassWord = user.PassWord;
+            existingUser.UserName = user.UserName;
             existingUser.PhoneNum = user.PhoneNum;
             existingUser.NickName = user.NickName;
+            existingUser.Email = user.Email;
 
             await movieDbContext.SaveChangesAsync();
             return existingUser;

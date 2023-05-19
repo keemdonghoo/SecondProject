@@ -11,13 +11,14 @@
 @if (Model != null)
 {
 	<div class="mb-3 mt-3 clearfix">
-		<span class="float-start me-2">id:@Model.Id</span>
+        <span class="float-start me-2">id: @Model.Id</span>
+        <span class="float-end ms-4">작성일: @Model.Date</span>
+        <span class="float-end">조회수: @Model.ViewCnt</span>
 	</div>
 
 
 	<section>
-
-		<form method="POST" name="frmDelete" asp-controller="Posts" asp-action="Delete">
+        <form method="POST" name="frmDelete" asp-controller="Post" asp-action="Delete">
 			<input type="hidden" asp-for="Id">
 		</form>
 

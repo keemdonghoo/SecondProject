@@ -17,6 +17,7 @@ namespace TeamProject.Controllers
         }
 
         // GET: Posts/Create
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
@@ -52,6 +53,17 @@ namespace TeamProject.Controllers
 
             return View(post);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(long id)
+        {
+            var deletedWrite = await writeRepository.DeletePostAsync(id);
+
+            if (deletedWrite != null)
+            {
+                // 삭제 성공
+                return View("Delete", 1);  // View(string, object) => viewname, model
+            }
 
         // posts/userspostlist/userid
         [HttpGet("posts/userspostlist/{userId}")]

@@ -149,6 +149,17 @@ namespace TeamProject.Repositories
             return existingWrite;
         }
 
+        //특정 Post Id의 게시글 하나 상세보기
+        public async Task<Post?> GetPostDetailAsync(long id)
+        {
+            return await movieDbContext.Posts
+                .Include(p => p.User)
+                .Include(p => p.Board)
+                .Include(p => p.Attachments)
+                .Include(p => p.Likes)
+                .Include(p => p.Comments)
+                .FirstOrDefaultAsync(p => p.Id == id);
+        }
 
 
     }

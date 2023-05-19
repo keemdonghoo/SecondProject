@@ -1,0 +1,25 @@
+﻿@model List<TeamProject.Models.Domain.User>
+
+@{
+}
+<h2>목록</h2>
+<table class="table table-hover">
+    <thead class="table-success">
+        <tr>
+            <th>#</th>
+            <th>유저 아이디</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-controller="User" asp-action="Update"
+                   asp-route-id="@user.Id">@user.Id</a>
+                </td>
+                <td>@user.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -18,7 +18,7 @@ namespace TeamProject
                 .AddControllersWithViews()
                 .AddSessionStateTempDataProvider();
 
-            
+            builder.Services.AddScoped<IWriteRepository, WriteRepository>();
 
             builder.Services.AddSession(options => {
                 // Session Timeout ¼³Á¤ 
@@ -59,6 +59,7 @@ namespace TeamProject
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
+        
             app.Run();
         }
     }

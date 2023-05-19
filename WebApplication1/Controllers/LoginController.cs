@@ -8,6 +8,7 @@ namespace TeamProject.Controllers
     {
        
         private readonly IUserRepository userRepository;
+        private readonly IWriteRepository writeRepository;
         public LoginController(IUserRepository userRepository)
         {
             this.userRepository = userRepository;

@@ -1,0 +1,16 @@
+﻿@{
+    if (Model <= 0)
+    {
+        <script>
+            alert("탈퇴 실패");
+            history.back();
+        </script>
+    }
+    else
+    {
+        <script>
+            alert("탈퇴 완료되었습니다");
+            location.href = "/";
+        </script>
+    }
+}

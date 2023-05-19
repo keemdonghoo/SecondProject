@@ -1,0 +1,60 @@
+﻿@model List<TeamProject.Models.Domain.Post>
+@{
+    long cnt = (long)ViewData["cnt"];  // 전체글개수
+    int page = (int)ViewData["page"];  // 현재 페이지
+    int totalPage = (int)ViewData["totalPage"];  // 총 '페이지' 수
+    int pageRows = (int)ViewData["pageRows"];  // 한 '페이지' 에 표시할 글 개수
+}
+<script src="~/js/Board/List.js"></script>
+<h2>게시판</h2>
+<hr>
+<div class="mb-3 mt-3 clearfix">
+    <span class="float-start me-2">총 @(cnt)개</span>
+    <span class="float-start">page @(page)/@(totalPage)</span>
+    <span class="float-end">
+        <form name="frmPageRows">
+            <input type="hidden" name="page" value="@(page)">
+            <select class="form-select" name="pageRows">
+                <option value="10" selected="@(pageRows == 10)">10</option>
+                <option value="15" selected="@(pageRows == 15)">15</option>
+                <option value="20" selected="@(pageRows == 20)">20</option>
+                <option value="50" selected="@(pageRows == 50)">50</option>
+            </select>
+        </form>
+    </span>
+</div>
+<table class="table table-hover">
+    <thead class="table-success">
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>조회수</th>
+            <th>작성일</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var write in Model)
+            {
+                <tr>
+                    <td>@write.Id</td>
+                    <td>
+                        <a asp-controller="Posts" asp-action="PostDetail"
+                           asp-route-id="@write.Id">@write.Title</a>
+                    </td>
+                    <td>@write.ViewCnt</td>
+                    <td>@write.Date</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<div class="row">
+    <div class="col-12">
+        <a class="btn btn-outline-dark" asp-controller="Posts" asp-action="Create">글쓰기</a>
+        <a class="btn btn-outline-dark" asp-controller="Home" asp-action="Index">홈으로</a>
+    </div>
+</div>
+<partial name="Pagination" />

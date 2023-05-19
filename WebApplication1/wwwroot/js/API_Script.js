@@ -122,7 +122,7 @@ async function renderMovies() {
         const movieItem = `
             <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="product__item">
-                    <a href="Detail.html?title=${encodeURIComponent(movie.movieNm)}">
+                    <a href="/Home/Detail?title=${movie.movieNm}">
                         <div class="product__item__pic" style="background-image: url('${posterUrl}');">
                             <div class="comment"><i class="fa fa-comments"></i> 11</div>
                             <div class="view"><i class="fa fa-eye"></i> 9141</div>
@@ -133,7 +133,7 @@ async function renderMovies() {
                             <li>Active</li>
                             <li>Movie</li>
                         </ul>
-                        <h5><a href="Detail.html?title=${encodeURIComponent(movie.movieNm)}">${movie.movieNm}</a></h5>
+                        <h5><a href="/Home/Detail?title=${movie.movieNm}">${movie.movieNm}</a></h5>
                     </div>
                 </div>
             </div>`;

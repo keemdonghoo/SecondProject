@@ -1,4 +1,5 @@
-﻿using TeamProject.Models.Domain;
+﻿using System.ComponentModel;
+using TeamProject.Models.Domain;
 
 namespace TeamProject.Repositories
 {

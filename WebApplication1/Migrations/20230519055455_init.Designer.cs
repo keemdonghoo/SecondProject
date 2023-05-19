@@ -12,7 +12,7 @@ using TeamProject.Data;
 namespace TeamProject.Migrations
 {
     [DbContext(typeof(MovieDbContext))]
-    [Migration("20230518075010_init")]
+    [Migration("20230519055455_init")]
     partial class init
     {
         /// <inheritdoc />

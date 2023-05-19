@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 using TeamProject.Data;
 using TeamProject.Models.Domain;
+using TeamProject.Models.ViewModels;
 using TeamProject.Repositories;
 
 namespace TeamProject.Controllers
@@ -10,6 +12,7 @@ namespace TeamProject.Controllers
     public class PostsController : Controller
     {
         private readonly IWriteRepository writeRepository;
+        private readonly MovieDbContext movieDbContext;
 
         public PostsController(IWriteRepository writeRepository)
         {
@@ -26,17 +29,43 @@ namespace TeamProject.Controllers
         // POST: Posts/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Content,Date,ViewCnt,LikeCnt,UserId,BoardId")] Post post)
+        public async Task<IActionResult> Create(CreatePostViewModel createPostViewModel)
         {
-            if (ModelState.IsValid)
+            // Validation
+            createPostViewModel.ErrorCheck();
+            if (createPostViewModel.HasError)
             {
-                await writeRepository.AddPostAsync(post);
-                return RedirectToAction(nameof(Index));
+                TempData["TitleError"] = createPostViewModel.ErrorTitle;
+                TempData["ContentError"] = createPostViewModel.ErrorContent;
+
+                // 사용자가 입력했던 데이터
+                TempData["Title"] = createPostViewModel.Title;
+                TempData["Content"] = createPostViewModel.Content;
+
+                return View(createPostViewModel);
             }
-            return View(post);
+            var post = new Post
+            {
+                Title = createPostViewModel.Title,
+                Content = createPostViewModel.Content,
+                Date = createPostViewModel.Date,
+                ViewCnt = createPostViewModel.ViewCnt,
+                LikeCnt = createPostViewModel.LikeCnt,
+                UserId = 2,//createPostViewModel.UserId,
+                BoardId = 1,
+            };
+
+            post = await writeRepository.AddPostAsync(post);
+
+            return RedirectToAction("PostDetail", new { id = post.Id });
         }
 
        [HttpGet("posts/postdetail/{Id}")]
+        public async Task<IActionResult> PostDetail(long id)
+        {
+            var post = await writeRepository.IncViewCntAsync(id);
+            ViewData["page"] = HttpContext.Session.GetInt32("page") ?? 1;
+
         public async Task<IActionResult> PostDetail(long id)
         {
             
@@ -47,7 +76,8 @@ namespace TeamProject.Controllers
             var post = await writeRepository.GetPostAsync(id);
             if (post == null)
             {
-                return NotFound();
+                
+                return RedirectToAction("List");
             }
 
           if( post != null)

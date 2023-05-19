@@ -1,7 +1,7 @@
 ﻿@model TeamProject.Models.Domain.Post
 
 @{
-	ViewData["Title"] = $"게시글 조회하기";
+		
 }
 
 <h2>조회 - @Model.Id</h2>
@@ -52,7 +52,7 @@
 			</a>
 
 			<a class="btn btn-outline-dark ms-2"
-		   asp-controller="Posts" asp-action="List">
+		   asp-controller="Board" asp-action="List" asp-route-id="1">
 				목록
 			</a>
 

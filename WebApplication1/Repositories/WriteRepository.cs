@@ -60,10 +60,18 @@ namespace TeamProject.Repositories
         //게시판 id=1 의 게시글 목록 불러오기
         public async Task<List<Post>?> GetAllPostAsync(long boardId = 1)
         {
+            //board 1의 게시글 리스트
 			var posts = await movieDbContext.Posts.Where(x => x.BoardId == boardId).ToListAsync();
 			return posts.OrderByDescending(x => x.Id).ToList();
 		}
 
+        //게시글 개수
+        public async Task<long> CountAsync()
+        {
+            long boardid = 1;
+            var posts = await movieDbContext.Posts.Where(x => x.BoardId == boardid).CountAsync();
+            return posts;
+        }
         //관리자 모든 게시판 모든 게시글 불러오기
         public async Task<List<Post>?> AdminGetAllPostAsync()
         {
@@ -181,6 +189,14 @@ namespace TeamProject.Repositories
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-
+        public async Task<IEnumerable<Post>> GetFromRowAsync(long boardId, int fromRow, int pageRows)
+        {
+            return await movieDbContext.Posts
+                .Where(x => x.BoardId == boardId)  // Here we filter the posts based on the boardId
+                .OrderByDescending(x => x.Id)
+                .Skip(fromRow)
+                .Take(pageRows)
+                .ToListAsync();
+        }
     }
 }

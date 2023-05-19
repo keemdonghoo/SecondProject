@@ -1,0 +1,71 @@
+﻿@model TeamProject.Models.Domain.Post
+
+@{
+	ViewData["Title"] = $"쿠폰 조회하기";
+}
+
+<h2>조회 - @Model.Id</h2>
+<hr>
+
+@if (Model != null)
+{
+	<div class="mb-3 mt-3 clearfix">
+		<span class="float-start me-2">id:@Model.Id</span>
+	</div>
+
+
+	<section>
+
+		<form method="POST" name="frmDelete" asp-controller="Posts" asp-action="Delete">
+			<input type="hidden" asp-for="Id">
+		</form>
+
+		<div class="mb-3">
+			<label for="name">글 제목 :</label>
+			<span class="form-control">@Model.Title</span>
+		</div>
+		<div class="mb-3 mt-3">
+			<label for="kind">글 내용:</label>
+			<span class="form-control">@Model.Content</span>
+		</div>
+		<div class="mb-3 mt-3">
+			<label for="sno">조회수:</label>
+			<span class="form-control">@Model.ViewCnt</span>
+		</div>
+
+
+		<!-- 하단 링크 -->
+		<div class="d-flex">
+			<a class="btn btn-outline-dark"
+		   asp-controller="Posts" asp-action="Update" asp-route-id="@Model.Id">
+				수정
+			</a>
+
+			<a class="btn btn-outline-dark ms-2"
+		   asp-controller="Posts" asp-action="List">
+				목록
+			</a>
+
+			<button type="button" class="btn btn-outline-danger ms-2" id="btnDel">삭제</button>
+
+			<a class="btn btn-outline-dark ms-2"
+		   asp-controller="Posts" asp-action="Write">
+				작성
+			</a>
+		</div>
+		<!-- 하단 링크 -->
+
+
+	</section>
+}
+
+else
+{
+	<script>
+		alert("데이터가 없습니다!");
+		history.back();
+	</script>
+}
+
+
+

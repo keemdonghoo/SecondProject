@@ -35,8 +35,8 @@ namespace TeamProject.Controllers
             return View(post);
         }
 
-        // GET: Posts/Details/5
-        public async Task<IActionResult> PostDetails(int? id)
+       [HttpGet("posts/postdetail/{Id}")]
+        public async Task<IActionResult> PostDetail(int? id)
         {
             if (id == null)
             {
@@ -51,6 +51,13 @@ namespace TeamProject.Controllers
             return View(post);
         }
 
+        // posts/userspostlist/userid
+        [HttpGet("posts/userspostlist/{userId}")]
+        public async Task<IActionResult> UsersPostList(long userId)
+        {
+            var posts = await writeRepository.GetUserPostAsync(userId);
+            return View(posts);
+        }
     }
 
 

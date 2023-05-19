@@ -172,7 +172,7 @@
 
 <script>
     function checkDuplicate() {
-        var name = document.getElementById("Name").value;
+        var name = document.getElementsByName("Name");
         var url = `/Login/CheckDuplicate?name=${name}`;
 
         fetch(url)

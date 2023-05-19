@@ -12,6 +12,7 @@ namespace TeamProject.Controllers
     public class PostsController : Controller
     {
         private readonly IWriteRepository writeRepository;
+        private readonly MovieDbContext movieDbContext;
 
         public PostsController(IWriteRepository writeRepository)
         {
@@ -50,7 +51,7 @@ namespace TeamProject.Controllers
                 Date = createPostViewModel.Date,
                 ViewCnt = createPostViewModel.ViewCnt,
                 LikeCnt = createPostViewModel.LikeCnt,
-                UserId = createPostViewModel.UserId,
+                UserId = 2,//createPostViewModel.UserId,
                 BoardId = 1,
             };
 
@@ -60,19 +61,16 @@ namespace TeamProject.Controllers
         }
 
        [HttpGet("posts/postdetail/{Id}")]
-        public async Task<IActionResult> PostDetail(int? id)
+        public async Task<IActionResult> PostDetail(long id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var post = await writeRepository.GetPostAsync(id.Value);
+            var post = await writeRepository.IncViewCntAsync(id);
+            ViewData["page"] = HttpContext.Session.GetInt32("page") ?? 1;
+
             if (post == null)
             {
-                return NotFound();
+                
+                return RedirectToAction("List");
             }
-
-           
 
             return View(post);
         }
@@ -99,22 +97,6 @@ namespace TeamProject.Controllers
             var posts = await writeRepository.GetUserPostAsync(userId);
             return View(posts);
         }
-
-		[HttpPost]
-		public async Task<IActionResult> Delete(long id)
-		{
-			var deleteUser = await writeRepository.DeletePostAsync(id);
-
-			if (deleteUser != null)
-			{
-				// 삭제 성공
-				return View("DeleteOk", 1);
-			}
-
-			// 삭제 실패
-			return View("DeleteOk", 0);
-
-		}
 	}
 
 

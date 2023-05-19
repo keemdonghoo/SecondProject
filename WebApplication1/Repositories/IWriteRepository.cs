@@ -1,4 +1,5 @@
-﻿using TeamProject.Models.Domain;
+﻿using System.ComponentModel;
+using TeamProject.Models.Domain;
 
 namespace TeamProject.Repositories
 {
@@ -36,6 +37,11 @@ namespace TeamProject.Repositories
         //특정 게시글 좋아요 토글 확인
         Task<bool> ToggleLikeAsync(long userUid, long postUid);
 
+        //게시글 개수
+        Task<long> CountAsync();
 
+        //페이지 목록 읽어오기
+        Task<IEnumerable<Post>> GetFromRowAsync(long boardId, int fromRow, int pageRows);
+        
     }
 }

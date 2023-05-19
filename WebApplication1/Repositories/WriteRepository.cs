@@ -60,13 +60,21 @@ namespace TeamProject.Repositories
         //Board게시판의 게시글 목록 불러오기
         public async Task<List<Post>?> GetAllPostAsync(long boardId = 1)
         {
+            //board 1의 게시글 리스트
 			var posts = await movieDbContext.Posts.Where(x => x.BoardId == boardId).ToListAsync();
 			return posts.OrderByDescending(x => x.Id).ToList();
 		}
 
+        //게시글 개수
+        public async Task<long> CountAsync()
+        {
+            long boardid = 1;
+            var posts = await movieDbContext.Posts.Where(x => x.BoardId == boardid).CountAsync();
+            return posts;
+        }
 
-        //특정 게시글의 댓글 불러오기
-        public async Task<List<Comment>?> GetIdCommentAsync(long postId)
+    //특정 게시글의 댓글 불러오기
+    public async Task<List<Comment>?> GetIdCommentAsync(long postId)
         {
             var post = await movieDbContext.Posts.Include(p => p.Comments).FirstOrDefaultAsync(p => p.Id == postId);
             return post?.Comments.OrderByDescending(c => c.RegDate).ToList();
@@ -161,6 +169,14 @@ namespace TeamProject.Repositories
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-
+        public async Task<IEnumerable<Post>> GetFromRowAsync(long boardId, int fromRow, int pageRows)
+        {
+            return await movieDbContext.Posts
+                .Where(x => x.BoardId == boardId)  // Here we filter the posts based on the boardId
+                .OrderByDescending(x => x.Id)
+                .Skip(fromRow)
+                .Take(pageRows)
+                .ToListAsync();
+        }
     }
 }

@@ -36,7 +36,13 @@ namespace TeamProject.Repositories
         //특정 게시글 좋아요 토글 확인
         Task<bool> ToggleLikeAsync(long userUid, long postUid);
 
-       
+        //관리자용 모든 게시판 모든 게시글 목록
+        Task<List<Post>?> AdminGetAllPostAsync();
+
+        //관리자용 모든 댓글 목록
+        Task<List<Comment>> AdminGetAllCommentAsync();
+
+
 
 
         //관리자 

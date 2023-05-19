@@ -1,0 +1,36 @@
+﻿@model List<TeamProject.Models.Domain.User>
+@{
+
+}
+<h2>게시판</h2>
+<table class="table table-hover">
+    <thead class="table-success">
+        <tr>
+            <th>유저 고유 id</th>
+            <th>유저ID</th>
+            <th>유저 닉네임</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var users in Model)
+            {
+                <tr>
+                    <td>
+                        <a asp-controller="User" asp-action="Update"
+                   asp-route-id="@users.Id">@users.Name</a>
+                    </td>
+                   
+                    <td>@users.NickName</td>
+                    <td>@users.UserName</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<div class="row">
+    <div class="col-12">
+        <a class="btn btn-outline-dark" asp-controller="Posts" asp-action="Create">글쓰기</a>
+    </div>
+</div>

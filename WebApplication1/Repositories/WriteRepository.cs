@@ -57,13 +57,32 @@ namespace TeamProject.Repositories
             return null;
         }
 
-        //Board게시판의 게시글 목록 불러오기
+        //게시판 id=1 의 게시글 목록 불러오기
         public async Task<List<Post>?> GetAllPostAsync(long boardId = 1)
         {
 			var posts = await movieDbContext.Posts.Where(x => x.BoardId == boardId).ToListAsync();
 			return posts.OrderByDescending(x => x.Id).ToList();
 		}
 
+        //관리자 모든 게시판 모든 게시글 불러오기
+        public async Task<List<Post>?> AdminGetAllPostAsync()
+        {
+            var posts = await movieDbContext.Posts
+                      .Include(c => c.User) // 게시물 데이터 로드
+                      .Include(b => b.Board)
+                      .ToListAsync();
+
+            return posts.OrderByDescending(x => x.Id).ToList();
+        }
+
+        public async Task<List<Comment>> AdminGetAllCommentAsync()
+        {
+            var comments = await movieDbContext.Comments
+                .Include(c => c.Post) // 게시물 데이터 로드
+                .ToListAsync();
+
+            return comments.OrderByDescending(x => x.Id).ToList();
+        }
 
         //특정 게시글의 댓글 불러오기
         public async Task<List<Comment>?> GetIdCommentAsync(long postId)
@@ -72,6 +91,7 @@ namespace TeamProject.Repositories
             return post?.Comments.OrderByDescending(c => c.RegDate).ToList();
         }
 
+        //특정 유저의 댓글 목록
         public async Task<IEnumerable<Comment>> GetUserCommentAsync(long userId)
         {
             var comments = await movieDbContext.Comments.Where(x => x.UserId == userId).ToListAsync();

@@ -1,44 +1,39 @@
-﻿ @model TeamProject.Models.Domain.User
+﻿@**@
 
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-  
+
 }
 
 @{
     ViewData["Title"] = "마이페이지";
 }
 
-<h1>마이페이지</h1>
+<h1>관리자 페이지</h1>
 
-<script src="~/js/DeleteUser/DeleteOk.js"></script>
-
-<form method="POST" name="frmDelete" asp-controller="User" asp-action="Delete">
-    <input type="hidden" asp-for="Id">
-</form>
 
 <div>
 
     <a class="btn btn-outline-dark btn-lg" style="font-size: 24px;"
-       asp-controller="User" asp-action="Update" asp-route-id="@Model.Id">
-        개인정보 관리
+       asp-controller="Admin" asp-action="UserList">
+        유저 관리
     </a>
 </div>
 
 <div>
     <a class="btn btn-outline-dark btn-lg" style="font-size: 24px;"
-       asp-controller="Posts" asp-action="Userspostlist" asp-route-id="@Model.Id">
-        게시글 관리
+       asp-controller="Admin" asp-action="PostList">
+        모든 게시글 관리
     </a>
 
 </div>
 
 <div>
     <a class="btn btn-outline-dark btn-lg" style="font-size: 24px;"
-       asp-controller="Comments" asp-action="Userscommentlist" asp-route-id="@Model.Id">
-       댓글 관리
+       asp-controller="Admin" asp-action="CommentList">
+        모든 댓글 관리
     </a>
 </div>
 

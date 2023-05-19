@@ -37,34 +37,30 @@ namespace TeamProject.Controllers
         }
 
        [HttpGet("posts/postdetail/{Id}")]
-        public async Task<IActionResult> PostDetail(int? id)
+        public async Task<IActionResult> PostDetail(long id)
         {
+            
             if (id == null)
             {
                 return NotFound();
             }
-            var post = await writeRepository.GetPostAsync(id.Value);
+            var post = await writeRepository.GetPostAsync(id);
             if (post == null)
             {
                 return NotFound();
             }
 
+          if( post != null)
+            {
+                var comments = await writeRepository.GetIdCommentAsync(id);
+                post.Comments = comments?.ToList();
+            }
            
 
             return View(post);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Delete(long id)
-        {
-            var deletedWrite = await writeRepository.DeletePostAsync(id);
-
-            if (deletedWrite != null)
-            {
-                // 삭제 성공
-                return View("Delete", 1);  // View(string, object) => viewname, model
-            }
-
+     
         // posts/userspostlist/userid
         [HttpGet("posts/userspostlist/{userId}")]
         public async Task<IActionResult> UsersPostList(long userId)
@@ -81,11 +77,11 @@ namespace TeamProject.Controllers
 			if (deleteUser != null)
 			{
 				// 삭제 성공
-				return View("DeleteOk", 1);
+				return View("Delete", 1);
 			}
 
 			// 삭제 실패
-			return View("DeleteOk", 0);
+			return View("Delete", 0);
 
 		}
 	}

@@ -43,6 +43,16 @@ namespace TeamProject.Repositories
             return await movieDbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<User?> GetByNameAsync(string name)
+        {
+            var existingUser = await movieDbContext.Users.FindAsync(name);
+            if (existingUser != null)
+            {
+                return existingUser;
+            }
+            return null;
+        }
+
         public async Task<User?> UpdateAsync(User user)
         {
             var existingUser = await movieDbContext.Users.FindAsync(user.Id);

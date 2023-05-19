@@ -13,8 +13,8 @@ namespace TeamProject.Controllers
             this.writeRepository = writeRepository;
         }
 
-        //게시글 목록 읽어오기
-        [HttpGet]
+		//게시글 목록 읽어오기
+        [HttpGet("board/list/{boardId}")]
         public async Task<IActionResult> List(
             long boardId,
             [FromQuery(Name = "page")] int? page   // int? 타입.  만약 page parameter 가 없거나, 변환 안되는 값이면 null 값

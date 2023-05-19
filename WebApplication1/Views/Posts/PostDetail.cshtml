@@ -3,11 +3,10 @@
 @{
     
 }
-@* 게시글 내용 보기 *@
-<script src="~/js/Board/Detail.js"></script>
 
 <h2>조회 - @Model.Id</h2>
 <hr>
+<script src="~/js/DeletePost/DeletePost.js"></script>
 
 @if (Model != null)
 {
@@ -35,6 +34,14 @@
 			<label for="sno">조회수:</label>
 			<span class="form-control">@Model.ViewCnt</span>
 		</div>
+
+		<h3>댓글</h3>
+		<ul>
+			@foreach (var comment in Model.Comments)
+			{
+				<li>@comment.Content</li>
+			}
+		</ul>
 
 
 		<!-- 하단 링크 -->

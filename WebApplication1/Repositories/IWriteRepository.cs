@@ -18,10 +18,13 @@ namespace TeamProject.Repositories
         //새로운 게시글 생성하기
         Task<Post> AddPostAsync(Post post);
 
-        //특정 ID의 게시글 전부 읽어오기
-        Task<List<Post>> GetPostAsync(long userId);
-        //특정 게시글 수정하기
-        Task<Post?> UpdatePostAsync(Post post);
+        //특정 ID의 게시글 읽어오기
+        Task<Post> GetPostAsync(long postId);
+
+        // 특정 유저Id의 게시글 목록
+		Task<IEnumerable<Post>> GetUserPostAsync(long userId);
+		//특정 게시글 수정하기
+		Task<Post?> UpdatePostAsync(Post post);
         //특정 게시글 삭제하기
         Task<Post?> DeletePostAsync(long postId);
         //특정 게시글 조회수 +1
@@ -30,7 +33,9 @@ namespace TeamProject.Repositories
         //특정 게시글 좋아요 토글 확인
         Task<bool> ToggleLikeAsync(long userUid, long postUid);
 
-        //특정 Id의 게시글 하나 상세보기
-        Task<Post?> GetPostDetailAsync(long id);
+       
+
+
+        //관리자 
     }
 }

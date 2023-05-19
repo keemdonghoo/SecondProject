@@ -36,8 +36,7 @@ namespace TeamProject.Controllers
             return View(post);
         }
 
-        // GET: Posts/Details/5
-        [HttpGet]
+       [HttpGet("posts/postdetail/{Id}")]
         public async Task<IActionResult> PostDetail(int? id)
         {
             if (id == null)
@@ -64,13 +63,13 @@ namespace TeamProject.Controllers
                 return View("Delete", 1);  // View(string, object) => viewname, model
             }
 
-            ViewData["page"] = HttpContext.Session.GetInt32("page") ?? 1;
-
-            // 삭제 실패
-            return View("Delete", 0);
+        // posts/userspostlist/userid
+        [HttpGet("posts/userspostlist/{userId}")]
+        public async Task<IActionResult> UsersPostList(long userId)
+        {
+            var posts = await writeRepository.GetUserPostAsync(userId);
+            return View(posts);
         }
-
-
     }
 
 

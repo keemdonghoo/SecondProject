@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using TeamProject.Data;
 using TeamProject.Models.Domain;
+using static Azure.Core.HttpHeader;
 
 namespace TeamProject.Repositories
 {
@@ -86,10 +87,17 @@ namespace TeamProject.Repositories
         }
 
 
-        //특정 UserId의 모든 게시글 가져오기
-        public async Task<List<Post>> GetPostAsync(long userId)
+        //특정 PostId의 상세정보
+        public async Task<Post> GetPostAsync(long postId)
         {
-            return await movieDbContext.Posts.Where(x => x.UserId == userId).ToListAsync();
+            return await movieDbContext.Posts.FirstOrDefaultAsync(x=>x.Id== postId); 
+        }
+
+		//특정 UserId의 모든 게시글 가져오기
+		public async Task<IEnumerable<Post>> GetUserPostAsync(long userId)
+        {
+            var posts = await movieDbContext.Posts.Where(x => x.UserId == userId).ToListAsync();
+            return posts.OrderByDescending(x => x.Id).ToList();
         }
 
 

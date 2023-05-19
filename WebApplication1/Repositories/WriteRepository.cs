@@ -60,15 +60,15 @@ namespace TeamProject.Repositories
         //Board게시판의 게시글 목록 불러오기
         public async Task<List<Post>?> GetAllPostAsync(long boardId, int pageNum = 1, int pageSize = 10)
         {
-            var posts = movieDbContext.Posts.Include(p => p.User).ToList();
-
             var board = await movieDbContext.Boards.Include(b => b.Posts).FirstOrDefaultAsync(b => b.Id == boardId);
 
             return board?.Posts
                 .OrderByDescending(p => p.ViewCnt)
                 .Skip((pageNum - 1) * pageSize)
                 .Take(pageSize)
-                .ToList();
+                .ToList() ?? new List<Post>()
+            ;
+
         }
 
 

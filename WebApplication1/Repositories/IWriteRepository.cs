@@ -33,9 +33,6 @@ namespace TeamProject.Repositories
         //특정 게시글 좋아요 토글 확인
         Task<bool> ToggleLikeAsync(long userUid, long postUid);
 
-       
 
-
-        //관리자 
     }
 }

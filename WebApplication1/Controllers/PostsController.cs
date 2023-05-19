@@ -48,6 +48,8 @@ namespace TeamProject.Controllers
                 return NotFound();
             }
 
+           
+
             return View(post);
         }
 
@@ -58,7 +60,23 @@ namespace TeamProject.Controllers
             var posts = await writeRepository.GetUserPostAsync(userId);
             return View(posts);
         }
-    }
+
+		[HttpPost]
+		public async Task<IActionResult> Delete(long id)
+		{
+			var deleteUser = await writeRepository.DeletePostAsync(id);
+
+			if (deleteUser != null)
+			{
+				// 삭제 성공
+				return View("DeleteOk", 1);
+			}
+
+			// 삭제 실패
+			return View("DeleteOk", 0);
+
+		}
+	}
 
 
 }

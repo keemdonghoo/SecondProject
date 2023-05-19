@@ -31,7 +31,7 @@ namespace TeamProject.Repositories
 
 
         //특정 게시글의 댓글 작성하기
-        public async Task<Comment> AddReviewAsync(Comment comment)
+        public async Task<Comment> AddCommentAsync(Comment comment)
         {
             await movieDbContext.Comments.AddAsync(comment);
             var changes = await movieDbContext.SaveChangesAsync();
@@ -58,25 +58,24 @@ namespace TeamProject.Repositories
         }
 
         //Board게시판의 게시글 목록 불러오기
-        public async Task<List<Post>?> GetAllPostAsync(long boardId, int pageNum = 1, int pageSize = 10)
+        public async Task<List<Post>?> GetAllPostAsync(long boardId = 1)
         {
-            var posts = movieDbContext.Posts.Include(p => p.User).ToList();
-
-            var board = await movieDbContext.Boards.Include(b => b.Posts).FirstOrDefaultAsync(b => b.Id == boardId);
-
-            return board?.Posts
-                .OrderByDescending(p => p.ViewCnt)
-                .Skip((pageNum - 1) * pageSize)
-                .Take(pageSize)
-                .ToList();
-        }
+			var posts = await movieDbContext.Posts.Where(x => x.BoardId == boardId).ToListAsync();
+			return posts.OrderByDescending(x => x.Id).ToList();
+		}
 
 
         //특정 게시글의 댓글 불러오기
-        public async Task<List<Comment>?> GetIdReviewAsync(long postId)
+        public async Task<List<Comment>?> GetIdCommentAsync(long postId)
         {
             var post = await movieDbContext.Posts.Include(p => p.Comments).FirstOrDefaultAsync(p => p.Id == postId);
             return post?.Comments.OrderByDescending(c => c.RegDate).ToList();
+        }
+
+        public async Task<IEnumerable<Comment>> GetUserCommentAsync(long userId)
+        {
+            var comments = await movieDbContext.Comments.Where(x => x.UserId == userId).ToListAsync();
+            return comments.OrderByDescending(x => x.Id).ToList();
         }
 
 

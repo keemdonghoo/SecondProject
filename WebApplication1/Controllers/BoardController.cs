@@ -13,11 +13,11 @@ namespace TeamProject.Controllers
             this.writeRepository = writeRepository;
         }
 
-        //게시글 목록 읽어오기
-        [HttpGet]
-        public async Task<IActionResult> List(long boardId, int pageNum, int pageSize)
+		//게시글 목록 읽어오기
+		[HttpGet("board/list/{boardId}")]
+		public async Task<IActionResult> List(long boardId)
         {
-            var posts = await writeRepository.GetAllPostAsync(boardId, pageNum, pageSize);
+            var posts = await writeRepository.GetAllPostAsync(boardId);
             return View(posts);
         }
     }

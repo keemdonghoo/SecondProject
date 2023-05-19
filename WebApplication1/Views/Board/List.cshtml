@@ -21,10 +21,9 @@
                 <tr>
                     <td>@write.Id</td>
                     <td>
-                        <a asp-controller="Post" asp-action="PostDetail"
+                        <a asp-controller="Posts" asp-action="PostDetail"
                            asp-route-id="@write.Id">@write.Title</a>
                     </td>
-                    <td>@write.User?.NickName</td>
                     <td>@write.ViewCnt</td>
                     <td>@write.Date</td>
                 </tr>

@@ -60,37 +60,32 @@ namespace TeamProject.Controllers
             return RedirectToAction("PostDetail", new { id = post.Id });
         }
 
-       [HttpGet("posts/postdetail/{Id}")]
+        [HttpGet("posts/postdetail/{Id}")]
         public async Task<IActionResult> PostDetail(long id)
         {
-            var post = await writeRepository.IncViewCntAsync(id);
-            ViewData["page"] = HttpContext.Session.GetInt32("page") ?? 1;
-
-        public async Task<IActionResult> PostDetail(long id)
-        {
-            
             if (id == null)
             {
                 return NotFound();
             }
-            var post = await writeRepository.GetPostAsync(id);
+            var post = await writeRepository.IncViewCntAsync(id); // 조회수 증가
             if (post == null)
             {
-                
                 return RedirectToAction("List");
             }
 
-          if( post != null)
+            if (post != null)
             {
                 var comments = await writeRepository.GetIdCommentAsync(id);
                 post.Comments = comments?.ToList();
             }
-           
+
+            ViewData["page"] = HttpContext.Session.GetInt32("page") ?? 1;
 
             return View(post);
         }
 
-     
+
+
         // posts/userspostlist/userid
         [HttpGet("posts/userspostlist/{userId}")]
         public async Task<IActionResult> UsersPostList(long userId)

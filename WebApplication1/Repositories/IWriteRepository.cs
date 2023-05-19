@@ -43,7 +43,9 @@ namespace TeamProject.Repositories
         //관리자용 모든 댓글 목록
         Task<List<Comment>> AdminGetAllCommentAsync();
 
+        Task<IEnumerable<Post>> GetFromRowAsync(long boardId, int fromRow, int pageRows);
 
+        Task<long> CountAsync();
 
 
         //관리자 

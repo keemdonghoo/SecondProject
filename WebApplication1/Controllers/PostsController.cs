@@ -48,7 +48,7 @@ namespace TeamProject.Controllers
             {
                 Title = createPostViewModel.Title,
                 Content = createPostViewModel.Content,
-                Date = createPostViewModel.Date,
+                Date = DateTime.Now,
                 ViewCnt = createPostViewModel.ViewCnt,
                 LikeCnt = createPostViewModel.LikeCnt,
                 UserId = 2,//createPostViewModel.UserId,

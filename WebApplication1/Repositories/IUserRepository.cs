@@ -10,6 +10,8 @@ namespace TeamProject.Repositories
         // 특정 아이디의 유저 읽어오기
         Task<User?> GetAsync(long id);
 
+        Task<User?> GetByNameAsync(string name);
+
         // 유저 등록
         Task<User> AddAsync(User user); // <-User (<Uid>,<u_Name>,u_PassWord,<u_userName>,u_phoneNum,u_nickName,u_isAdmin)
 
@@ -18,5 +20,6 @@ namespace TeamProject.Repositories
 
         // 유저 삭제
         Task<User?> DeleteAsync(long id);
+
     }
 }

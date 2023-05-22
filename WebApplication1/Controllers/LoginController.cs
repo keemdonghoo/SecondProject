@@ -6,6 +6,7 @@ namespace TeamProject.Controllers
 {
     public class LoginController : Controller
     {
+       
         private readonly IUserRepository userRepository;
         private readonly IWriteRepository writeRepository;
         public LoginController(IUserRepository userRepository)
@@ -17,6 +18,8 @@ namespace TeamProject.Controllers
         {
             return View();
         }
+
+
         [HttpGet]
         public IActionResult SignUp()
         {
@@ -24,15 +27,38 @@ namespace TeamProject.Controllers
             {
                 Name = (string)TempData["Name"],
                 PassWord = (string)TempData["PassWord"],
-                UserName = (string)TempData["UserName"],
+                PassWordCheck = (string)TempData["PassWordCheck"],
+                UserName =(string)TempData["UserName"],
                 PhoneNum = (string)TempData["PhoneNum"],
                 NickName = (string)TempData["NickName"],
                 Email = (string)TempData["Email"],
             };
+            
             //ViewData["page"] = HttpContext.Session.GetInt32("page") ?? 1;
 
             return View(addUserRequest);
         }
+
+        [HttpPost]
+        public IActionResult CheckDuplicate( string name, AddUserRequest addUserRequest)
+        {
+            var user = userRepository.GetByNameAsync(name).Result;
+            var isDuplicate = false;
+            addUserRequest.NameCheck = true;
+             
+
+            if (user == null)
+            {
+                
+                // JSON 형식으로 응답을 생성합니다.
+                return Json(new { isDuplicate });
+
+            }
+            isDuplicate = true;
+            return Json(new { isDuplicate });
+        }
+
+
         [HttpPost]
         [ActionName("SignUp")]
         public async Task<IActionResult> Add(AddUserRequest addUserRequest)
@@ -48,6 +74,7 @@ namespace TeamProject.Controllers
 
                 TempData["Name"] = addUserRequest.Name;
                 TempData["PassWord"] = addUserRequest.PassWord;
+                TempData["PassWordCheck"] = addUserRequest.PassWordCheck;
                 TempData["UserName"] = addUserRequest.UserName;
                 TempData["PhoneNum"] = addUserRequest.PhoneNum;
                 TempData["NickName"] = addUserRequest.NickName;
@@ -68,7 +95,7 @@ namespace TeamProject.Controllers
             };
 
             user = await userRepository.AddAsync(user);
-            return RedirectToAction("Detail", new { id = user.Id });
+            return RedirectToAction("Login");
         }
     }
 }

@@ -39,9 +39,24 @@
 		<ul>
 			@foreach (var comment in Model.Comments)
 			{
-				<li>@comment.Content</li>
+				<li>@comment.RegDate</li>
+				<li>@comment.UserId</li>
+				<li>@comment.Content</li>	
 			}
 		</ul>
+
+		<h3>댓글 작성</h3>
+		<form method="POST" asp-controller="Comment" asp-action="Add">
+			<input type="hidden" asp-for="@Model.Id" name="postId" />
+
+			<div class="mb-3">
+				<label for="content">내용:</label>
+				<textarea class="form-control" rows="1" name="content"></textarea>
+				<div><span class="text-danger">@TempData["ContentError"]</span></div>
+			</div>
+
+			<button type="submit" class="btn btn-primary">댓글 작성</button>
+		</form>
 
 
 		<!-- 하단 링크 -->

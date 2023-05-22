@@ -33,13 +33,11 @@ namespace TeamProject.Repositories
             return await movieDbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-         public async Task<User?> DeleteAsync(long id)
+        public async Task<User?> GetByNameAsync(string name)
         {
-            var existingUser = await movieDbContext.Users.FindAsync(id);
-            if (existingUser != null) 
+            var existingUser = await movieDbContext.Users.FindAsync(name);
+            if (existingUser != null)
             {
-                movieDbContext.Users.Remove(existingUser);
-                await movieDbContext.SaveChangesAsync();
                 return existingUser;
             }
             return null;

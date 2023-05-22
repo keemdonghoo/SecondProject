@@ -2,6 +2,7 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @model TeamProject.Models.ViewModels.AddUserRequest
+
 @{
     ViewData["Title"] = "회원가입";
 
@@ -61,29 +62,78 @@
 
     <!-- Signup Section Begin -->
     <section class="signup spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="login__form">
+                        <h3>Sign Up</h3>
+                        <form method="post">
+                            <!--아이디-->
+                            <div><span class="text-danger">@TempData["NameError"]</span></div>
+                            <div class="input__item">
 
-        <div class="login__form">
-            <h3>Sign Up</h3>
-            <form>
+                                <input type="text" placeholder="ID" asp-for="Name">
+                                <span class="icon_profile"></span>
+                                <button type="button" class="site-btn" onclick="checkDuplicate()">중복확인</button>
+                            </div>
+                            <br>
+                            <!--비밀번호-->
+                            <div><span class="text-danger">@TempData["PassWordError"]</span></div>
+                            <div class="input__item">
 
-                <div class="input__item">
-                    <input type="text" placeholder="ID">
-                    <span class="icon_profile"></span>
-                    <button type="submit" class="site-btn">중복확인</button>
+                                <input type="password" placeholder="Password" asp-for="PassWord">
+                                <span class="icon_lock"></span>
+                            </div>
+
+                            <div class="input__item">
+                                <input type="password" placeholder="Password Check" asp-for="PassWordCheck">
+                                <span class="icon_lock"></span>
+                            </div>
+
+                            <!--사용자 이름-->
+                            <div><span class="text-danger">@TempData["UserNameError"]</span></div>
+                            <div class="input__item">
+
+                                <input type="text" placeholder="이름입력" asp-for="UserName">
+                                <span class="icon_profile"></span>
+                            </div>
+
+                            <!--사용자 PhoneNum-->
+                            <div><span class="text-danger">@TempData["PhoneNumError"]</span></div>
+                            <div class="input__item">
+
+                                <input type="text" placeholder="전화번호 입력" asp-for="PhoneNum">
+                                <span class="icon_phone"></span>
+                            </div>
+
+                            <!--사용자 NickName-->
+                            <div><span class="text-danger">@TempData["NickNameError"]</span></div>
+                            <div class="input__item">
+
+                                <input type="text" placeholder="닉네임 입력" asp-for="NickName">
+                                <span class="icon_profile"></span>
+                            </div>
+
+                            <!--사용자 Email-->
+                            <div><span class="text-danger">@TempData["EmailError"]</span></div>
+                            <div class="input__item">
+
+                                <input type="text" placeholder="이메일 입력" asp-for="Email">
+                                <span class="icon_mail"></span>
+                            </div>
+
+
+
+
+                            <button type="submit" class="site-btn">회원가입</button>
+
+                        </form>
+
+                    </div>
                 </div>
-                <div class="input__item">
-                    <input type="text" placeholder="Password">
-                    <span class="icon_lock"></span>
-                </div>
-                <div class="input__item">
-                    <input type="text" placeholder="Your Name">
-                    <span class="icon_profile"></span>
-                </div>
-                <button type="submit" class="site-btn">회원가입</button>
-
-            </form>
-
+            </div>
         </div>
+
     </section>
     <!-- Signup Section End -->
 
@@ -119,3 +169,23 @@
         </div>
     </footer>
 </body>
+
+<script>
+    function checkDuplicate() {
+        var name = document.getElementsByName("Name");
+        var url = `/Login/CheckDuplicate?name=${name}`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data.isDuplicate) {
+                    alert("중복된 아이디입니다.");
+                } else {
+                    alert("사용 가능한 아이디입니다.");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+</script>

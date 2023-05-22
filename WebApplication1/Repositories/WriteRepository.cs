@@ -33,7 +33,8 @@ namespace TeamProject.Repositories
 		//특정 게시글의 댓글 작성하기
 		public async Task<Comment> AddCommentAsync(Comment comment)
 		{
-			await movieDbContext.Comments.AddAsync(comment);
+			await movieDbContext.Comments
+				.AddAsync(comment);
 			var changes = await movieDbContext.SaveChangesAsync();
 
 			if (changes == 0)
@@ -43,6 +44,8 @@ namespace TeamProject.Repositories
 
 			return comment;
 		}
+
+
 
 		//특정 게시글 삭제하기
 		public async Task<Post?> DeletePostAsync(long postId)
@@ -56,6 +59,19 @@ namespace TeamProject.Repositories
 			}
 			return null;
 		}
+		//댓글 삭제
+		public async Task<Comment?> DeleteCommentAsync(long Id)
+		{
+			var existingComment = await movieDbContext.Comments.FindAsync(Id);
+			if (existingComment != null)
+			{
+				movieDbContext.Comments.Remove(existingComment);
+				await movieDbContext.SaveChangesAsync();  // DELETE
+				return existingComment;
+			}
+			return null;
+		}
+
 
 		//게시판 id=1 의 게시글 목록 불러오기
 		public async Task<List<Post>?> GetAllPostAsync(long boardId = 1)
@@ -98,7 +114,7 @@ namespace TeamProject.Repositories
 		{
 			var post = await movieDbContext.Posts
 				.Include(p => p.Comments)
-				.Include(u => u.User)
+				.ThenInclude(p => p.User)
 				.FirstOrDefaultAsync(p => p.Id == postId);
 			return post?.Comments.OrderByDescending(c => c.RegDate).ToList();
 		}

@@ -1,0 +1,33 @@
+﻿.comment-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.comment-item {
+    margin-bottom: 20px;
+    border: 1px solid #fff; /* 테두리를 하얀색으로 설정 */
+    background-color: #fff; /* 배경을 하얀색으로 설정 */
+    padding: 10px;
+}
+
+.comment-header {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: black; /* 글씨를 하얀색으로 설정 */
+}
+
+.comment-date {
+    color: #999;
+    margin-right: 10px;
+    color: black; /* 글씨를 하얀색으로 설정 */
+}
+
+.comment-user {
+    color: #333;
+    color: black; /* 글씨를 하얀색으로 설정 */
+}
+
+.comment-content {
+    margin-top: 5px;
+    color: black; /* 글씨를 하얀색으로 설정 */
+}

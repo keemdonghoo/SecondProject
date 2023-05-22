@@ -28,8 +28,7 @@ namespace TeamProject.Controllers
 
 		}
 
-
-
+		
 
 		[HttpPost]
 		public async Task<IActionResult> Add(AddCommentRequest addCommentRequest,int postId)
@@ -70,6 +69,24 @@ namespace TeamProject.Controllers
 				return RedirectToAction("Error", "Home");
 			}
 		}
+
+		
+        [HttpPost]
+        public async Task<IActionResult> DeleteComment(long CommentId)
+        {
+            var deleteComment = await writeRepository.DeleteCommentAsync(CommentId);
+
+            if (deleteComment != null)
+            {
+                // 삭제 성공
+                return View("Delete", 1);
+            }
+
+            // 삭제 실패
+            return View("Delete", 0);
+
+        }
+
 
 	
 

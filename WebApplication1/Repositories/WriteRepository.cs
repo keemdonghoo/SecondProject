@@ -45,6 +45,20 @@ namespace TeamProject.Repositories
 			return comment;
 		}
 
+		public async Task<Attachment> AddAttachmentAsync(Attachment attachment)
+		{
+			await movieDbContext.Attachments
+				.AddAsync(attachment);
+			var changes = await movieDbContext.SaveChangesAsync();
+
+			if (changes == 0)
+			{
+				throw new Exception("데이터베이스에 댓글을 추가하지 못했습니다.");
+			}
+
+			return attachment;
+		}
+
 
 
 		//특정 게시글 삭제하기

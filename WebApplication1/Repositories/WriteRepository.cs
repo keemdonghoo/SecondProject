@@ -193,6 +193,7 @@ namespace TeamProject.Repositories
         {
             return await movieDbContext.Posts
                 .Where(x => x.BoardId == boardId)  // Here we filter the posts based on the boardId
+                .Include(x => x.User)
                 .OrderByDescending(x => x.Id)
                 .Skip(fromRow)
                 .Take(pageRows)

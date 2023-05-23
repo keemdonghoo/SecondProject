@@ -11,8 +11,14 @@ namespace TeamProject.Repositories
         //특정 게시글의 댓글 작성하기
         Task<Comment> AddCommentAsync(Comment comment);
 
-        //특정 게시글의 댓글 불러오기
-        Task<List<Comment>?> GetIdCommentAsync(long postId);
+        // 게시글에 첨부파일추가하기
+        Task<Attachment> AddAttachmentAsync(Attachment attachment);
+
+		//특정 댓글 삭제
+		Task<Comment?> DeleteCommentAsync(long commentId);
+
+		//특정 게시글의 댓글 불러오기
+		Task<List<Comment>?> GetIdCommentAsync(long postId);
 
         //게시글 목록 불러오기
         Task<List<Post>?> GetAllPostAsync(long boardId);
@@ -42,6 +48,7 @@ namespace TeamProject.Repositories
 
         //관리자용 모든 댓글 목록
         Task<List<Comment>> AdminGetAllCommentAsync();
+
 
         Task<IEnumerable<Post>> GetFromRowAsync(long boardId, int fromRow, int pageRows);
 

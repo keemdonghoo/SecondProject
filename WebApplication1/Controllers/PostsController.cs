@@ -44,11 +44,13 @@ namespace TeamProject.Controllers
 
                 return View(createPostViewModel);
             }
+
+
             var post = new Post
             {
                 Title = createPostViewModel.Title,
                 Content = createPostViewModel.Content,
-                Date = createPostViewModel.Date,
+                Date = DateTime.Now,
                 ViewCnt = createPostViewModel.ViewCnt,
                 LikeCnt = createPostViewModel.LikeCnt,
                 UserId = 2,//createPostViewModel.UserId,
@@ -77,6 +79,7 @@ namespace TeamProject.Controllers
             {
                 var comments = await writeRepository.GetIdCommentAsync(id);
                 post.Comments = comments?.ToList();
+               
             }
 
             ViewData["page"] = HttpContext.Session.GetInt32("page") ?? 1;
@@ -95,9 +98,9 @@ namespace TeamProject.Controllers
         }
 
 		[HttpPost]
-		public async Task<IActionResult> Delete(long id)
+		public async Task<IActionResult> Delete(long commentid)
 		{
-			var deleteUser = await writeRepository.DeletePostAsync(id);
+			var deleteUser = await writeRepository.DeletePostAsync(commentid);
 
 			if (deleteUser != null)
 			{
@@ -109,7 +112,10 @@ namespace TeamProject.Controllers
 			return View("Delete", 0);
 
 		}
-	}
+
+
+
+    }
 
 
 }

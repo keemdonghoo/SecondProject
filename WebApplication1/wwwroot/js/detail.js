@@ -1,5 +1,5 @@
 async function fetchMovieVideos(movieId) {
-    const apiKey = '9587124340afc34dae9ecf63d2710f6f';
+    const apiKey = 'a64af89e63ea55dc53158eca732fee02';
     const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${apiKey}&language=en-US`);
     const data = await response.json();
     return data.results;
@@ -15,7 +15,7 @@ async function getMovieTrailer(movieId) {
 }
 
 async function fetchMovieDetails(title) {
-    const apiKey = '9587124340afc34dae9ecf63d2710f6f';
+    const apiKey = 'a64af89e63ea55dc53158eca732fee02';
     const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(title)}&language=ko-KR`);
     const data = await response.json();
     if (data.results.length > 0) {

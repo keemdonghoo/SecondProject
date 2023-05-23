@@ -8,6 +8,8 @@
 <hr>
 <script src="~/js/DeletePost/DeletePost.js"></script>
 
+<link rel="stylesheet" href="~/css/comment.css" asp-append-version="true" />
+
 @if (Model != null)
 {
 	<div class="mb-3 mt-3 clearfix">
@@ -22,27 +24,55 @@
 			<input type="hidden" asp-for="Id">
 		</form>
 
+	
 		<div class="mb-3">
 			<label for="name">글 제목 :</label>
 			<span class="form-control">@Model.Title</span>
 		</div>
 		<div class="mb-3 mt-3">
-			<label for="kind">글 내용:</label>
+			<label for="content">글 내용:</label>
 			<span class="form-control">@Model.Content</span>
 		</div>
 		<div class="mb-3 mt-3">
-			<label for="sno">조회수:</label>
+			<label for="ViewCnt">조회수:</label>
 			<span class="form-control">@Model.ViewCnt</span>
 		</div>
 
-		<h3>댓글</h3>
-		<ul>
-			@foreach (var comment in Model.Comments)
-			{
-				<li>@comment.Content</li>
-			}
-		</ul>
+		<form method="POST" name="frmDeleteComment" asp-controller="Comment" asp-action="DeleteComment">
+			<input type="hidden" asp-for="Id" name="commentId">
+		</form>
 
+
+
+		@foreach (var comment in Model.Comments)
+{
+    <li class="comment-item">
+        <div class="comment-header">
+            <span class="comment-date">@comment.RegDate</span>
+            <span class="comment-user">@comment.User.NickName</span>
+            <button type="button" class="btn btn-outline-danger ms-2 btnDelComment" data-comment-id="@comment.Id">삭제</button>
+        </div>
+        <div class="comment-content">@comment.Content</div>
+    </li>
+}
+
+
+
+		<h3>댓글 작성</h3>
+		<form method="POST" asp-controller="Comment" asp-action="Add">
+			<input type="hidden" asp-for="@Model.Id" name="postId" />
+
+
+			<div class="mb-3">
+				<label for="content">내용:</label>
+				<textarea class="form-control" rows="1" name="content"></textarea>
+				<div><span class="text-danger">@TempData["ContentError"]</span></div>
+			</div>
+
+			<button type="submit" class="btn btn-primary">댓글 작성</button>
+		</form>
+
+		
 
 		<!-- 하단 링크 -->
 		<div class="d-flex">

@@ -1,6 +1,6 @@
 //한국영화진흥위원회 API를 사용하여 최대한 현재 상영중인 영화 받아오기
 async function getNowPlayingMoviesInKorea() {
-    const apiKey = "b2bebdb778a72426b1ed38c376061f23";
+    const apiKey = "295ad79fa848cceace936f1e2c005bf7";
     const today = new Date();
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, '0');
@@ -28,7 +28,7 @@ async function getNowPlayingMoviesInKorea() {
 
 //한국영화진흥위원회 API를 사용하여 TMDB API로 영화 포스터 및 기타 상세정보 받아오기
 async function requestTMDBSearchAsync(query, prdtYear) {
-    const apiKey = "9587124340afc34dae9ecf63d2710f6f";
+    const apiKey = "a64af89e63ea55dc53158eca732fee02";
     const apiUrl = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=ko-KR&query=${encodeURIComponent(query)}&year=${prdtYear}`;
 
     const response = await fetch(apiUrl);
@@ -122,7 +122,7 @@ async function renderMovies() {
         const movieItem = `
             <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="product__item">
-                    <a href="/Home/Detail?title=${movie.movieNm}">
+                    <a href="../Home/Detail?title=${movie.movieNm}">
                         <div class="product__item__pic" style="background-image: url('${posterUrl}');">
                             <div class="comment"><i class="fa fa-comments"></i> 11</div>
                             <div class="view"><i class="fa fa-eye"></i> 9141</div>
@@ -133,7 +133,7 @@ async function renderMovies() {
                             <li>Active</li>
                             <li>Movie</li>
                         </ul>
-                        <h5><a href="/Home/Detail?title=${movie.movieNm}">${movie.movieNm}</a></h5>
+                        <h5><a href="../Home/Detail?title=${movie.movieNm}">${movie.movieNm}</a></h5>
                     </div>
                 </div>
             </div>`;

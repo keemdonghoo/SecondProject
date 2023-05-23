@@ -27,9 +27,11 @@ namespace TeamProject.Models.ViewModels
         //게시판은 여러개의 게시글이 있을 수 있다
         public Board Board { get; set; }
         public long BoardId { get; set; }
+		public IFormFile Attachment { get; set; } // 파일 첨부를 위한 속성 추가
 
-        // Validation
-        public bool HasError { get; set; } = false;  // 검증오류존재여부
+
+		// Validation
+		public bool HasError { get; set; } = false;  // 검증오류존재여부
         public string? ErrorTitle { get; set; }   // '작성자' 관련 검증 오류메세지
         public string? ErrorContent { get; set; } // '제목' 관련 검증 오류메세지
 

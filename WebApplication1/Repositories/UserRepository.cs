@@ -45,6 +45,18 @@ namespace TeamProject.Repositories
             return exsistingUser;
         }
 
+        public async Task<User?> DeleteAsync(long id)
+        {
+            var existingUser = await movieDbContext.Users.FindAsync(id);
+            if (existingUser != null)
+            {
+                movieDbContext.Users.Remove(existingUser);
+                await movieDbContext.SaveChangesAsync();
+                return existingUser;
+            }
+            return null;
+        }
+
         public async Task<User?> UpdateAsync(User user)
         {
             var existingUser = await movieDbContext.Users.FindAsync(user.Id);

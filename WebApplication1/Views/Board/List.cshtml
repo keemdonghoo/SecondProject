@@ -1,4 +1,5 @@
 ﻿@model List<TeamProject.Models.Domain.Post>
+
 @{
     long cnt = (long)ViewData["cnt"];  // 전체글개수
     int page = (int)ViewData["page"];  // 현재 페이지
@@ -44,6 +45,7 @@
                         <a asp-controller="Posts" asp-action="PostDetail"
                            asp-route-id="@write.Id">@write.Title</a>
                     </td>
+                    <td>@write.User.NickName</td>
                     <td>@write.ViewCnt</td>
                     <td>@write.Date</td>
                 </tr>

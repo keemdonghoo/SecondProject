@@ -7,58 +7,8 @@
     ViewData["Title"] = "회원가입";
 
 }
-
-<script src="~/js/jquery-3.3.1.min.js"></script>
-<script src="~/js/bootstrap.min.js"></script>
-<script src="~/js/player.js"></script>
-<script src="~/js/jquery.nice-select.min.js"></script>
-<script src="~/js/mixitup.min.js"></script>
-<script src="~/js/jquery.slicknav.js"></script>
-<script src="~/js/owl.carousel.min.js"></script>
-<script src="~/js/main.js"></script>
 <body>
-    <div id="preloder">
-        <div class="loader"></div>
-    </div>
-    <header class="header">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-2">
-                    <div class="header__logo">
-                        <a asp-controller="Home" asp-action="Index">
-                            <!--홈버튼-->
-                            <img src="~/img/logo.png" alt="">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-8">
-                    <div class="header__nav">
-                        <nav class="header__menu mobile-menu">
-                            <ul>
-                                <li class="active"><a asp-controller="Home" asp-action="Index">Homepage</a></li> <!--홈버튼-->
-                                <li>
-                                    <a href="#">Favorites </a>
-
-                                </li>
-                                <li><a href="#">Review</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="header__right">
-                        <a href="#" class="search-switch"><span class="icon_search"></span></a>
-                        <a asp-controller="Login" asp-action="Login"><span class="icon_profile"></span></a>
-                    </div>
-                </div>
-            </div>
-
-            <div id="mobile-menu-wrap"></div>
-
-        </div>
-
-
-    </header>
+    
 
     <!-- Signup Section Begin -->
     <section class="signup spad">
@@ -176,7 +126,7 @@
         let id = document.getElementById("Name").value;
 
         // 아이디가 입력되지 않았을 경우 경고창 표시
-        if (id.trim() === "") {
+        if (id.trim() == "") {
             alert('아이디를 입력하세요.');
             return;
         }

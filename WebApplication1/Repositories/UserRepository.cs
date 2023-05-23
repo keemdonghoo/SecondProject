@@ -20,10 +20,7 @@ namespace TeamProject.Repositories
             return user;
         }
 
-        public Task<User?> DeleteAsync(long id)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         public async Task<IEnumerable<User>> GetAllAsync()
         {

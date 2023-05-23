@@ -1,14 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TeamProject.Data;
 using TeamProject.Models.Domain;
 using TeamProject.Models.ViewModels;
 using TeamProject.Repositories;
 namespace TeamProject.Controllers
 {
+    //
     public class LoginController : Controller
     {
        
         private readonly IUserRepository userRepository;
         private readonly IWriteRepository writeRepository;
+        
         public LoginController(IUserRepository userRepository)
         {
             this.userRepository = userRepository;
@@ -21,11 +24,12 @@ namespace TeamProject.Controllers
 
 
         [HttpGet]
-        public IActionResult SignUp()
+        public IActionResult SignUp(AddUserRequest addUserRequest)
         {
-            AddUserRequest addUserRequest = new()
+            addUserRequest = new()
             {
                 Name = (string)TempData["Name"],
+                NameCheck = (bool?)TempData["NameCheck"],
                 PassWord = (string)TempData["PassWord"],
                 PassWordCheck = (string)TempData["PassWordCheck"],
                 UserName =(string)TempData["UserName"],
@@ -39,23 +43,19 @@ namespace TeamProject.Controllers
             return View(addUserRequest);
         }
 
-        [HttpPost]
-        public IActionResult CheckDuplicate( string name, AddUserRequest addUserRequest)
+        [HttpGet("CheckId")]
+        public async Task<IActionResult> CheckId(string id, AddUserRequest addUserRequest)
         {
-            var user = userRepository.GetByNameAsync(name).Result;
-            var isDuplicate = false;
-            addUserRequest.NameCheck = true;
-             
-
-            if (user == null)
+            
+            
+            var isExsist = await userRepository.GetByNameAsync(id);
+            if (isExsist == null)
             {
-                
-                // JSON 형식으로 응답을 생성합니다.
-                return Json(new { isDuplicate });
-
+                //addUserRequest.NameCheck = true;
+                //TempData["NameCheck"] = addUserRequest.NameCheck;
+                return Ok(true);
             }
-            isDuplicate = true;
-            return Json(new { isDuplicate });
+            return Ok(false) ;
         }
 
 
@@ -71,8 +71,10 @@ namespace TeamProject.Controllers
                 TempData["UserNameError"] = addUserRequest.ErrorUserName;
                 TempData["PhoneNumError"] = addUserRequest.ErrorPhoneNum;
                 TempData["NickNameError"] = addUserRequest.ErrorNickName;
+                TempData["EmailError"] = addUserRequest.ErrorEmail;
 
                 TempData["Name"] = addUserRequest.Name;
+                TempData["NameCheck"] = addUserRequest.NameCheck;
                 TempData["PassWord"] = addUserRequest.PassWord;
                 TempData["PassWordCheck"] = addUserRequest.PassWordCheck;
                 TempData["UserName"] = addUserRequest.UserName;

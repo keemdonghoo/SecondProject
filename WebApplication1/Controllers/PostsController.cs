@@ -36,6 +36,8 @@ namespace TeamProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreatePostViewModel createPostViewModel)
         {
+            string userId = HttpContext.Session.GetString("UserId");
+
             // Validation
             createPostViewModel.ErrorCheck();
             if (createPostViewModel.HasError)
@@ -57,7 +59,7 @@ namespace TeamProject.Controllers
                 Date = DateTime.Now,
                 ViewCnt = createPostViewModel.ViewCnt,
                 LikeCnt = createPostViewModel.LikeCnt,
-                UserId = 2, //createPostViewModel.UserId,
+                UserId = int.Parse(userId),
                 BoardId = 1,
             };
 

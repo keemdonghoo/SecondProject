@@ -99,5 +99,30 @@ namespace TeamProject.Controllers
             user = await userRepository.AddAsync(user);
             return RedirectToAction("Login");
         }
-    }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Login(string name, string password)
+        {
+			User existingUser = await userRepository.GetByNameAsync(name);
+			if (existingUser == null)
+			{
+				// 사용자가 존재하지 않을 경우 로그인 실패 처리를 합니다.
+				return View();
+			}
+
+			bool isPasswordValid = existingUser.PassWord == password;
+			if (!isPasswordValid)
+			{
+				// 비밀번호가 일치하지 않을 경우 로그인 실패 처리를 합니다.
+				ModelState.AddModelError("", "Invalid username or password.");
+				return View();
+			}
+
+			HttpContext.Session.SetString("UserId", existingUser.Id.ToString());
+
+			// 로그인 성공 후 리다이렉트할 페이지를 지정합니다.
+			return RedirectToAction("Index", "Home");
+		}
+	}
 }

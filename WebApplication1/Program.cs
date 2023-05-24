@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using TeamProject.Data;
 using TeamProject.Repositories;
 
@@ -47,7 +48,18 @@ namespace TeamProject
             }
             app.UseStaticFiles();
 
-            app.UseRouting();
+			app.UseStaticFiles(new StaticFileOptions
+			{
+				FileProvider = new PhysicalFileProvider(
+				 Path.Combine(builder.Environment.ContentRootPath, "MyFiles"))
+			 ,
+				RequestPath = "/appfiles"
+
+				// URL : /appfiles..
+				// 경로 : {project contetn} / MyFiles.. 
+			});
+
+			app.UseRouting();
 
             // 이 위치에 세션을 사용하도록 설정합니다.
             app.UseSession();

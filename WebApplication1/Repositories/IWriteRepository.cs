@@ -11,8 +11,13 @@ namespace TeamProject.Repositories
         //특정 게시글의 댓글 작성하기
         Task<Comment> AddCommentAsync(Comment comment);
 
-        // 게시글에 첨부파일추가하기
-        Task<Attachment> AddAttachmentAsync(Attachment attachment);
+
+
+		// 게시글에 첨부파일추가하기
+		Task<Attachment> AddAttachmentAsync(Attachment attachment);
+
+        // 게시글의 첨부파일 가져오기
+        Task<List<Attachment>> GetAttachmentByPostIdAsync(long postId);
 
 		//특정 댓글 삭제
 		Task<Comment?> DeleteCommentAsync(long commentId);

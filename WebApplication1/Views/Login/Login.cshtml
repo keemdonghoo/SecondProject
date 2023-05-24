@@ -13,20 +13,20 @@
                 <div class="col-lg-6">
                     <div class="login__form">
                         <h3>Login</h3>
-                        <form action="#">
+                        <form method="post" action="@Url.Action("Login", "Login")">
 
                             <div class="input__item">
-                                <input type="text" placeholder="아이디를 입력하세요" asp-for="Name">
+                                <input type="text" name="name" placeholder="아이디를 입력하세요">
                                 <span class="icon_mail"></span>
                             </div>
 
                             <div class="input__item">
-                                <input type="text" placeholder="비밀번호를 입력하세요" asp-for="PassWord">
+                                <input type="password" name="password" placeholder="비밀번호를 입력하세요">
                                 <span class="icon_lock"></span>
                             </div>
-
-                            <button type="submit" class="site-btn">Login Now</button>  <!--로그인하기-->
+                            <button type="submit" class="site-btn">Login Now</button>
                         </form>
+
                         <a href="#" class="forget_pass">Forgot Your Password?</a> <!--아이디 빌밀번호찾기-->
                     </div>
                 </div>

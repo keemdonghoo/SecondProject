@@ -5,7 +5,7 @@
 }
 
 <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
-    <form method="post" asp-action="Create" style="width: 60%;">
+    <form method="post" asp-action="Create" style="width: 60%;" enctype="multipart/form-data">
         <h2 style="text-align: center;">Create Post</h2>
         <div>
             <label asp-for="Title"></label>
@@ -17,12 +17,18 @@
             <textarea asp-for="Content" class="form-control" placeholder="내용을 입력하세요"></textarea>
             <div><span class="text-danger">@TempData["ContentError"]</span></div>
         </div>
+        <div>
+            <input type="text" class="form-control" name="fileTitle" placeholder="Enter a title">
+            <input type="file" name="Attachments" multiple>
+        </div>
         <div style="text-align: center;">
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
+        <!-- 나머지 폼 요소들 -->
         @*<a class="btn btn-outline-dark"
-           asp-controller="Board"
-           asp-action="List"
-           asp-route-page="@(page)">목록</a>*@
+        asp-controller="Board"
+        asp-action="List"
+        asp-route-page="@(page)">목록</a>*@
     </form>
+
 </div>

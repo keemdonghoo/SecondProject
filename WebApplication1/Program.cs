@@ -23,8 +23,10 @@ namespace TeamProject
 
             builder.Services.AddSession(options => {
                 // Session Timeout ¼³Á¤ 
-                options.IdleTimeout = TimeSpan.FromMinutes(1);
+                options.IdleTimeout = TimeSpan.FromMinutes(60);
             });
+
+            builder.Services.AddHttpContextAccessor();
 
 
             // Add services to the container.

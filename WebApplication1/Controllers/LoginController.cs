@@ -16,20 +16,11 @@ namespace TeamProject.Controllers
         {
             this.userRepository = userRepository;
         }
+
         [HttpGet]
         public IActionResult Login(LoginRequest loginRequest)
         {
-            loginRequest = new()
-            {
-                Name = (string)TempData["Name"],
-                PassWord = (string)TempData["PassWord"],
-            };
             return View(loginRequest);
-        }
-        [HttpGet("FindId")]
-        public async Task<IActionResult> FindId(string name, LoginRequest loginRequest)
-        { 
-            var Exsist = await
         }
 
 
@@ -131,9 +122,11 @@ namespace TeamProject.Controllers
 			}
 
 			HttpContext.Session.SetString("UserId", existingUser.Id.ToString());
+            HttpContext.Session.SetString("IsLoggedIn", "true");
+            HttpContext.Session.SetString("IsAdmin",existingUser.IsAdmin.ToString());
 
-			// 로그인 성공 후 리다이렉트할 페이지를 지정합니다.
-			return RedirectToAction("Index", "Home");
+            // 로그인 성공 후 리다이렉트할 페이지를 지정합니다.
+            return RedirectToAction("Index", "Home");
 		}
 	}
 }

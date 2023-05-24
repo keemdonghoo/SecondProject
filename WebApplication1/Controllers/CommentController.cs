@@ -33,7 +33,9 @@ namespace TeamProject.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Add(AddCommentRequest addCommentRequest,int postId)
 		{
-			addCommentRequest.Validate();
+            string userId = HttpContext.Session.GetString("UserId");
+
+            addCommentRequest.Validate();
 			if (addCommentRequest.HasError)
 			{
 				TempData["ContentError"] = addCommentRequest.ErrorContent;
@@ -54,7 +56,7 @@ namespace TeamProject.Controllers
 					PostId = postId,
 					Content = addCommentRequest.Content,
 					RegDate = DateTime.Now,
-					UserId = 3,
+					UserId = long.Parse(userId),
 				};
 
 				await writeRepository.AddCommentAsync(comment);
@@ -95,6 +97,7 @@ namespace TeamProject.Controllers
 		[HttpGet("comment/userscommentlist/{userId}")]
 		public async Task<IActionResult> UsersCommentList(long userId)
 		{
+
 			var comments = await writeRepository.GetUserCommentAsync(userId);
 			return View(comments);
 		}

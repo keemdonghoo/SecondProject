@@ -15,9 +15,11 @@ namespace TeamProject.Controllers
 		[HttpPost]
 		public async Task<IActionResult> ToggleLike(long postId)
 		{
-			try
+            string userId = HttpContext.Session.GetString("UserId");
+            try
 			{
-				var userUid = 3; // 사용자 UID
+				var userUid = long.Parse(userId); // 사용자 UID
+
 				var isLiked = await writeRepository.ToggleLikeAsync(userUid, postId);
 
 

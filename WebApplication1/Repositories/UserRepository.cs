@@ -9,6 +9,7 @@ namespace TeamProject.Repositories
         private readonly MovieDbContext movieDbContext;
         public UserRepository(MovieDbContext movieDbContext) 
         {
+           
             this.movieDbContext = movieDbContext;
         }
 
@@ -19,7 +20,7 @@ namespace TeamProject.Repositories
             return user;
         }
 
-      
+        
 
         public async Task<IEnumerable<User>> GetAllAsync()
         {
@@ -35,12 +36,10 @@ namespace TeamProject.Repositories
 
         public async Task<User?> GetByNameAsync(string name)
         {
-            var existingUser = await movieDbContext.Users.FindAsync(name);
-            if (existingUser != null)
-            {
-                return existingUser;
-            }
-            return null;
+            var exsistingUser = await movieDbContext.Users.FirstOrDefaultAsync(u=>u.Name == name);
+            if (exsistingUser == null) return null;
+
+            return exsistingUser;
         }
 
         public async Task<User?> DeleteAsync(long id)

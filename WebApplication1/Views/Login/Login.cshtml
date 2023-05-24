@@ -1,8 +1,11 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@model TeamProject.Models.ViewModels.LoginRequest
 @{
+    ViewData["Title"] = "로그인";
 }
+
 <body>
     <section class="login spad">
         <div class="container">
@@ -11,14 +14,17 @@
                     <div class="login__form">
                         <h3>Login</h3>
                         <form action="#">
+
                             <div class="input__item">
-                                <input type="text" placeholder="아이디를 입력하세요">
+                                <input type="text" placeholder="아이디를 입력하세요" asp-for="Name">
                                 <span class="icon_mail"></span>
                             </div>
+
                             <div class="input__item">
-                                <input type="text" placeholder="비밀번호를 입력하세요">
+                                <input type="text" placeholder="비밀번호를 입력하세요" asp-for="PassWord">
                                 <span class="icon_lock"></span>
                             </div>
+
                             <button type="submit" class="site-btn">Login Now</button>  <!--로그인하기-->
                         </form>
                         <a href="#" class="forget_pass">Forgot Your Password?</a> <!--아이디 빌밀번호찾기-->

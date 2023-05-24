@@ -17,10 +17,17 @@ namespace TeamProject.Controllers
             this.userRepository = userRepository;
         }
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(LoginRequest loginRequest)
         {
-            return View();
+            loginRequest = new()
+            {
+                Name = (string)TempData["Name"],
+                PassWord = (string)TempData["PassWord"],
+            };
+            return View(loginRequest);
         }
+        [HttpGet("FindId")]
+        public async Task<IActionResult> FindId(string name)
 
 
         [HttpGet]
@@ -43,12 +50,13 @@ namespace TeamProject.Controllers
             return View(addUserRequest);
         }
 
+
         [HttpGet("CheckId")]
-        public async Task<IActionResult> CheckId(string id, AddUserRequest addUserRequest)
+        public async Task<IActionResult> CheckId(string name, AddUserRequest addUserRequest)
         {
             
             
-            var isExsist = await userRepository.GetByNameAsync(id);
+            var isExsist = await userRepository.GetByNameAsync(name);
             if (isExsist == null)
             {
                 //addUserRequest.NameCheck = true;

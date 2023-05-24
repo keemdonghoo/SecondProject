@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+
+<!DOCTYPE html>
 <html lang="kr">
 <head>
     <meta charset="utf-8" />
@@ -40,7 +43,7 @@
             <div class="row">
                 <div class="col-lg-2">
                     <div class="header__logo">
-                        <a href="@Url.Action("Index", "Home")">
+                        <a asp-controller="Home" asp-action="Index">
                             <img src="~/img/logo.png" alt="">
                         </a>
                     </div>
@@ -49,14 +52,10 @@
                     <div class="header__nav">
                         <nav class="header__menu mobile-menu">
                             <ul>
-                                <li class="active"><a href="@Url.Action("Index", "Home")">Homepage</a></li>
-                                @*<li>
-                                <a href="#">Info <span class="arrow_carrot-down"></span></a>
-                                <ul class="dropdown">
-                                <li><a href="../Views/Login/SignUp.cshtml">Sign Up</a></li>
-                                <li><a href="../Views/Login/Login.cshtml">Login</a></li>
-                                </ul>
-                                </li>*@
+                                <li class="active"><a asp-controller="Home" asp-action="Index">Homepage</a></li> <!--홈버튼-->
+                                
+
+
                                 <li><a asp-controller="Board" asp-action="List" asp-route-id="1">게시판</a></li>
                                 <li><a href="#">Contacts</a></li>
                             </ul>
@@ -64,9 +63,33 @@
                     </div>
                 </div>
 
+                @{
+                    string isLoggedIn = HttpContextAccessor.HttpContext.Session.GetString("IsLoggedIn");
+                }
+
+                @if (isLoggedIn == "true")
+                {
+                    <div class="col-lg-2">
+                        <div class="header__right">
+                            <a asp-controller="User" asp-action="Mypage"><span class="icon_profile"></span></a>
+                             <a asp-controller="Login" asp-action="Logout"><span class="icon_i"></span></a>
+
+
+                            <a href="#" class="search"><span class="icon_search"></span></a>
+                            <div id="searchBox" style="width: 0; overflow: hidden; transition: width 0.5s;">
+                                <input type="text" placeholder="Search..." />
+                            </div>
+                        </div>
+                    </div>
+               
+                }
+                else
+                {
                 <div class="col-lg-2">
                     <div class="header__right">
-                        <a href="@Url.Action("Index", "Home")"><span class="icon_profile"></span></a>
+                        <a asp-controller="Login" asp-action="Login"><span class="icon_profile"></span></a>
+
+
                         <a href="#" class="search"><span class="icon_search"></span></a>
 
                         <div id="searchBox" style="width: 0; overflow: hidden; transition: width 0.5s;">
@@ -75,7 +98,7 @@
 
                     </div>
                 </div>
-
+                }
             </div>
             <div id="mobile-menu-wrap"></div>
         </div>
@@ -133,5 +156,6 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>

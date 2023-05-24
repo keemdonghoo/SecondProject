@@ -1,13 +1,21 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.ComponentModel;
 using System.Text.RegularExpressions;
 
 namespace TeamProject.Models.ViewModels
 {
+    
+    public class NameCheckResponse
+    {
+        public bool IsDuplicate { get; set; }
+    }
     public class AddUserRequest
     {
        
         public string Name { get; set; }
-        public bool NameCheck { get; set; }
+        
+        public bool? NameCheck { get; set; }
         public string PassWord { get; set; }
         public string PassWordCheck { get; set; }
         public string UserName { get; set; }
@@ -31,7 +39,7 @@ namespace TeamProject.Models.ViewModels
       
         public void Validate()
         {
-            if (NameCheck)
+            if (NameCheck == null)
             {
                 ErrorName = "아이디중복확인";
                 HasError = true;
@@ -50,7 +58,7 @@ namespace TeamProject.Models.ViewModels
                 ErrorPassWord = "비밀번호는 대문자,특수문자 포함 8자리이상";
                 HasError = true;
             }
-            else if (PassWord == PassWordCheck)
+            else if (PassWord != PassWordCheck)
             {
                 ErrorPassWord = "비밀번호가 일치하지 않습니다.";
                 HasError = true;
@@ -64,7 +72,7 @@ namespace TeamProject.Models.ViewModels
             }
 
             //-----------전화번호 검증
-            regex = new Regex(@"^(\+82|0)[1-9]\d{1,2}-\d{3,4}-\d{4}$");
+            regex = new Regex(@"^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$");
             if (PhoneNum.IsNullOrEmpty())
             {
                 ErrorPhoneNum = "전화번호 입력 필수";
@@ -72,7 +80,7 @@ namespace TeamProject.Models.ViewModels
             }
             else if (!regex.IsMatch(PhoneNum))
             {
-                ErrorPassWord = "올바른 전화번호가 아닙니다.";
+                ErrorPhoneNum = "올바른 전화번호가 아닙니다.";
                 HasError = true;
             }
 

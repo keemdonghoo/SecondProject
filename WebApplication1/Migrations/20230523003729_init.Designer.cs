@@ -12,7 +12,7 @@ using TeamProject.Data;
 namespace TeamProject.Migrations
 {
     [DbContext(typeof(MovieDbContext))]
-    [Migration("20230522071626_init")]
+    [Migration("20230523003729_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -58,6 +58,10 @@ namespace TeamProject.Migrations
 
                     b.Property<long>("PostId")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

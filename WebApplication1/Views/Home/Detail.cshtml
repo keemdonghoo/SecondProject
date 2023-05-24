@@ -1,7 +1,7 @@
-﻿@{
-    ViewData["Title"] = "KMOVIES";
+﻿@model TeamProject.Models.Domain.Movie
+@{
 }
-
+@* @Url.Action("Index", "Home") *@
 <script src="~/js/detail.js"></script>
 
 <body>
@@ -25,7 +25,7 @@
             <div class="anime__details__content">
                 <div class="row">
                     <div class="col-lg-3">
-                        <div class="anime__details__pic set-bg" data-setbg="/img/anime/details-pic.jpg">
+                        <div class="anime__details__pic set-bg" data-setbg="img/anime/details-pic.jpg">
                             <div class="comment"><i class="fa fa-comments"></i> 11</div>
                             <div class="view"><i class="fa fa-eye"></i> 9141</div>
                         </div>
@@ -64,11 +64,47 @@
                         </div>
                     </div>
                 </div>
+
+                <hr />
+                <!-- Review Start-->
+                <div class="col-lg-8 col-md-8">
+                    <div class="anime__details__review">
+
+                        <div class="section-title">
+                            <h5>Reviews</h5>
+                        </div>
+
+                        <!-- 사용자가 리뷰를 작성함에 따라 실시간 추가 및 삭제 -->
+                        <div class="anime__review__item">
+                            <div class="anime__review__item__pic">
+                            </div>
+                            <div class="anime__review__item__text">
+                                <h6>Chris Curry - <span>1</span> <span>Hour ago</span> </h6>
+                                <p>
+                                    whachikan Just noticed that someone categorized this as belonging to the genre
+                                    "demons" LOL
+                                </p>
+                            </div>
+                        </div>
+
+                        
+                    </div>
+                    
+                    <!-- Review Text Start -->
+                    <div class="anime__details__form">
+                        <div class="section-title">
+                            <h5>Your Review</h5>
+                        </div>
+                        <form action="#">
+                            <textarea placeholder="Your Comment"></textarea>
+                            <button type="submit"><i class="fa fa-location-arrow"></i> Review</button>
+                        </form>
+                    </div>
+                    <!-- Review Text End -->
+
+                </div>
+                <!-- Review End -->
             </div>
         </div>
     </section>
-    <!-- Anime Section End -->
-    
-    <!-- Js Plugins -->
-
 </body>

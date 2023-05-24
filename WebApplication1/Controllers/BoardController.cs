@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TeamProject.Repositories;
 using TeamProject.Common;
+using ActionResult = Microsoft.AspNetCore.Mvc.ActionResult;
+using Controller = Microsoft.AspNetCore.Mvc.Controller;
+
 namespace TeamProject.Controllers
 {
     //게시판 컨트롤러

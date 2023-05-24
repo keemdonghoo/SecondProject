@@ -94,9 +94,11 @@
 
 
                         <a href="#" class="search"><span class="icon_search"></span></a>
+
                         <div id="searchBox" style="width: 0; overflow: hidden; transition: width 0.5s;">
                             <input type="text" placeholder="Search..." />
                         </div>
+
                     </div>
                 </div>
                 }
@@ -121,13 +123,13 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="footer__logo">
-                        <a href="../Views/Home/index.html"><img src="~/img/logo.png" alt=""></a>
+                        <a href="@Url.Action("Index", "Home")"><img src="~/img/logo.png" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="footer__nav">
                         <ul>
-                            <li class="active"><a href="../Views/Home/index.html">Homepage</a></li>
+                            <li class="active"><a href="@Url.Action("Index", "Home")">Homepage</a></li>
                         </ul>
                     </div>
                 </div>
@@ -144,6 +146,7 @@
     <!-- Footer Section End -->
 
     <!-- Js Plugins -->
+    <script src="~/js/DbSearch.js"></script>
     <script src="~/js/jquery-3.3.1.min.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
     <script src="~/js/player.js"></script>

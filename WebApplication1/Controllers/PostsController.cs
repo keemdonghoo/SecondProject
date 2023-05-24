@@ -6,6 +6,8 @@ using TeamProject.Data;
 using TeamProject.Models.Domain;
 using TeamProject.Models.ViewModels;
 using TeamProject.Repositories;
+using ActionResult = Microsoft.AspNetCore.Mvc.ActionResult;
+using Controller = Microsoft.AspNetCore.Mvc.Controller;
 
 
 namespace TeamProject.Controllers
@@ -199,8 +201,6 @@ namespace TeamProject.Controllers
 
             return View(post);
         }
-
-
 
         // posts/userspostlist/userid
         [HttpGet("posts/userspostlist/{userId}")]

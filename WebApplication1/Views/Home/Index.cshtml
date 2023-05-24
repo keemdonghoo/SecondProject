@@ -4,7 +4,7 @@
 
 <script src="~/js/API_Script.js"></script>
 
-<body>
+<body data-detail-url-base='@Url.Action("Detail", "Home")'>
     <!-- Hero Section Begin -->
     <section class="hero">
         <div class="container">
@@ -13,6 +13,7 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="hero__text">
+
                                 <div class="label">Adventure</div>
                                 <h2>Fate / Stay Night: Unlimited Blade Works</h2>dda
                                 <p>After 30 days of travel across the world...</p>
@@ -33,21 +34,22 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section 
     <!-- Hero Section End -->
+
     <!-- Product Section Begin -->
     <section class="product spad">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-md-8 col-sm-8">
                     <div class="section-title">
-                        <h4>now in theaters</h4>
-                    </div>
-                </div>
-                <div class="row" id="movie-container">
-                    <!-- 동적으로 생성된 영화 정보 삽입-->
+                    <h4>now in theaters</h4>
                 </div>
             </div>
+            <div class="row" id="movie-container">
+                <!-- 동적으로 생성된 영화 정보 삽입-->
+            </div>
+        </div>
     </section>
     <!-- Product Section End -->
 

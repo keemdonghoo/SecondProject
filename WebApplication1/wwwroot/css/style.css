@@ -422,6 +422,8 @@ ol {
 .header__right {
 	text-align: right;
 	padding: 20px 0 15px;
+	display:flex;
+	
 }
 
 .header__right a {
@@ -434,6 +436,8 @@ ol {
 .header__right a:last-child {
 	margin-right: 0;
 }
+
+
 
 .slicknav_menu {
 	display: none;

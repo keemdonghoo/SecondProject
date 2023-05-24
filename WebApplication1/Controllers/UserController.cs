@@ -44,7 +44,10 @@ namespace TeamProject.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Update(long id)
 		{
-			var user = await userRepository.GetAsync(id);
+            string userId = HttpContext.Session.GetString("UserId");
+			id = long.Parse(userId);	
+
+            var user = await userRepository.GetAsync(id);
 			if (user == null) return View(null);
 
 			EditUserRequest userrequest = new()

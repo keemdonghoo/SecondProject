@@ -19,18 +19,9 @@ namespace TeamProject.Controllers
         [HttpGet]
         public IActionResult Login(LoginRequest loginRequest)
         {
-            loginRequest = new()
-            {
-                Name = (string)TempData["Name"],
-                PassWord = (string)TempData["PassWord"],
-            };
             return View(loginRequest);
         }
-        [HttpGet("FindId")]
-        public async Task<IActionResult> FindId(string name, LoginRequest loginRequest)
-        { 
-            var Exsist = await
-        }
+       
 
 
         [HttpGet]

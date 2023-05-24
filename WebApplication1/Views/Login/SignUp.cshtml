@@ -23,7 +23,8 @@
                             <div class="input__item">
 
                                 <input type="text" placeholder="ID" asp-for="Name">
-                                <input type="hidden" asp-for="NameCheck" value="false"/>
+
+                                <input type="hidden" asp-for="NameCheck"/>
                                 <span class="icon_profile"></span>
                                
                                 <button type="button" class="site-btn" onclick="checkId()">중복확인</button>

@@ -39,7 +39,7 @@ namespace TeamProject.Models.ViewModels
       
         public void Validate()
         {
-            if (!(bool)NameCheck)
+            if (NameCheck == null)
             {
                 ErrorName = "아이디중복확인";
                 HasError = true;

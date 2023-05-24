@@ -68,7 +68,7 @@ namespace TeamProject.Controllers
 			request.Validate();
 			if (request.HasError)
 			{
-				TempData["NameError"] = request.ErrorName;
+				
 				TempData["PassWordError"] = request.ErrorPassWord;
 				TempData["UserNameError"] = request.ErrorUserName;
 				TempData["PhoneNumError"] = request.ErrorPhoneNum;

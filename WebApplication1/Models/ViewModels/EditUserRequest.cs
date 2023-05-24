@@ -12,6 +12,7 @@ namespace TeamProject.Models.ViewModels
 		public long UserId { get; set; }
 		public string Name { get; set; }
 		public string PassWord { get; set; }
+		public string PassWordCheck { get; set; }
 		public string UserName { get; set; }
 		public string PhoneNum { get; set; }
 		public string NickName { get; set; }
@@ -28,17 +29,21 @@ namespace TeamProject.Models.ViewModels
 
 		public void Validate()
 		{
-			if (Name.IsNullOrEmpty())
+			
+            Regex regex = new Regex(@"^(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':""\\|,.<>/?]).{8,}$");
+            if (!PassWord.IsNullOrEmpty())
 			{
-				ErrorName = "아이디 입력은 필수입니다";
-				HasError = true;
-			}
-
-			if (PassWord.IsNullOrEmpty())
-			{
-				ErrorPassWord = "패스워드 입력은 필수입니다";
-				HasError = true;
-			}
+                if (!regex.IsMatch(PassWord))
+                {
+                    ErrorPassWord = "비밀번호는 대문자,특수문자 포함 8자리이상";
+                    HasError = true;
+                }
+                else if (PassWord != PassWordCheck)
+                {
+                    ErrorPassWord = "비밀번호가 일치하지 않습니다.";
+                    HasError = true;
+                }
+            }
 
 			if (UserName.IsNullOrEmpty())
 			{
@@ -46,17 +51,18 @@ namespace TeamProject.Models.ViewModels
 				HasError = true;
 			}
 
-			if (PhoneNum.IsNullOrEmpty())
+            regex = new Regex(@"^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$");
+            if (PhoneNum.IsNullOrEmpty())
 			{
 				ErrorPhoneNum = "휴대폰 번호 입력은 필수입니다";
 				HasError = true;
 			}
+            else if (!regex.IsMatch(PhoneNum))
+            {
+                ErrorPhoneNum = "올바른 전화번호가 아닙니다.";
+                HasError = true;
+            }
 
-			else if (!PhoneNumRegex.IsMatch(PhoneNum))
-			{
-				ErrorPhoneNum = "올바른 휴대폰 번호 형식으로 입력해주세요";
-				HasError = true;
-			}
 
 			if (NickName.IsNullOrEmpty())
 			{
@@ -64,18 +70,16 @@ namespace TeamProject.Models.ViewModels
 				HasError = true;
 			}
 
-			if (Email.IsNullOrEmpty())
-			{
-				ErrorEmail = "이메일 입력은 필수입니다";
-				HasError = true;
-			}
-
-			else if (!EmailRegex.IsMatch(Email))
-			{
-				ErrorEmail = "올바른 이메일 형식으로 입력해주세요";
-				HasError = true;
-			}
-		}
+            if (Email != null)
+            {
+                regex = new Regex(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
+                if (!regex.IsMatch(Email))
+                {
+                    ErrorEmail = "올바른 이메일이 아닙니다.";
+                    HasError = true;
+                }
+            }
+        }
 
 	
 	}

@@ -4,6 +4,8 @@ using TeamProject.Models.Domain;
 using TeamProject.Models.ViewModels;
 using TeamProject.Repositories;
 using static Azure.Core.HttpHeader;
+using ActionResult = Microsoft.AspNetCore.Mvc.ActionResult;
+using Controller = Microsoft.AspNetCore.Mvc.Controller;
 
 namespace TeamProject.Controllers
 {
@@ -44,7 +46,10 @@ namespace TeamProject.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Update(long id)
 		{
-			var user = await userRepository.GetAsync(id);
+            string userId = HttpContext.Session.GetString("UserId");
+			id = long.Parse(userId);	
+
+            var user = await userRepository.GetAsync(id);
 			if (user == null) return View(null);
 
 			EditUserRequest userrequest = new()

@@ -56,10 +56,14 @@
 		</div>
 
 		<div class="mb-3 mt-3">
+
 			<form method="POST" asp-controller="Like" asp-action="ToggleLike">
 				<input type="hidden" asp-for="@Model.Id" name="postId" />
-				<button type="submit" class="btn btn-primary"></button>
+				<button type="submit" class="btn btn-primary">
+					<span class="icon_like"></span>
+				</button>
 			</form>
+
 		</div>
 
 

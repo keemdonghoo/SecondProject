@@ -3,6 +3,9 @@ using TeamProject.Data;
 using TeamProject.Models.Domain;
 using TeamProject.Models.ViewModels;
 using TeamProject.Repositories;
+using ActionResult = Microsoft.AspNetCore.Mvc.ActionResult;
+using Controller = Microsoft.AspNetCore.Mvc.Controller;
+
 namespace TeamProject.Controllers
 {
     //
@@ -127,6 +130,18 @@ namespace TeamProject.Controllers
 
             // 로그인 성공 후 리다이렉트할 페이지를 지정합니다.
             return RedirectToAction("Index", "Home");
+		}
+
+        [HttpPost]
+		public async Task<IActionResult> Logout()
+		{
+			// 세션에서 사용자 정보 및 로그인 상태를 삭제합니다.
+			HttpContext.Session.Remove("UserId");
+			HttpContext.Session.Remove("IsLoggedIn");
+			HttpContext.Session.Remove("IsAdmin");
+
+			// 로그아웃 후 리다이렉트할 페이지를 지정합니다. (예: 로그인 페이지, 홈 페이지 등)
+			return RedirectToAction("Index", "Home");
 		}
 	}
 }

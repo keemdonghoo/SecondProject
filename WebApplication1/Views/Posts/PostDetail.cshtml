@@ -1,7 +1,7 @@
 ﻿@model TeamProject.Models.Domain.Post
 
 @{
-		
+
 }
 
 <h2>조회 - @Model.Id</h2>
@@ -13,18 +13,18 @@
 @if (Model != null)
 {
 	<div class="mb-3 mt-3 clearfix">
-        <span class="float-start me-2">id: @Model.Id</span>
-        <span class="float-end ms-4">작성일: @Model.Date</span>
-        <span class="float-end">조회수: @Model.ViewCnt</span>
+		<span class="float-start me-2">id: @Model.Id</span>
+		<span class="float-end ms-4">작성일: @Model.Date</span>
+		<span class="float-end">조회수: @Model.ViewCnt</span>
 	</div>
 
 
 	<section>
-        <form method="POST" name="frmDelete" asp-controller="Posts" asp-action="Delete">
+		<form method="POST" name="frmDelete" asp-controller="Posts" asp-action="Delete">
 			<input type="hidden" asp-for="Id">
 		</form>
 
-	
+
 		<div class="mb-3">
 			<label for="name">글 제목 :</label>
 			<span class="form-control">@Model.Title</span>
@@ -38,23 +38,75 @@
 			<span class="form-control">@Model.ViewCnt</span>
 		</div>
 
+		<div class="mb-3 mt-3">
+			<form method="POST" asp-controller="Like" asp-action="ToggleLike">
+				<input type="hidden" asp-for="@Model.Id" name="postId" />
+				<button type="submit" class="btn btn-primary">
+
+				
+				</button>
+			</form>
+		</div>
+
+
+		<table class="table table-hover mt-4">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Title</th>
+					<th>Original</th>
+					<th>저장경로</th>
+					<th>다운로드</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var f in @Model.Attachments)
+				{
+					<tr>
+						<td>@f.Id</td>
+						<td data-bs-toggle="collapse" data-bs-target="#file@(f.Id)">
+							<span class="btn btn-secondary text-white d-block">
+								@f.Title
+							</span>
+						</td>
+						<td>@f.OriginalName</td>
+						<td><a href="@f.RequestPath">@f.RequestPath</a></td>
+						<td><a class="btn btn-primary btn-sm" asp-controller="File" asp-action="Download" asp-route-id="@f.Id">다운로드</a></td>
+					</tr>
+					<tr id="file@(f.Id)" class="collapse">
+						<td colspan="6">
+							filesize: @f.Size byte<br>
+							mimetype: @f.ContentType<br>
+							@(f.Description)<br>
+							@if (f.IsImage)
+							{
+								<img src="@f.RequestPath" class="img-thumbnail" alt="@f.Title" style="width:320px; height:auto">
+
+								<br>
+							}
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+
 		<form method="POST" name="frmDeleteComment" asp-controller="Comment" asp-action="DeleteComment">
 			<input type="hidden" asp-for="Id" name="commentId">
 		</form>
 
 
 
-		@foreach (var comment in Model.Comments)
-{
-    <li class="comment-item">
-        <div class="comment-header">
-            <span class="comment-date">@comment.RegDate</span>
-            <span class="comment-user">@comment.User.NickName</span>
-            <button type="button" class="btn btn-outline-danger ms-2 btnDelComment" data-comment-id="@comment.Id">삭제</button>
-        </div>
-        <div class="comment-content">@comment.Content</div>
-    </li>
-}
+			@foreach (var comment in Model.Comments)
+			{
+			<li class="comment-item">
+				<div class="comment-header">
+					<span class="comment-date">@comment.RegDate</span>
+					<span class="comment-user">@comment.User.NickName</span>
+					<button type="button" class="btn btn-outline-danger ms-2 btnDelComment" data-comment-id="@comment.Id">삭제</button>
+				</div>
+				<div class="comment-content">@comment.Content</div>
+			</li>
+			}
 
 
 
@@ -72,7 +124,7 @@
 			<button type="submit" class="btn btn-primary">댓글 작성</button>
 		</form>
 
-		
+
 
 		<!-- 하단 링크 -->
 		<div class="d-flex">
@@ -89,7 +141,7 @@
 			<button type="button" class="btn btn-outline-danger ms-2" id="btnDel">삭제</button>
 
 			<a class="btn btn-outline-dark ms-2"
-		   asp-controller="Posts" asp-action="Write">
+		   asp-controller="Posts" asp-action="Create">
 				작성
 			</a>
 		</div>

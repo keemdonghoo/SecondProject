@@ -6,6 +6,7 @@ namespace TeamProject.Models.ViewModels
 {
     public class CreatePostViewModel
     {
+        public long Id { get; set; }
         //게시글 제목
         public string Title { get; set; }
         //게시글 내용
@@ -27,7 +28,9 @@ namespace TeamProject.Models.ViewModels
         //게시판은 여러개의 게시글이 있을 수 있다
         public Board Board { get; set; }
         public long BoardId { get; set; }
-		public IFormFile Attachment { get; set; } // 파일 첨부를 위한 속성 추가
+		public IEnumerable<IFormFile> Attachments { get; set; } // 파일 첨부를 위한 속성 추가
+
+		public string FileTitle { get; set; }
 
 
 		// Validation

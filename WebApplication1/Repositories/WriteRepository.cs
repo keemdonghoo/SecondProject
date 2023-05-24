@@ -29,6 +29,7 @@ namespace TeamProject.Repositories
 			return post;
 		}
 
+		
 
 		//특정 게시글의 댓글 작성하기
 		public async Task<Comment> AddCommentAsync(Comment comment)
@@ -45,18 +46,31 @@ namespace TeamProject.Repositories
 			return comment;
 		}
 
+
+
+
+		// 첨부파일 추가
 		public async Task<Attachment> AddAttachmentAsync(Attachment attachment)
+        {
+         
+
+            await movieDbContext.Attachments.AddAsync(attachment);
+            var changes = await movieDbContext.SaveChangesAsync();
+
+            if (changes == 0)
+            {
+                throw new Exception("데이터베이스에 파일을 추가하지 못했습니다.");
+            }
+
+            return attachment;
+        }
+
+		// 게시글의 첨부파일 읽어오기 
+		public async Task<List<Attachment>> GetAttachmentByPostIdAsync(long postId)
 		{
-			await movieDbContext.Attachments
-				.AddAsync(attachment);
-			var changes = await movieDbContext.SaveChangesAsync();
-
-			if (changes == 0)
-			{
-				throw new Exception("데이터베이스에 댓글을 추가하지 못했습니다.");
-			}
-
-			return attachment;
+			return await movieDbContext.Attachments
+				.Where(a => a.PostId == postId)
+				.ToListAsync();
 		}
 
 
@@ -169,15 +183,22 @@ namespace TeamProject.Repositories
 			var existingLike = await movieDbContext.Likes
 				.FirstOrDefaultAsync(l => l.UserId == userUid && l.PostId == postUid);
 
-			// 만약 Like가 이미 있다면, 삭제한다.
-			if (existingLike != null)
+			// 해당 게시물을 조회하고 LikeCnt 값을 가져온다.
+			var post = movieDbContext.Posts.FirstOrDefault(p => p.Id == postUid);
+			if (post != null)
 			{
-				movieDbContext.Likes.Remove(existingLike);
-			}
-			else // 그렇지 않으면 새로운 Like를 추가한다.
-			{
-				var newLike = new Like { UserId = userUid, PostId = postUid };
-				await movieDbContext.Likes.AddAsync(newLike);
+				// 만약 Like가 이미 있다면, 삭제한다.
+				if (existingLike != null)
+				{
+					movieDbContext.Likes.Remove(existingLike);
+					post.LikeCnt--; // LikeCnt 감소
+				}
+				else // 그렇지 않으면 새로운 Like를 추가한다.
+				{
+					var newLike = new Like { UserId = userUid, PostId = postUid };
+					await movieDbContext.Likes.AddAsync(newLike);
+					post.LikeCnt++; // LikeCnt 증가
+				}
 			}
 
 			// 변경 사항을 저장한다.
@@ -187,6 +208,8 @@ namespace TeamProject.Repositories
 			// Like가 삭제되었다면 false를, 추가되었다면 true를 반환한다.
 			return existingLike == null;
 		}
+
+
 
 		//조회수 증가
 		public async Task<Post?> IncViewCntAsync(long uid)

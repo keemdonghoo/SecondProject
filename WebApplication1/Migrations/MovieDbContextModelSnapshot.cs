@@ -56,6 +56,10 @@ namespace TeamProject.Migrations
                     b.Property<long>("PostId")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PostId");

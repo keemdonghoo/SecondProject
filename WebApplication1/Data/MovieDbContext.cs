@@ -5,7 +5,11 @@ namespace TeamProject.Data
 {
     public class MovieDbContext : DbContext
     {
-        public MovieDbContext(DbContextOptions options) : base(options)
+        public MovieDbContext()
+        {
+        }
+
+        public MovieDbContext(DbContextOptions<MovieDbContext> options) : base(options)
         {
         }
 

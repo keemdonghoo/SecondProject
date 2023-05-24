@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using TeamProject.Models.Domain;
 using TeamProject.Repositories;
+using ActionResult = Microsoft.AspNetCore.Mvc.ActionResult;
+using Controller = Microsoft.AspNetCore.Mvc.Controller;
 
 namespace TeamProject.Controllers
 {

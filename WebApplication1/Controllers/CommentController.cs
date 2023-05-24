@@ -2,6 +2,8 @@
 using TeamProject.Models.Domain;
 using TeamProject.Models.ViewModels;
 using TeamProject.Repositories;
+using ActionResult = Microsoft.AspNetCore.Mvc.ActionResult;
+using Controller = Microsoft.AspNetCore.Mvc.Controller;
 
 namespace TeamProject.Controllers
 {
@@ -54,7 +56,7 @@ namespace TeamProject.Controllers
 					PostId = postId,
 					Content = addCommentRequest.Content,
 					RegDate = DateTime.Now,
-					UserId = 3,
+					UserId = 2,
 				};
 
 				await writeRepository.AddCommentAsync(comment);

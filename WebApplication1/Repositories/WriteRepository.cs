@@ -73,6 +73,11 @@ namespace TeamProject.Repositories
 				.ToListAsync();
 		}
 
+		public async Task<Attachment> GetAttachmentId(long attachmentId)
+		{
+			return await movieDbContext.Attachments.FindAsync(attachmentId);
+				
+		}
 
 
 		//특정 게시글 삭제하기

@@ -10,7 +10,10 @@
     int pageRows = (int)ViewData["pageRows"];  // 한 '페이지' 에 표시할 글 개수
 }
 @{
-    string isLoggeIn = HttpContextAccessor.HttpContext.Session.GetString("IsLoggedIn");
+    string isLoggedIn = HttpContextAccessor.HttpContext.Session.GetString("IsLoggedIn");
+    string isLoggeIn = !string.IsNullOrEmpty(isLoggedIn) ? isLoggedIn : "false";
+
+    
     
 }
 <script src="~/js/Board/List.js"></script>

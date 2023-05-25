@@ -24,6 +24,7 @@ namespace TeamProject.Controllers
             string userId = HttpContext.Session.GetString("UserId");
 			id = long.Parse(userId);
             var user = await userRepository.GetAsync(id);
+			
             return View(user);
         }
 		

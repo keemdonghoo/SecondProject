@@ -15,23 +15,23 @@ namespace TeamProject.Controllers
             _dbContext = dbContext;
         }
 
-        public ActionResult SearchMovie(string title)
-        {
-            if (string.IsNullOrWhiteSpace(title))
-            {
-                return BadRequest("Title cannot be null or whitespace.");
-            }
+        //public ActionResult SearchMovie(string title)
+        //{
+        //    if (string.IsNullOrWhiteSpace(title))
+        //    {
+        //        return BadRequest("Title cannot be null or whitespace.");
+        //    }
 
-            var movie = _dbContext.Movies
-                .FirstOrDefault(m => m.Title.ToLower().Contains(title.ToLower()));
+        //    var movie = _dbContext.Movies
+        //        .FirstOrDefault(m => m.Title.ToLower().Contains(title.ToLower()));
 
-            if (movie == null)
-            {
-                return NotFound("No movie found with the given title.");
-            }
+        //    if (movie == null)
+        //    {
+        //        return NotFound("No movie found with the given title.");
+        //    }
 
-            return Json(movie);
-        }
+        //    return Json(movie);
+        //}
 
     }
 }

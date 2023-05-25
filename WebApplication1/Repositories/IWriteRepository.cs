@@ -60,8 +60,8 @@ namespace TeamProject.Repositories
         Task<IEnumerable<Post>> GetFromRowAsync(long boardId, int fromRow, int pageRows);
 
         Task<long> CountAsync();
-
-
-        //관리자 
+        
+        //리뷰 작성
+        Task SaveReviewAsync(Review review);
     }
 }

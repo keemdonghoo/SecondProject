@@ -264,5 +264,12 @@ namespace TeamProject.Repositories
                 .Take(pageRows)
                 .ToListAsync();
         }
+
+        //특정 영화(MovieId)의 리뷰 작성하기
+        public async Task SaveReviewAsync(Review review)
+        {
+            movieDbContext.Reviews.Add(review);
+            await movieDbContext.SaveChangesAsync();
+        }
     }
 }

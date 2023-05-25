@@ -1,78 +1,95 @@
 ﻿@model TeamProject.Models.ViewModels.EditUserRequest
 
 @{
-	ViewData["Title"] = $"마이페이지 - 개인정보 관리";
+    ViewData["Title"] = $"마이페이지 - 개인정보 관리";
 }
+<section class="signup spad">
+    <div class="container">
+        <dive class="row">
+            <div class="col-lg-12">
+                <div class="login__form">
 
-<div class="container mt-5">
-	<h2>마이페이지</h2>
-	<hr>
-	
+                    @if (Model != null)
+                    {
+                        <h3>Sign Up</h3>
+                        <h2 style="color : white">ID: @Model.Name</h2>
 
-	@if (Model != null)
-	{
-		<div class="mb-3 mt-3 clearfix">
-			<span class="float-start me-2">id: @Model.UserId</span>
-		</div>
 
-		<form method="POST">
-			<input type="hidden" asp-for="UserId" />
+                        <form method="POST">
+                            <input type="hidden" asp-for="UserId" />
+                            <input type="hidden" asp-for="Name" />
 
-			<div class="mb-3">
-				<label for="name">ID :</label>
-				<input type="text" class="form-control" placeholder="아이디를 입력해주세요" asp-for="Name">
-				<div><span class="text-danger">@TempData["NameError"]</span></div>
-			</div>
+                            <!--비밀번호-->
+                            <div><span class="text-danger">@TempData["PassWordError"]</span></div>
+                            <div class="input__item">
+                                <input type="password" placeholder="Password" asp-for="PassWord" value="@Model.PassWord">
+                                <span class="icon_lock"></span>
+                            </div>
 
-			<div class="mb-3 mt-3">
-				<label for="password">PassWord:</label>
-				<input type="text" class="form-control" placeholder="비밀번호를 입력해주세요" asp-for="PassWord">
-				<div><span class="text-danger">@TempData["PassWordError"]</span></div>
-			</div>
-			<div class="mb-3 mt-3">
-				<label for="username">이름:</label>
-				<input type="text" class="form-control" placeholder="이름을 입력해주세요" asp-for="UserName">
-				<div><span class="text-danger">@TempData["UserNameError"]</span></div>
-			</div>
-			<div class="mb-3 mt-3">
-				<label for="phonenum">핸드폰 번호 : </label>
-				<input type="text" class="form-control" placeholder="핸드폰 번호를 입력해주세요" asp-for="PhoneNum">
-				<div><span class="text-danger">@TempData["PhoneNumError"]</span></div>
-			</div>
-			<div class="mb-3 mt-3">
-				<label for="nickname">닉네임 : </label>
-				<input type="text" class="form-control" placeholder="닉네임을 입력해주세요" asp-for="NickName">
-				<div><span class="text-danger">@TempData["NickNameError"]</span></div>
-			</div>
-			<div class="mb-3 mt-3">
-				<label for="email">이메일</label>
-				<input type="text" class="form-control" placeholder="이메일을 입력해주세요" asp-for="Email">
-				<div><span class="text-danger">@TempData["EmailError"]</span></div>
-			</div>
+                            <div class="input__item">
+                                <input type="password" placeholder="Password Check" asp-for="PassWordCheck" value="@Model.PassWord">
+                                <span class="icon_lock"></span>
+                            </div>
+                            <!--UserName-->
+                            <div><span class="text-danger">@TempData["UserNameError"]</span></div>
+                            <div class="input__item">
 
-			<!-- 하단 링크 -->
-			<div class="d-flex">
-				<button type="submit" class="btn btn-outline-dark">수정완료</button>
-				<button type="button" class="btn btn-outline-dark ms-1" onclick="history.back()">이전으로</button>
-				<a class="btn btn-outline-dark ms-1" asp-controller="User" asp-action="MyPage" asp-route-id="@Model.UserId">마이페이지</a>
-				
-			</div>
-			<!-- 하단 링크 -->
-			@if (TempData["UpdateSuccess"] != null && (bool)TempData["UpdateSuccess"])
-			{
-				<script>
-					window.onload = function () {
-						alert("수정이 완료되었습니다!");
-					}
-				</script>
-			}
+                                <input type="text" class="form-control" placeholder="이름을 입력해주세요" asp-for="UserName">
+                                <span class="icon_profile"></span>
+                            </div>
+                            <!--사용자 PhoneNum-->
+                            <div><span class="text-danger">@TempData["PhoneNumError"]</span></div>
+                            <div class="input__item">
 
-		</form>
-	}
-	else
-	{
-		<script>
-			alert("데이터가 없습니다!");
-			history.back();
-		</script>
-	}
+                                <input type="text" class="form-control" placeholder="핸드폰 번호를 입력해주세요" asp-for="PhoneNum">
+                                <span class="icon_phone"></span>
+                            </div>
+                            <!--사용자 NickName-->
+                            <div><span class="text-danger">@TempData["NickNameError"]</span></div>
+                            <div class="input__item">
+
+                                <input type="text" class="form-control" placeholder="닉네임을 입력해주세요" asp-for="NickName">
+                                <span class="icon_profile"></span>
+                            </div>
+                            <div><span class="text-danger">@TempData["EmailError"]</span></div>
+                            <div class="input__item">
+                               
+                                <input type="text" class="form-control" placeholder="이메일을 입력해주세요" asp-for="Email">
+                                <span class="icon_mail"></span>
+                            </div>
+
+                            <!-- 하단 링크 -->
+                            <div class="d-flex">
+                                <button type="submit" class="site-btn">수정완료</button>
+                                <button type="button" class="site-btn" onclick="history.back()">이전으로</button>
+                                <button type="button" class="site-btn" asp-controller="User" asp-action="MyPage" asp-route-id="@Model.UserId">마이페이지</button>
+                                
+
+                            </div>
+                            <!-- 하단 링크 -->
+                            @if (TempData["UpdateSuccess"] != null && (bool)TempData["UpdateSuccess"])
+                            {
+                                <script>
+                                    window.onload = function () {
+                                        alert("수정이 완료되었습니다!");
+                                    }
+                                </script>
+                            }
+
+                        </form>
+                    }
+                    else
+                    {
+                        <script>
+                            alert("데이터가 없습니다!");
+                            history.back();
+                        </script>
+                    }
+                </div>
+            </div>
+
+        </dive>
+    </div>
+</section>
+
+

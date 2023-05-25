@@ -73,6 +73,11 @@ namespace TeamProject.Repositories
 				.ToListAsync();
 		}
 
+		public async Task<Attachment> GetAttachmentId(long attachmentId)
+		{
+			return await movieDbContext.Attachments.FindAsync(attachmentId);
+				
+		}
 
 
 		//특정 게시글 삭제하기
@@ -258,6 +263,13 @@ namespace TeamProject.Repositories
                 .Skip(fromRow)
                 .Take(pageRows)
                 .ToListAsync();
+        }
+
+        //특정 영화(MovieId)의 리뷰 작성하기
+        public async Task SaveReviewAsync(Review review)
+        {
+            movieDbContext.Reviews.Add(review);
+            await movieDbContext.SaveChangesAsync();
         }
     }
 }

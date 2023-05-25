@@ -1,3 +1,29 @@
+async function onMoviePosterClick(tmdbId, title) {
+    console.log(`tmdbId: ${tmdbId}, title: ${title}`);
+    const response = await fetch('/Movie/EnsureMovieInDatabase', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ tmdbid: tmdbId, tmdbTitle: title }),
+    });
+    if (!response.ok) {
+        console.error("HTTP Status Code:", response.status, response.statusText);
+        try {
+            const errorResponse = await response.json();
+            console.error("Server Error Response:", errorResponse.message);
+        } catch (error) {
+            console.error("Failed to parse server error response.");
+        }
+        console.error("Failed to ensure the movie in the database.");
+        return;
+    }
+    const result = await response.json();
+    window.location.href = result.detailUrl;
+}
+
+
+
 //한국영화진흥위원회 API를 사용하여 최대한 현재 상영중인 영화 받아오기
 async function getNowPlayingMoviesInKorea() {
     const apiKey = "295ad79fa848cceace936f1e2c005bf7";
@@ -89,9 +115,7 @@ async function renderMovies() {
     const nowPlayingMovies = await getNowPlayingMoviesInKorea();
     const container = document.getElementById("movie-container");
 
-    //영화 개수에 따라 동적으로 실행
     for (const movie of nowPlayingMovies) {
-        // 영문 제목이 비어있는 경우 한글 제목을 사용
         const searchQuery = movie.movieNmEn || movie.movieNm;
         const searchResult = await requestTMDBSearchAsync(searchQuery, movie.prdtYear);
 
@@ -104,41 +128,41 @@ async function renderMovies() {
         if (movieData.length === 0) {
             continue;
         }
-            
-        //영화 제목과 포스터의 정확도를 높임
+
         const bestMatch = findBestMatch(movie.movieNm, movieData);
 
-        // 성인물(에로) 장르를 제외
         if (bestMatch.adult) {
             continue;
         }
 
         const posterPath = bestMatch["poster_path"];
-
-        //포스터
         const posterBaseUrl = "https://image.tmdb.org/t/p/w500";
         const posterUrl = posterPath ? `${posterBaseUrl}${posterPath}` : "";
-
-        var detailUrlBase = document.body.dataset.detailUrlBase;
+        const detailUrlBase = document.body.dataset.detailUrlBase;
 
         const movieItem = `
-            <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="product__item">
-                    <a href="${detailUrlBase}?title=${encodeURIComponent(movie.movieNm)}">
-                        <div class="product__item__pic" style="background-image: url('${posterUrl}');">
-                            <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                            <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                        </div>
-                    </a>
-                    <div class="product__item__text">
-                        <ul>
-                            <li>Active</li>
-                            <li>Movie</li>
-                        </ul>
-                        <h5><a href="${detailUrlBase}?title=${encodeURIComponent(movie.movieNm)}">${movie.movieNm}</a></h5>
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="product__item">
+
+                <a href="javascript:void(0)" onclick="onMoviePosterClick(${bestMatch.id}, '${movie.movieNm}')">
+                    <div class="product__item__pic" style="background-image: url('${posterUrl}');">
+                        <div class="comment"><i class="fa fa-comments"></i> 11</div>
+                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
                     </div>
+                </a>
+
+                <div class="product__item__text">
+                    <ul>
+                        <li>Active</li>
+                        <li>Movie</li>
+                    </ul>
+                    <h5><a href="javascript:void(0)" onclick="onMoviePosterClick(${bestMatch.id})">${movie.movieNm}</a></h5>
+                    <input type="hidden" value="${bestMatch.id}" />
                 </div>
-            </div>`;
+            </div>
+        </div>`;
+
+
         const parser = new DOMParser();
         const movieItemDOM = parser.parseFromString(movieItem, 'text/html');
         container.appendChild(movieItemDOM.body.firstChild);

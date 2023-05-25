@@ -19,8 +19,10 @@ namespace TeamProject.Repositories
         // 게시글의 첨부파일 가져오기
         Task<List<Attachment>> GetAttachmentByPostIdAsync(long postId);
 
-		//특정 댓글 삭제
-		Task<Comment?> DeleteCommentAsync(long commentId);
+        Task<Attachment> GetAttachmentId(long attachmentId);
+
+        //특정 댓글 삭제
+        Task<Comment?> DeleteCommentAsync(long commentId);
 
 		//특정 게시글의 댓글 불러오기
 		Task<List<Comment>?> GetIdCommentAsync(long postId);
@@ -58,8 +60,8 @@ namespace TeamProject.Repositories
         Task<IEnumerable<Post>> GetFromRowAsync(long boardId, int fromRow, int pageRows);
 
         Task<long> CountAsync();
-
-
-        //관리자 
+        
+        //리뷰 작성
+        Task SaveReviewAsync(Review review);
     }
 }

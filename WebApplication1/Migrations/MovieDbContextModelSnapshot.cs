@@ -56,6 +56,10 @@ namespace TeamProject.Migrations
                     b.Property<long>("PostId")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PostId");
@@ -155,23 +159,11 @@ namespace TeamProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("Genre")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OverView")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PostPath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("MovieUid")
+                        .HasColumnType("bigint");
 
                     b.Property<float>("RateAvg")
                         .HasColumnType("real");
-
-                    b.Property<DateTime>("RegDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -415,7 +407,7 @@ namespace TeamProject.Migrations
             modelBuilder.Entity("TeamProject.Models.Domain.Review", b =>
                 {
                     b.HasOne("TeamProject.Models.Domain.Movie", "Movie")
-                        .WithMany()
+                        .WithMany("Reviews")
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -434,6 +426,11 @@ namespace TeamProject.Migrations
             modelBuilder.Entity("TeamProject.Models.Domain.Board", b =>
                 {
                     b.Navigation("Posts");
+                });
+
+            modelBuilder.Entity("TeamProject.Models.Domain.Movie", b =>
+                {
+                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("TeamProject.Models.Domain.Post", b =>

@@ -76,28 +76,48 @@
 
                         <!-- 사용자가 리뷰를 작성함에 따라 실시간 추가 및 삭제 -->
                         <div class="anime__review__item">
-                            <div class="anime__review__item__pic">
-                            </div>
                             <div class="anime__review__item__text">
-                                <h6>Chris Curry - <span>1</span> <span>Hour ago</span> </h6>
+                                <h6>UserId - <span> DatTime.Now(YYYY-MM-DD HH-MM) </span> </h6>
                                 <p>
-                                    whachikan Just noticed that someone categorized this as belonging to the genre
-                                    "demons" LOL
+                                    Comment
                                 </p>
                             </div>
                         </div>
 
-                        
+
                     </div>
-                    
+
                     <!-- Review Text Start -->
                     <div class="anime__details__form">
-                        <div class="section-title">
-                            <h5>Your Review</h5>
-                        </div>
-                        <form action="#">
-                            <textarea placeholder="Your Comment"></textarea>
-                            <button type="submit"><i class="fa fa-location-arrow"></i> Review</button>
+                        <form asp-controller="Home" asp-action="ReviewAdd" method="post">
+                            
+                            <!-- 리뷰 입력 부분 -->
+                            <div class="anime__details__form">
+                                <div class="section-title">
+                                    <h5>Your Review</h5>
+                                </div>
+                                <textarea name="review" placeholder="Your Comment"></textarea>
+                            </div>
+                            <!-- 영화 평점. 1~10까지 정수 -->
+                            <select class="rating-list" id="rating" name="rating">
+                                @for (int i = 1; i <= 10; i++)
+                                {
+                                    if (i == 5)
+                                    {
+                                        <option value="@i" selected>@i</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@i">@i</option>
+                                    }
+                                }
+                            </select>
+
+                            <!-- 영화 Id -->
+                            <input type="hidden" id="movieId" name="movieId" value="@Model.Id" />
+
+                            <!-- 제출 버튼 -->
+                            <button type="submit"><i class="fa fa-location-arrow"></i> 완료</button>
                         </form>
                     </div>
                     <!-- Review Text End -->

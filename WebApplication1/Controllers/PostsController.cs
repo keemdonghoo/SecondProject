@@ -205,7 +205,40 @@ namespace TeamProject.Controllers
 			return RedirectToAction("Board/list/1");
 		} // end action
 
-		[HttpGet("posts/postdetail/{Id}")]
+        public async Task<IActionResult> Download(long Id)
+        {
+            Attachment? file = await writeRepository.GetAttachmentId(Id);
+
+            if (file == null)
+            {
+                return RedirectToAction("Board/list/1");
+            }
+
+            // 물리적인 파일경로
+            string fileFullPath = Path.Combine(UploadDir, file.FileName);
+
+            try
+            {
+                // 파일을 바이트[] 로 읽음 (파일 읽기.  실패하면 예외 발생)
+                byte[] bytes = await System.IO.File.ReadAllBytesAsync(fileFullPath);
+
+                // 파일다운로드
+                return File(
+                        bytes,
+                        MimeUtility.GetMimeMapping(fileFullPath),
+                        file.OriginalName   // 실제 다운로드될 이름! 원본이름으로 다운로드
+                    );
+            }
+            catch (Exception ex)
+            {
+                var msg = $"파일 다운로드 예외 발생: {fileFullPath}";
+                await Console.Out.WriteLineAsync(msg);
+                return NotFound(msg);  // 보통은 redirect 혹은 error view 를 리턴.
+            }
+        }
+
+
+        [HttpGet("posts/postdetail/{Id}")]
         public async Task<IActionResult> PostDetail(long id)
         {
             if (id == null)

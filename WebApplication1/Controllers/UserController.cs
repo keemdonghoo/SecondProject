@@ -12,10 +12,12 @@ namespace TeamProject.Controllers
     public class UserController : Controller
     {
         private readonly IUserRepository userRepository;
+        private readonly IWriteRepository writeRepository;
 
-        public UserController(IUserRepository userRepository)
+        public UserController(IUserRepository userRepository, IWriteRepository writeRepository)
         {
             this.userRepository = userRepository;
+            this.writeRepository = writeRepository;
         }
 
         [HttpGet]
@@ -24,8 +26,10 @@ namespace TeamProject.Controllers
             string userId = HttpContext.Session.GetString("UserId");
 			id = long.Parse(userId);
             var user = await userRepository.GetAsync(id);
+			var posts = await writeRepository.GetUserPostAsync(id);
             return View(user);
         }
+		
 
         [HttpGet]
         public async Task<IActionResult> List()
@@ -46,7 +50,10 @@ namespace TeamProject.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Update(long id)
 		{
-			var user = await userRepository.GetAsync(id);
+            string userId = HttpContext.Session.GetString("UserId");
+			id = long.Parse(userId);	
+
+            var user = await userRepository.GetAsync(id);
 			if (user == null) return View(null);
 
 			EditUserRequest userrequest = new()
@@ -70,7 +77,7 @@ namespace TeamProject.Controllers
 			request.Validate();
 			if (request.HasError)
 			{
-				TempData["NameError"] = request.ErrorName;
+				
 				TempData["PassWordError"] = request.ErrorPassWord;
 				TempData["UserNameError"] = request.ErrorUserName;
 				TempData["PhoneNumError"] = request.ErrorPhoneNum;

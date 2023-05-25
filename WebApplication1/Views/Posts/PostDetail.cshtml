@@ -1,14 +1,38 @@
-﻿@model TeamProject.Models.Domain.Post
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@model TeamProject.Models.Domain.Post
 
 @{
 
 }
 
+@{
+	string userIdString = HttpContextAccessor.HttpContext.Session.GetString("UserId");
+	long userId = 0; // 초기값 설정
+	string isLoggedIn = "false";
+
+	if (!string.IsNullOrEmpty(userIdString) && long.TryParse(userIdString, out userId))
+	{
+		// 유효한 사용자 ID가 있는 경우
+		isLoggedIn = HttpContextAccessor.HttpContext.Session.GetString("IsLoggedIn");
+
+	}
+	else
+	{
+		// 로그인하지 않은 사용자 또는 잘못된 사용자 ID의 경우
+		userId = 0;
+		isLoggedIn = "false";
+	}
+}
+
 <h2>조회 - @Model.Id</h2>
 <hr>
 <script src="~/js/DeletePost/DeletePost.js"></script>
-
 <link rel="stylesheet" href="~/css/comment.css" asp-append-version="true" />
+@if (isLoggedIn == "false")
+{
+	<script src="~/js/Loggedin/LoggedIn.js"></script>
+}
 
 @if (Model != null)
 {
@@ -55,11 +79,18 @@
 			<span class="form-control">@Model.ViewCnt</span>
 		</div>
 
+		
+
 		<div class="mb-3 mt-3">
+
 			<form method="POST" asp-controller="Like" asp-action="ToggleLike">
 				<input type="hidden" asp-for="@Model.Id" name="postId" />
-				<button type="submit" class="btn btn-primary"></button>
+
+				<button type="submit" class="btn btn-primary" id="btnLike">
+					<span class="icon_like"></span>
+				</button>
 			</form>
+
 		</div>
 
 
@@ -71,6 +102,7 @@
 		</form>
 
 
+		
 
 			@foreach (var comment in Model.Comments)
 			{
@@ -78,14 +110,17 @@
 				<div class="comment-header">
 					<span class="comment-date">@comment.RegDate</span>
 					<span class="comment-user">@comment.User.NickName</span>
-					<button type="button" class="btn btn-outline-danger ms-2 btnDelComment" data-comment-id="@comment.Id">삭제</button>
+					@if (comment.User.Id == userId)
+					{
+						<button type="button" class="btn btn-outline-danger ms-2 btnDelComment" data-comment-id="@comment.Id">삭제</button>
+					}
 				</div>
 				<div class="comment-content">@comment.Content</div>
 			</li>
 			}
 
 
-
+		
 		<h3>댓글 작성</h3>
 		<form method="POST" asp-controller="Comment" asp-action="Add">
 			<input type="hidden" asp-for="@Model.Id" name="postId" />
@@ -97,25 +132,31 @@
 				<div><span class="text-danger">@TempData["ContentError"]</span></div>
 			</div>
 
-			<button type="submit" class="btn btn-primary">댓글 작성</button>
+			<button type="submit" class="btn btn-primary" id="btnComment">댓글 작성</button>
 		</form>
 
 
 
 		<!-- 하단 링크 -->
 		<div class="d-flex">
-			<a class="btn btn-outline-dark"
-		   asp-controller="Posts" asp-action="Update" asp-route-id="@Model.Id">
-				수정
-			</a>
 
+			@if (Model.UserId == userId)
+			{
+				<a class="btn btn-outline-dark"
+
+		   asp-controller="Posts" asp-action="Update" asp-route-id="@Model.Id">
+					수정
+				</a>
+			}
 			<a class="btn btn-outline-dark ms-2"
 		   asp-controller="Board" asp-action="List" asp-route-id="1">
 				목록
 			</a>
-
-			<button type="button" class="btn btn-outline-danger ms-2" id="btnDel">삭제</button>
-
+			
+			@if (Model.UserId == userId)
+			{
+				<button type="button" class="btn btn-outline-danger ms-2" id="btnDel">삭제</button>
+			}
 			<a class="btn btn-outline-dark ms-2"
 		   asp-controller="Posts" asp-action="Create">
 				작성

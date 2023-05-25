@@ -171,7 +171,10 @@ namespace TeamProject.Repositories
 		//특정 UserId의 모든 게시글 가져오기
 		public async Task<IEnumerable<Post>> GetUserPostAsync(long userId)
 		{
-			var posts = await movieDbContext.Posts.Where(x => x.UserId == userId).ToListAsync();
+			var posts = await movieDbContext
+				.Posts.Where(x => x.UserId == userId)
+				.Include(x=>x.User)		
+				.ToListAsync();
 			return posts.OrderByDescending(x => x.Id).ToList();
 		}
 

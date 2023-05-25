@@ -12,10 +12,12 @@ namespace TeamProject.Controllers
     public class UserController : Controller
     {
         private readonly IUserRepository userRepository;
+        private readonly IWriteRepository writeRepository;
 
-        public UserController(IUserRepository userRepository)
+        public UserController(IUserRepository userRepository, IWriteRepository writeRepository)
         {
             this.userRepository = userRepository;
+            this.writeRepository = writeRepository;
         }
 
         [HttpGet]
@@ -24,6 +26,7 @@ namespace TeamProject.Controllers
             string userId = HttpContext.Session.GetString("UserId");
 			id = long.Parse(userId);
             var user = await userRepository.GetAsync(id);
+			var posts = await writeRepository.GetUserPostAsync(id);
             return View(user);
         }
 		

@@ -1,12 +1,13 @@
-﻿ @model TeamProject.Models.Domain.User
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+ @model TeamProject.Models.Domain.User
 
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-  
-}
-
+	string userIdString = HttpContextAccessor.HttpContext.Session.GetString("UserId");
+ }
 @{
     ViewData["Title"] = "마이페이지";
 }

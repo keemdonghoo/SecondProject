@@ -1,4 +1,4 @@
-﻿ @model TeamProject.Models.Domain.User
+﻿@model TeamProject.Models.Domain.User
 
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -10,46 +10,142 @@
 @{
     ViewData["Title"] = "마이페이지";
 }
+<!-- Css Styles -->
+<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
+<link rel="stylesheet" href="css/plyr.css" type="text/css">
+<link rel="stylesheet" href="css/nice-select.css" type="text/css">
+<link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
+<link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
+<link rel="stylesheet" href="css/style.css" type="text/css">
+<body>
 
-<h1>마이페이지</h1>
+    <script src="~/js/DeleteUser/DeleteOk.js"></script>
+    <section class="product-page spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="product_page_content">
+                        <div class="product__page__title">
+                            <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-6">
+                                    <div class="section-title">
+                                        <h4>MyPage</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-<script src="~/js/DeleteUser/DeleteOk.js"></script>
 
-<form method="POST" name="frmDelete" asp-controller="User" asp-action="Delete">
-    <input type="hidden" asp-for="Id">
-</form>
+                        <div class="list__style">
+                            <div class="col-lg-8 col-md-8 col-sm-6">
+                                <style>
+                                    .list__style {
+                                        border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+                                        padding-bottom: 10px;
+                                        margin-bottom: 30px;
 
-<div>
+                                        color:white
+                                        
+                                    }
+                                    .list__style a {
+                                        padding-block: 50px;
+                                        padding-right: 50px;
+                                        color: white;
+                                    }
+                                    .list__style a:hover{
+                                        color: gray;
+                                    }
 
-    <a class="btn btn-outline-dark btn-lg" style="font-size: 24px;"
-       asp-controller="User" asp-action="Update" asp-route-id="@Model.Id">
-        개인정보 관리
-    </a>
-</div>
+                                    
+                                </style>
 
-<div>
-    <a class="btn btn-outline-dark btn-lg" style="font-size: 24px;"
-       asp-controller="Posts" asp-action="Userspostlist" asp-route-id="@Model.Id">
-        게시글 관리
-    </a>
+                                <a asp-controller="User" asp-action="Update" asp-route-id="@Model.Id">
+                                    개인정보관리
+                                </a>
+                                <a asp-controller="Posts" asp-action="Userspostlist" asp-route-id="@Model.Id">
+                                    게시글관리
+                                </a>
+                                <a asp-controller="Comment" asp-action="Userscommentlist" asp-route-id="@Model.Id">
+                                    댓글관리
+                                </a>
 
-</div>
+                            </div>
 
-<div>
-    <a class="btn btn-outline-dark btn-lg" style="font-size: 24px;"
-       asp-controller="Comment" asp-action="Userscommentlist" asp-route-id="@Model.Id">
-       댓글 관리
-    </a>
-</div>
+                        </div>
 
-<div>
-    <h2>리뷰 관리</h2>
+                        <!--
 
-</div>
+                        -->
+                        <script src="~/js/Board/List.js"></script>
 
-<div>
-    <h2>저장 목록</h2>
+                        <h2>게시판</h2>
+                        <hr>
+                        <div class="mb-3 mt-3 clearfix">
+                            <span class="float-start me-2">총 @(cnt)개</span>
+                            <span class="float-start">page @(page)/@(totalPage)</span>
+                            <span class="float-end">
+                                <form name="frmPageRows">
+                                    <input type="hidden" name="page" value="@(page)">
+                                    <select class="form-select" name="pageRows">
+                                        <option value="10" selected="@(pageRows == 10)">10</option>
+                                        <option value="15" selected="@(pageRows == 15)">15</option>
+                                        <option value="20" selected="@(pageRows == 20)">20</option>
+                                        <option value="50" selected="@(pageRows == 50)">50</option>
+                                    </select>
+                                </form>
+                            </span>
+                        </div>
+                        <table class="table table-hover">
+                            <thead class="table-success">
+                                <tr>
+                                    <th>번호</th>
+                                    <th>제목</th>
+                                    <th>작성자</th>
+                                    <th>조회수</th>
+                                    <th>작성일</th>
+                                    <th>좋아요</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null)
+                                {
+                                    foreach (var write in Model.Posts)
+                                    {
+                                        <tr>
+                                            <td>@write.Id</td>
+                                            <td>
+                                                <a asp-controller="Posts" asp-action="PostDetail"
+                                                   asp-route-id="@write.Id">@write.Title</a>
+                                            </td>
+                                            <td>@write.User.NickName</td>
+                                            <td>@write.ViewCnt</td>
+                                            <td>@write.Date</td>
+                                            <td>@write.LikeCnt</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                        <div class="row">
+                            <div class="col-12">
+                                <a class="btn btn-outline-dark" asp-controller="Posts" asp-action="Create">글쓰기</a>
+                                <a class="btn btn-outline-dark" asp-controller="Home" asp-action="Index">홈으로</a>
+                            </div>
+                        </div>
+                        <partial name="Pagination" />
 
-</div>
 
-<button type="button" class="btn btn-outline-danger ms-2" id="btnDel">회원탈퇴</button>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    <button type="button" class="btn btn-outline-danger ms-2" id="btnDel">회원탈퇴</button>
+    <form method="POST" name="frmDelete" asp-controller="User" asp-action="Delete">
+        <input type="hidden" asp-for="Id">
+    </form>
+    </section>
+</body>

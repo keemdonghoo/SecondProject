@@ -67,7 +67,7 @@
 				{
 					<div class="image-container">
 						<img src="@f.RequestPath" class="img-thumbnail" alt="@f.Title">
-						<a class="btn btn-primary btn-sm" asp-controller="File" asp-action="Download" asp-route-id="@f.Id">다운로드</a>
+						<a class="btn btn-primary btn-sm" asp-controller="Posts" asp-action="Download" asp-route-id="@f.Id">다운로드</a>
 					</div>
 					<br>
 				}
@@ -157,7 +157,8 @@
 			{
 				<button type="button" class="btn btn-outline-danger ms-2" id="btnDel">삭제</button>
 			}
-			<a class="btn btn-outline-dark ms-2"
+
+			<a Id ="btnCreate"class="btn btn-outline-dark ms-2"
 		   asp-controller="Posts" asp-action="Create">
 				작성
 			</a>

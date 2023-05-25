@@ -110,18 +110,34 @@ namespace TeamProject.Controllers
         public async Task<IActionResult> Login(string name, string password)
         {
 			User existingUser = await userRepository.GetByNameAsync(name);
+            if (name == null)
+            {
+                ModelState.AddModelError("", "Invalid username or password.");
+                TempData["NullId"] = "Invalid username or password.";
+                return View();
+            }
+            else if (password == null)
+            {
+                ModelState.AddModelError("", "Invalid username or password.");
+                TempData["NullPw"] = "Invalid username or password.";
+                return View();
+
+            }
 			if (existingUser == null)
 			{
-				// 사용자가 존재하지 않을 경우 로그인 실패 처리를 합니다.
-				return View();
+                // 사용자가 존재하지 않을 경우 로그인 실패 처리를 합니다.
+                ModelState.AddModelError("", "Invalid username or password.");
+                TempData["ErrorMessageId"] = "Invalid username or password.";
+                return View();
 			}
 
 			bool isPasswordValid = existingUser.PassWord == password;
 			if (!isPasswordValid)
 			{
-				// 비밀번호가 일치하지 않을 경우 로그인 실패 처리를 합니다.
-				ModelState.AddModelError("", "Invalid username or password.");
-				return View();
+                // 비밀번호가 일치하지 않을 경우 로그인 실패 처리를 합니다.
+                ModelState.AddModelError("", "Invalid username or password.");
+                TempData["ErrorMessagePw"] = "Invalid username or password.";
+                return View();
 			}
 
 			HttpContext.Session.SetString("UserId", existingUser.Id.ToString());

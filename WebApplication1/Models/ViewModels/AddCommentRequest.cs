@@ -8,6 +8,8 @@ namespace TeamProject.Models.ViewModels
 	{
 		// 댓글 내용
 		public string Content { get; set; }
+
+		public long UserId { get; set; }
 	
 
 		// Validation
@@ -27,6 +29,7 @@ namespace TeamProject.Models.ViewModels
 				ErrorContent = "내용은 10글자 이상 입력해야 합니다.";
 				HasError = true;
 			}
+
 		}
 	}
 }

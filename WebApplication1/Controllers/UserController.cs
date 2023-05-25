@@ -26,6 +26,7 @@ namespace TeamProject.Controllers
             var user = await userRepository.GetAsync(id);
             return View(user);
         }
+		
 
         [HttpGet]
         public async Task<IActionResult> List()

@@ -33,10 +33,7 @@ namespace TeamProject.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RegDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    OverView = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Genre = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PostPath = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MovieUid = table.Column<long>(type: "bigint", nullable: false),
                     RateAvg = table.Column<float>(type: "real", nullable: false)
                 },
                 constraints: table =>

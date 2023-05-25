@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using MimeMapping;
 using System.ComponentModel;
 using TeamProject.Data;
@@ -61,7 +63,7 @@ namespace TeamProject.Controllers
                 Date = DateTime.Now,
                 ViewCnt = createPostViewModel.ViewCnt,
                 LikeCnt = createPostViewModel.LikeCnt,
-                UserId = int.Parse(userId),
+                UserId = long.Parse(userId),
                 BoardId = 1,
             };
 
@@ -77,6 +79,72 @@ namespace TeamProject.Controllers
             TempData["PostId"] = post.Id.ToString();
 
             return RedirectToAction("PostDetail", new { id = post.Id });
+        }
+
+		[HttpGet]
+		public async Task<IActionResult> Update(long id)
+		{
+			
+			var post = await writeRepository.GetPostAsync(id);
+			if (post == null) return View(null);
+
+			CreatePostViewModel postrequest = new()
+			{
+				Title = (string)TempData["Title"] ?? post.Title,
+				Content = (string)TempData["Content"] ?? post.Content,				
+			};
+
+			return View(postrequest);
+		}
+
+        public async Task<IActionResult> Update(CreatePostViewModel createPostViewModel)
+        {
+            string userId = HttpContext.Session.GetString("UserId");
+
+            // Validation
+            createPostViewModel.ErrorCheck();
+            if (createPostViewModel.HasError)
+            {
+                TempData["TitleError"] = createPostViewModel.ErrorTitle;
+                TempData["ContentError"] = createPostViewModel.ErrorContent;
+
+                // 사용자가 입력했던 데이터
+                TempData["Title"] = createPostViewModel.Title;
+                TempData["Content"] = createPostViewModel.Content;
+
+                return RedirectToAction("Update");
+            }
+
+            var existingPost = await writeRepository.GetPostAsync(createPostViewModel.Id);
+            if (existingPost == null)
+            {
+                // 수정 실패하면 List 로
+                return RedirectToAction("Update");
+            }
+
+            existingPost.Title = createPostViewModel.Title;
+            existingPost.Content = createPostViewModel.Content;
+            existingPost.Date = DateTime.Now;
+
+            var updateWrite = await writeRepository.UpdatePostAsync(existingPost);
+
+      
+
+            if (createPostViewModel.Attachments != null && createPostViewModel.Attachments.Count() > 0)
+            {
+                var attachments = createPostViewModel.Attachments.ToList();
+
+                await Upload(createPostViewModel.FileTitle, attachments, existingPost.Id); // 파일 업로드
+            }
+
+            if (updateWrite == null)
+            {
+                // 수정 실패하면 List 로
+                return RedirectToAction("Update");
+            }
+
+            TempData["UpdateSuccess"] = true;
+            return RedirectToAction("PostDetail", new { id = createPostViewModel.Id });
         }
 
         [HttpPost]
@@ -206,6 +274,8 @@ namespace TeamProject.Controllers
         [HttpGet("posts/userspostlist/{userId}")]
         public async Task<IActionResult> UsersPostList(long userId)
         {
+             userId = long.Parse(HttpContext.Session.GetString("UserId"));
+
             var posts = await writeRepository.GetUserPostAsync(userId);
             return View(posts);
         }

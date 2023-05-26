@@ -266,17 +266,17 @@ namespace TeamProject.Repositories
         }
 
         //특정 영화(MovieId)의 리뷰 작성하기
-        public async Task SaveReviewAsync(Review review, long movieId, string userId)
+        public async Task SaveReviewAsync(Review review)
         {
             var movie = await movieDbContext.Movies
-                .FirstOrDefaultAsync(m => m.MovieUid == movieId);
+                .FirstOrDefaultAsync(m => m.MovieUid == review.MovieUid);
 
             if (movie != null)
             {
                 review.Movie = movie;
                 review.MovieUid = movie.MovieUid;
 
-                var user = await movieDbContext.Users.FirstOrDefaultAsync(u => u.Name == userId);
+                var user = await movieDbContext.Users.FirstOrDefaultAsync(u => u.Id == review.UserId);
                 if (user != null)
                 {
                     review.User = user;

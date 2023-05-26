@@ -55,7 +55,7 @@ namespace TeamProject.Controllers
 
         public class ReviewAddModel
         {
-            public long MovieId { get; set; }
+            public long MovieUid { get; set; }
             public int Rating { get; set; }
             public string Review { get; set; }
         }
@@ -69,7 +69,7 @@ namespace TeamProject.Controllers
             {
                 var addReview = new Review
                 {
-                    MovieUid = model.MovieId,
+                    MovieUid = model.MovieUid,
                     Rate = model.Rating,
                     Content = model.Review,
                     Date = DateTime.Now,
@@ -77,7 +77,7 @@ namespace TeamProject.Controllers
                 };
 
                 // 리포지토리에서 리뷰 저장 구현
-                await _writeRepository.SaveReviewAsync(addReview, model.MovieId, userId); // 수정된 부분
+                await _writeRepository.SaveReviewAsync(addReview); // 수정된 부분
 
                 // 리뷰를 성공적으로 추가했음을 나타내는 JSON 객체를 반환
                 return Json(new { success = true, review = addReview });

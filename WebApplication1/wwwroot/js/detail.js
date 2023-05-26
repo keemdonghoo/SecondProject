@@ -92,4 +92,127 @@ async function init() {
     }
 }
 
-document.addEventListener("DOMContentLoaded", init);
+function createReviewItem(review) {
+    // div 생성
+    const reviewDiv = document.createElement('div');
+    reviewDiv.className = 'anime__review__item';
+
+    // 내부 HTML 삽입
+    const userName = review.userNickname || 'Unknown User'; // 사용자 닉네임 가져오기
+    reviewDiv.innerHTML = `
+    <div class="anime__review__item__text">
+      <h6>${userName} <span> - </span> <span>${review.date}</span></h6>
+      <p>${review.content}</p>
+    </div>
+  `;
+
+    return reviewDiv;
+}
+
+
+
+//리뷰 항목 생성
+// ajax로 post 요청을 보내는 함수
+function sendPost(url, data) {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", url);
+        xhr.setRequestHeader('Content-type', 'application/json');
+        xhr.onload = () => {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                resolve(xhr.responseText);
+            } else {
+                reject(xhr.statusText);
+            }
+        };
+        xhr.onerror = () => reject(xhr.statusText);
+        xhr.send(JSON.stringify(data));
+    });
+}
+
+async function postReview(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const form = event.target;
+    const formData = new FormData(form);
+
+    // 폼 잠금
+    form.classList.add('disabled');
+    form.querySelectorAll('button').forEach(button => {
+        button.disabled = true;
+    });
+
+    try {
+        const data = {
+            movieUid: formData.get('movieId'),
+            review: formData.get('review'),
+            rating: formData.get('rating'),
+        };
+
+        // 사용자 정보를 함께 전달
+        const userId = sessionStorage.getItem('UserId');
+        data.userId = userId;
+
+        const response = await fetch('/Home/ReviewAdd', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+            const review = await response.json();
+
+            // 새로운 리뷰 항목 생성
+            const reviewItem = createReviewItem(review);
+
+            // 리뷰 섹션에 새 리뷰 항목 추가
+            const reviewSection = document.querySelector('.anime__details__review');
+            reviewSection.prepend(reviewItem);
+
+            // 폼 필드 초기화
+            form.reset();
+        } else {
+            throw new Error('Failed to post review');
+        }
+    } catch (error) {
+        console.error(error);
+    } finally {
+        // 폼 잠금 해제
+        form.classList.remove('disabled');
+        form.querySelectorAll('button').forEach(button => {
+            button.disabled = false;
+        });
+    }
+}
+
+
+
+document.addEventListener('DOMContentLoaded', async function () {
+    const title = getParameterByName("title");
+    if (title) {
+        const movieDetails = await getMovieDetails(title);
+        displayMovieDetails(movieDetails);
+
+        // 트레일러 링크 가져오기
+        const trailerLink = await getMovieTrailer(movieDetails.id);
+        if (trailerLink) {
+            // 트레일러 버튼에 링크 추가하기
+            const trailerBtn = document.querySelector('.anime__details__btn a');
+            trailerBtn.href = trailerLink;
+            trailerBtn.target = '_blank';
+            trailerBtn.innerText = 'Trailer';
+            trailerBtn.classList.add('follow-btn');
+        }
+    }
+
+    const reviewForm = document.querySelector('.anime__review__form');
+    if (reviewForm) {
+        reviewForm.removeEventListener('submit', postReview); // 기존 이벤트 리스너 제거
+        reviewForm.addEventListener('submit', postReview); // 수정된 이벤트 리스너 등록
+    } else {
+        console.log("Cannot find element with class '.anime__review__form'");
+    }
+});

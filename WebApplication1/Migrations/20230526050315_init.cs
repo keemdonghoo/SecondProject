@@ -121,14 +121,14 @@ namespace TeamProject.Migrations
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<long>(type: "bigint", nullable: false),
-                    MovieId = table.Column<long>(type: "bigint", nullable: false)
+                    MovieUid = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Review", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Review_Movie_MovieId",
-                        column: x => x.MovieId,
+                        name: "FK_Review_Movie_MovieUid",
+                        column: x => x.MovieUid,
                         principalTable: "Movie",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -286,9 +286,9 @@ namespace TeamProject.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Review_MovieId",
+                name: "IX_Review_MovieUid",
                 table: "Review",
-                column: "MovieId");
+                column: "MovieUid");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Review_UserId",

@@ -20,7 +20,6 @@
     <script src="~/js/Loggedin/LoggedIn.js"></script>
 }
 <body>
-
     <script src="~/js/DeleteUser/DeleteOk.js"></script>
     <section class="product-page spad">
         <div class="container">
@@ -61,7 +60,7 @@
 
 
                                 <span class="float-start me-2">총 @(cnt)개</span>
-                                <span class="float-start">page @(page)/@(totalPage)</span>
+                                <span>page @(page)/@(totalPage)</span>
                                 <span class="float-end">
                                     <form name="frmPageRows">
                                         <input type="hidden" name="page" value="@(page)">
@@ -72,11 +71,13 @@
                                             <option value="50" selected="@(pageRows == 50)">50</option>
                                         </select>
                                     </form>
-                                </span>
-                            </div>
-                            <table class="table table-hover">
 
-                                <thead class="table-success">
+                                </span>
+
+
+                            </div>
+                            <table class="table table-hover product__page__title" style="color: white">
+                                <thead class="product__page__title" style=" color: white">
                                     <tr>
                                         <th>번호</th>
                                         <th>제목</th>
@@ -94,7 +95,7 @@
                                             <tr>
                                                 <td>@write.Id</td>
                                                 <td>
-                                                    <a asp-controller="Posts" asp-action="PostDetail"
+                                                    <a style="color: white" asp-controller="Posts" asp-action="PostDetail"
                                                        asp-route-id="@write.Id">@write.Title</a>
                                                 </td>
                                                 <td>@write.User.NickName</td>
@@ -111,9 +112,9 @@
                             <div class="row">
                                 <div class="col-12">
 
-                                    <a id="btnCreate" class="btn btn-outline-dark" asp-controller="Posts" asp-action="Create">글쓰기</a>
+                                    <a id="btnCreate" class="site-btn" asp-controller="Posts" asp-action="Create">글쓰기</a>
 
-                                    <a class="btn btn-outline-dark" asp-controller="Home" asp-action="Index">홈으로</a>
+                                    <a class="site-btn" asp-controller="Home" asp-action="Index">홈으로</a>
                                 </div>
                             </div>
                             <partial name="Pagination" />

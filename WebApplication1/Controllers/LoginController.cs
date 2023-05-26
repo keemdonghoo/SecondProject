@@ -159,5 +159,10 @@ namespace TeamProject.Controllers
 			// 로그아웃 후 리다이렉트할 페이지를 지정합니다. (예: 로그인 페이지, 홈 페이지 등)
 			return RedirectToAction("Index", "Home");
 		}
+        [HttpGet]
+        public IActionResult FindID()
+        {
+            return View();
+        }
 	}
 }

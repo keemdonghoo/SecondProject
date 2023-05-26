@@ -15,13 +15,14 @@ namespace TeamProject.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly MovieDbContext movieDbContext;
-        private readonly WriteRepository writeRepository;
+        private readonly MovieDbContext _movieDbContext;
+        private readonly IWriteRepository _writeRepository;
 
-        public HomeController(ILogger<HomeController> logger, MovieDbContext movieDbContext)
+        public HomeController(ILogger<HomeController> logger, MovieDbContext movieDbContext, IWriteRepository writeRepository)
         {
             _logger = logger;
-            this.movieDbContext = movieDbContext;
+            _movieDbContext = movieDbContext;
+            _writeRepository = writeRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -38,7 +39,7 @@ namespace TeamProject.Controllers
         [Route("Home/Detail")]
         public async Task<IActionResult> Detail(string title)
         {
-            var movie = await movieDbContext.Movies.FirstOrDefaultAsync(m => m.Title == title);
+            var movie = await _movieDbContext.Movies.FirstOrDefaultAsync(m => m.Title == title);
             if (movie == null)
             {
                 return NotFound();
@@ -52,29 +53,42 @@ namespace TeamProject.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public async Task<IActionResult> ReviewAdd(long movieId, int rating, string review)
+        public class ReviewAddModel
+        {
+            public long MovieId { get; set; }
+            public int Rating { get; set; }
+            public string Review { get; set; }
+        }
+
+        [HttpPost]
+        [Route("Home/ReviewAdd")]
+        public async Task<IActionResult> ReviewAdd([FromBody] ReviewAddModel model)
         {
             string userId = HttpContext.Session.GetString("UserId");
             try
             {
                 var addReview = new Review
                 {
-                    MovieId = movieId,
-                    Rate = rating,
-                    Content = review,
+                    MovieUid = model.MovieId,
+                    Rate = model.Rating,
+                    Content = model.Review,
                     Date = DateTime.Now,
                     UserId = long.Parse(userId),
                 };
 
-                //리포지토리에서 리뷰 저장 구현
-                await writeRepository.SaveReviewAsync(addReview);
+                // 리포지토리에서 리뷰 저장 구현
+                await _writeRepository.SaveReviewAsync(addReview, model.MovieId, userId); // 수정된 부분
 
-                return RedirectToAction("Detail", "Home", new { id = movieId });
+                // 리뷰를 성공적으로 추가했음을 나타내는 JSON 객체를 반환
+                return Json(new { success = true, review = addReview });
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Error", "Home");
+                // 에러가 발생했음을 나타내는 JSON 객체를 반환
+                return Json(new { success = false, message = ex.Message });
             }
         }
+
+
     }
 }

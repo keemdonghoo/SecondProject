@@ -304,10 +304,35 @@ namespace TeamProject.Repositories
         }
 
         //특정 영화(MovieId)의 리뷰 작성하기
-        public async Task SaveReviewAsync(Review review)
+        public async Task SaveReviewAsync(Review review, long movieId, string userId)
         {
-            movieDbContext.Reviews.Add(review);
-            await movieDbContext.SaveChangesAsync();
+            var movie = await movieDbContext.Movies
+                .FirstOrDefaultAsync(m => m.MovieUid == movieId);
+
+            if (movie != null)
+            {
+                review.Movie = movie;
+                review.MovieUid = movie.MovieUid;
+
+                var user = await movieDbContext.Users.FirstOrDefaultAsync(u => u.Name == userId);
+                if (user != null)
+                {
+                    review.User = user;
+                    review.UserId = user.Id;
+
+                    movieDbContext.Reviews.AddAsync(review);
+                    await movieDbContext.SaveChangesAsync();
+                }
+                else
+                {
+                    throw new Exception("사용자를 찾을 수 없습니다.");
+                }
+            }
+            else
+            {
+                throw new Exception("영화를 찾을 수 없습니다.");
+            }
         }
+
     }
 }

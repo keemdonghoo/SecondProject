@@ -25,7 +25,7 @@
             <div class="anime__details__content">
                 <div class="row">
                     <div class="col-lg-3">
-                        <div class="anime__details__pic set-bg" data-setbg="img/anime/details-pic.jpg">
+                        <div class="anime__details__pic set-bg" data-setbg="">
                             <div class="comment"><i class="fa fa-comments"></i> 11</div>
                             <div class="view"><i class="fa fa-eye"></i> 9141</div>
                         </div>
@@ -77,7 +77,7 @@
                         <!-- 사용자가 리뷰를 작성함에 따라 실시간 추가 및 삭제 -->
                         <div class="anime__review__item">
                             <div class="anime__review__item__text">
-                                <h6>UserId - <span> DatTime.Now(YYYY-MM-DD HH-MM) </span> </h6>
+                                <h6>UserId <span> - </span> <span> DatTime.Now(YYYY-MM-DD HH-MM) </span></h6>
                                 <p>
                                     Comment
                                 </p>
@@ -87,17 +87,20 @@
 
                     </div>
 
+                    <div class="section-title">
+                        <h5>Your Review</h5>
+                    </div>
+
                     <!-- Review Text Start -->
                     <div class="anime__details__form">
-                        <form asp-controller="Home" asp-action="ReviewAdd" method="post">
-                            
-                            <!-- 리뷰 입력 부분 -->
+                        <form class="anime__review__form" asp-controller="Home" asp-action="ReviewAdd" method="post" onsubmit="return postReview(event)">
                             <div class="anime__details__form">
-                                <div class="section-title">
-                                    <h5>Your Review</h5>
-                                </div>
-                                <textarea name="review" placeholder="Your Comment"></textarea>
+
+                                <!-- 리뷰 입력 부분 -->
+                                <textarea id="review" name="review" placeholder="Your Comment"></textarea>
+
                             </div>
+
                             <!-- 영화 평점. 1~10까지 정수 -->
                             <select class="rating-list" id="rating" name="rating">
                                 @for (int i = 1; i <= 10; i++)
@@ -114,7 +117,7 @@
                             </select>
 
                             <!-- 영화 Id -->
-                            <input type="hidden" id="movieId" name="movieId" value="@Model.Id" />
+                            <input type="hidden" id="movieId" name="movieId" value="@Model.MovieUid" />
 
                             <!-- 제출 버튼 -->
                             <button type="submit"><i class="fa fa-location-arrow"></i> 완료</button>

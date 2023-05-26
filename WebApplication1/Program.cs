@@ -14,7 +14,7 @@ namespace TeamProject
         {
             var builder = WebApplication.CreateBuilder(args);
 
-
+            // 나머지 서비스 설정
             builder.Services.AddScoped<ITMDBService, TMDBService>();
 
             // Here, add HttpClient to the service container

@@ -44,6 +44,9 @@ namespace TeamProject.Repositories
         Task<Post?> UpdatePostAsync(Post post);
         //특정 게시글 삭제하기
         Task<Post?> DeletePostAsync(long postId);
+        // 관리자 선택한 게시글들 삭제하기
+        Task<Post> DeleteSelectedPosts(List<long> postIds);
+        Task<Comment> DeleteSelectedComments(List<long> commentIds);
         //특정 게시글 조회수 +1
         Task<Post?> IncViewCntAsync(long uid);
 

@@ -2,35 +2,48 @@
 @{
 
 }
+
 <h2>게시판</h2>
 <table class="table table-hover">
     <thead class="table-success">
         <tr>
+            <th>Check</th>
             <th>유저 고유 id</th>
             <th>유저ID</th>
+            <th>유저 이름</th>
             <th>유저 닉네임</th>
         </tr>
     </thead>
     <tbody>
         @if (Model != null)
         {
-            foreach (var users in Model)
+            foreach (var user in Model)
             {
                 <tr>
                     <td>
-                        <a asp-controller="User" asp-action="Update"
-                   asp-route-id="@users.Id">@users.Name</a>
+                        <input type="checkbox" name="selectedUserIds[]" value="@user.Id" />
+
                     </td>
+                    <td>
+                        <a asp-controller="Admin" asp-action="Update"
+                   asp-route-id="@user.Id">@user.Id</a>
+                    </td>
+                    <td>@user.Name</td>
+                    <td>@user.UserName</td>
+                    <td>@user.NickName</td>
                    
-                    <td>@users.NickName</td>
-                    <td>@users.UserName</td>
                 </tr>
             }
         }
     </tbody>
 </table>
+<script src="~/js/DeleteUser/deleteUsers.js"></script>
 <div class="row">
     <div class="col-12">
-        <a class="btn btn-outline-dark" asp-controller="Posts" asp-action="Create">글쓰기</a>
+        <button type="button" class="btn btn-outline-danger ms-2" id="btnDel">선택한 회원 추방</button>
+        <form method="POST" name="frmDelete" asp-controller="Admin" asp-action="DeleteSelectedUsers">
+            <input type="hidden" name="selectedUserIds[]" />
+        </form>
+
     </div>
 </div>

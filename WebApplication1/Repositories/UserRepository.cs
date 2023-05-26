@@ -7,9 +7,9 @@ namespace TeamProject.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly MovieDbContext movieDbContext;
-        public UserRepository(MovieDbContext movieDbContext) 
+        public UserRepository(MovieDbContext movieDbContext)
         {
-           
+
             this.movieDbContext = movieDbContext;
         }
 
@@ -20,13 +20,13 @@ namespace TeamProject.Repositories
             return user;
         }
 
-        
+
 
         public async Task<IEnumerable<User>> GetAllAsync()
         {
             var user = await movieDbContext.Users.ToListAsync();
             return user.OrderByDescending(x => x.Id).ToList();
-            
+
         }
 
         public async Task<User?> GetAsync(long id)
@@ -36,7 +36,7 @@ namespace TeamProject.Repositories
 
         public async Task<User?> GetByNameAsync(string name)
         {
-            var exsistingUser = await movieDbContext.Users.FirstOrDefaultAsync(u=>u.Name == name);
+            var exsistingUser = await movieDbContext.Users.FirstOrDefaultAsync(u => u.Name == name);
             if (exsistingUser == null) return null;
 
             return exsistingUser;
@@ -53,6 +53,26 @@ namespace TeamProject.Repositories
             }
             return null;
         }
+
+
+        public async Task<User> DeleteSelectedUsers(List<long> userIds)
+        {
+
+
+            var existingUsers = await movieDbContext.Users
+                .Where(user => userIds.Contains(user.Id))
+                .ToListAsync();
+
+            if (existingUsers!=null)
+            {
+                movieDbContext.Users.RemoveRange(existingUsers);
+                await movieDbContext.SaveChangesAsync();
+               
+            }
+
+            return null;
+        }
+
 
         public async Task<User?> UpdateAsync(User user)
         {

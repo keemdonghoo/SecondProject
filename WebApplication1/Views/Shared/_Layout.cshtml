@@ -65,10 +65,16 @@
 
                 @{
                     string isLoggedIn = HttpContextAccessor.HttpContext.Session.GetString("IsLoggedIn");
+                    string isAdmin = HttpContextAccessor.HttpContext.Session.GetString("IsAdmin");
                 }
-
+              
+             
                 @if (isLoggedIn == "true")
                 {
+                    @if (isAdmin == "True")
+                    {
+                        <a asp-controller="Admin" asp-action="Adminpage"><span class="icon_star"></span></a>
+                    }
                     <div class="col-lg-2">
                         <div class="header__right">
                             <a asp-controller="User" asp-action="Mypage"><span class="icon_profile"></span></a>

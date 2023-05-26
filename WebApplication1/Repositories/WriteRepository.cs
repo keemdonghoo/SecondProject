@@ -92,8 +92,28 @@ namespace TeamProject.Repositories
 			}
 			return null;
 		}
-		//댓글 삭제
-		public async Task<Comment?> DeleteCommentAsync(long Id)
+
+        // 관리자 선택한 게시글들 삭제하기
+        public async Task<Post> DeleteSelectedPosts(List<long> postIds)
+        {
+
+
+            var existingPosts = await movieDbContext.Posts
+                .Where(post => postIds.Contains(post.Id))
+                .ToListAsync();
+
+            if (existingPosts != null)
+            {
+                movieDbContext.Posts.RemoveRange(existingPosts);
+                await movieDbContext.SaveChangesAsync();
+
+            }
+
+            return null;
+        }
+
+        //댓글 삭제
+        public async Task<Comment?> DeleteCommentAsync(long Id)
 		{
 			var existingComment = await movieDbContext.Comments.FindAsync(Id);
 			if (existingComment != null)
@@ -105,9 +125,27 @@ namespace TeamProject.Repositories
 			return null;
 		}
 
+        // 관리자 선택한 댓글들 삭제하기
+        public async Task<Comment> DeleteSelectedComments(List<long> commentIds)
+        {
 
-		//게시판 id=1 의 게시글 목록 불러오기
-		public async Task<List<Post>?> GetAllPostAsync(long boardId = 1)
+
+            var existingComments = await movieDbContext.Comments
+                .Where(comment => commentIds.Contains(comment.Id))
+                .ToListAsync();
+
+            if (existingComments != null)
+            {
+                movieDbContext.Comments.RemoveRange(existingComments);
+                await movieDbContext.SaveChangesAsync();
+
+            }
+
+            return null;
+        }
+
+        //게시판 id=1 의 게시글 목록 불러오기
+        public async Task<List<Post>?> GetAllPostAsync(long boardId = 1)
 		{
 			//board 1의 게시글 리스트
 			var posts = await movieDbContext.Posts.Where(x => x.BoardId == boardId).ToListAsync();
@@ -268,8 +306,33 @@ namespace TeamProject.Repositories
         //특정 영화(MovieId)의 리뷰 작성하기
         public async Task SaveReviewAsync(Review review)
         {
-            movieDbContext.Reviews.Add(review);
-            await movieDbContext.SaveChangesAsync();
+            var movie = await movieDbContext.Movies
+                .FirstOrDefaultAsync(m => m.MovieUid == review.MovieUid);
+
+            if (movie != null)
+            {
+                review.Movie = movie;
+                review.MovieUid = movie.MovieUid;
+
+                var user = await movieDbContext.Users.FirstOrDefaultAsync(u => u.Id == review.UserId);
+                if (user != null)
+                {
+                    review.User = user;
+                    review.UserId = user.Id;
+
+                    movieDbContext.Reviews.AddAsync(review);
+                    await movieDbContext.SaveChangesAsync();
+                }
+                else
+                {
+                    throw new Exception("사용자를 찾을 수 없습니다.");
+                }
+            }
+            else
+            {
+                throw new Exception("영화를 찾을 수 없습니다.");
+            }
         }
+
     }
 }

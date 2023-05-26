@@ -156,7 +156,7 @@ async function renderMovies() {
                         <li>Active</li>
                         <li>Movie</li>
                     </ul>
-                    <h5><a href="javascript:void(0)" onclick="onMoviePosterClick(${bestMatch.id})">${movie.movieNm}</a></h5>
+                    <h5><a href="javascript:void(0)" onclick="onMoviePosterClick(${bestMatch.id}, '${movie.movieNm}')">${movie.movieNm}</a></h5>
                     <input type="hidden" value="${bestMatch.id}" />
                 </div>
             </div>

@@ -12,7 +12,7 @@ using TeamProject.Data;
 namespace TeamProject.Migrations
 {
     [DbContext(typeof(MovieDbContext))]
-    [Migration("20230525080247_init")]
+    [Migration("20230526064234_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -232,7 +232,7 @@ namespace TeamProject.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("MovieId")
+                    b.Property<long>("MovieUid")
                         .HasColumnType("bigint");
 
                     b.Property<float>("Rate")
@@ -243,7 +243,7 @@ namespace TeamProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MovieId");
+                    b.HasIndex("MovieUid");
 
                     b.HasIndex("UserId");
 
@@ -411,7 +411,7 @@ namespace TeamProject.Migrations
                 {
                     b.HasOne("TeamProject.Models.Domain.Movie", "Movie")
                         .WithMany("Reviews")
-                        .HasForeignKey("MovieId")
+                        .HasForeignKey("MovieUid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

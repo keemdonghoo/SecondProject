@@ -21,5 +21,8 @@ namespace TeamProject.Repositories
         // 유저 삭제
         Task<User?> DeleteAsync(long id);
 
+        // 관리자가 여러유저들 삭제
+        Task<User> DeleteSelectedUsers(List<long> userIds);
+
     }
 }

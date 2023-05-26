@@ -46,8 +46,9 @@ namespace TeamProject.Data
         {
             User admin1 = new() { Id = 1, UserName = "Admin1", PassWord = "1234", Name="주인장", PhoneNum="01011111111", NickName="주인장" , IsAdmin=true , Email="admin@ggg.aaa"}; 
             User user1 = new() { Id = 2, UserName = "User1", PassWord = "1234", Name="일반회원", PhoneNum="01022222222", NickName="일회1" , IsAdmin=false , Email="ilhoho@ggg.aaa"};
+            User user2 = new() { Id = 3, UserName = "User2", PassWord = "1234", Name="일반회원1", PhoneNum="01022222223", NickName="일회2" , IsAdmin=false , Email="ilhoho@ggg.bbb"};
 
-            var users = new List<User> { admin1, user1 };
+            var users = new List<User> { admin1, user1,user2 };
             modelBuilder.Entity<User>().HasData(users);
         }
 

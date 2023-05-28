@@ -1,0 +1,34 @@
+﻿@model List<TeamProject.Models.Domain.Comment>
+@{
+
+}
+<h2>게시판</h2>
+<table class="table table-hover">
+    <thead class="table-success">
+        <tr>
+            <th>번호</th>
+            <th>댓글 내용</th>
+            <th>작성자</th>
+            <th>작성일</th>
+  
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var comment in Model)
+            {
+                <tr>
+                    <td>
+                        <a asp-controller="Posts" asp-action="Postdetail"
+                   asp-route-id="@comment.PostId">@comment.Id</a>
+                    </td>
+                    <td>@comment.Content</td>
+                    <td>@comment.User?.NickName</td>
+                    <td>@comment.RegDate</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+

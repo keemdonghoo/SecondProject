@@ -1,0 +1,52 @@
+﻿@model List<TeamProject.Models.Domain.Post>
+@{
+
+}
+<h2>게시판</h2>
+<table class="table table-hover">
+    <thead class="table-success">
+        <tr>
+            <th>Check</th>
+            <th>번호</th>
+            <th>게시판ID</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>조회수</th>
+            <th>작성일</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var write in Model)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" name="selectedPostIds[]" value="@write.Id" />
+                    </td>
+                    <td>@write.Id</td>
+                    <td>@write.Board.Name</td>
+                    <td>
+                        <a asp-controller="Posts" asp-action="PostDetail"
+                   asp-route-id="@write.Id">@write.Title</a>
+                    </td>
+                    <td>@write.User.NickName</td>
+                    <td>@write.ViewCnt</td>
+                    <td>@write.Date</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<script src="~/js/DeletePost/DeletePosts.js"></script>
+<div class="row">
+    <div class="col-12">
+        <button type="button" class="btn btn-outline-danger ms-2" id="btnDel">선택한 글 삭제</button>
+        <form method="POST" name="frmDelete" asp-controller="Admin" asp-action="DeleteSelectedPosts">
+            <input type="hidden" name="selectedPostIds[]" />
+        </form>
+
+    </div>
+</div>
+<a asp-controller="Admin" asp-action="AdminPage" class="site-btn">관리자 페이지</a>
+

@@ -1,45 +1,150 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model WebApplication1.Models.ViewMoldels.AddUserRequest
+@model TeamProject.Models.ViewModels.AddUserRequest
+
 @{
     ViewData["Title"] = "회원가입";
+
 }
+<body>
+    
 
-<h2>작성</h2>
-<hr>
-<form method="post">
-    <div class="mb-3">
-        <label for="UserName">이름</label>
-        <input type="text" class="form-control" placeholder="이름을 입력하세요" asp-for="UserName">
-    </div>
+    <!-- Signup Section Begin -->
+    <section class="signup spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="login__form">
+                        <h3>Sign Up</h3>
+                        <form method="post">
+                            <!--아이디-->
+                            <div><span class="text-danger">@TempData["NameError"]</span></div>
+                            <div class="input__item">
 
-    <div class="mb-3 mt-3">
-        <label for="PhoneNum">핸드폰번호</label>
-        <input type="text" class="form-control" placeholder="핸드폰번호 입력하세요" asp-for="PhoneNum">
-    </div>
+                                <input type="text" placeholder="ID" asp-for="Name">
 
-    <div class="mb-3 mt-3">
-        <label for="Name">아이디</label>
-        <input type="text" class="form-control" placeholder="아이디를 입력하세요" asp-for="Name">
-    </div>
+                                <input type="hidden" asp-for="NameCheck"/>
+                                <span class="icon_profile"></span>
+                               
+                                <button type="button" class="site-btn" onclick="checkId()">중복확인</button>
+                            </div>
+                            <br>
+                            <!--비밀번호-->
+                            <div><span class="text-danger">@TempData["PassWordError"]</span></div>
+                            <div class="input__item">
+                                <input type="password" placeholder="Password" asp-for="PassWord">
+                                <span class="icon_lock"></span>
+                            </div>
 
-    <div class="mb-3 mt-3">
-        <label for="PassWord">비밀번호</label>
-        <input type="text" class="form-control" placeholder="비밀번호를 입력하세요" asp-for="PassWord">
-    </div>
+                            <div class="input__item">
+                                <input type="password" placeholder="Password Check" asp-for="PassWordCheck">
+                                <span class="icon_lock"></span>
+                            </div>
 
-    <div class="mb-3 mt-3">
-        <label for="Email">이메일</label>
-        <input type="text" class="form-control" placeholder="이메일을 입력하세요" asp-for="Email">
-    </div>
+                            <!--사용자 이름-->
+                            <div><span class="text-danger">@TempData["UserNameError"]</span></div>
+                            <div class="input__item">
 
-    <div class="mb-3 mt-3">
-        <label for="NickName">닉네임</label>
-        <input type="text" class="form-control" placeholder="닉네임을 입력하세요" asp-for="NickName">
-    </div>
+                                <input type="text" placeholder="이름입력" asp-for="UserName">
+                                <span class="icon_profile"></span>
+                            </div>
+
+                            <!--사용자 PhoneNum-->
+                            <div><span class="text-danger">@TempData["PhoneNumError"]</span></div>
+                            <div class="input__item">
+
+                                <input type="text" placeholder="전화번호 입력" asp-for="PhoneNum">
+                                <span class="icon_phone"></span>
+                            </div>
+
+                            <!--사용자 NickName-->
+                            <div><span class="text-danger">@TempData["NickNameError"]</span></div>
+                            <div class="input__item">
+
+                                <input type="text" placeholder="닉네임 입력" asp-for="NickName">
+                                <span class="icon_profile"></span>
+                            </div>
+
+                            <!--사용자 Email-->
+                            <div><span class="text-danger">@TempData["EmailError"]</span></div>
+                            <div class="input__item">
+
+                                <input type="text" placeholder="이메일 입력" asp-for="Email">
+                                <span class="icon_mail"></span>
+                            </div>
 
 
-    <button type="submit" class="btn btn-outline-dark">가입</button>
 
-</form>
+
+                            <button type="submit" class="site-btn">회원가입</button>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <!-- Signup Section End -->
+
+
+
+
+    <footer class="footer">
+        <div class="page-up">
+            <a href="#" id="scrollToTopButton"><span class="arrow_carrot-up"></span></a>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="footer__logo">
+                        <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="footer__nav">
+                        <ul>
+                            <li class="active"><a href="./index.html">Homepage</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <p>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+<script>
+    async function checkId() {
+        let id = document.getElementById("Name").value;
+
+        // 아이디가 입력되지 않았을 경우 경고창 표시
+        if (id.trim() == "") {
+            alert('아이디를 입력하세요.');
+            return;
+        }
+
+        // 중복 확인 요청
+        try {
+            let response = await fetch(`/CheckId?id=${id}`);
+            let data = await response.json();
+
+            if (data) {
+                alert('사용 가능한 아이디입니다.');
+                document.getElementById("NameCheck").value = true;
+            } else {
+                alert('이미 존재하는 ID입니다.');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+</script>

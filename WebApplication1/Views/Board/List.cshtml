@@ -1,0 +1,132 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@model List<TeamProject.Models.Domain.Post>
+
+
+@{
+    long cnt = (long)ViewData["cnt"];  // 전체글개수
+    int page = (int)ViewData["page"];  // 현재 페이지
+    int totalPage = (int)ViewData["totalPage"];  // 총 '페이지' 수
+    int pageRows = (int)ViewData["pageRows"];  // 한 '페이지' 에 표시할 글 개수
+}
+@{
+    string isLoggeIn = HttpContextAccessor.HttpContext.Session.GetString("IsLoggedIn");
+
+}
+<script src="~/js/Board/List.js"></script>
+
+@if (isLoggeIn == "false")
+{
+    <script src="~/js/Loggedin/LoggedIn.js"></script>
+}
+<body>
+    <script src="~/js/DeleteUser/DeleteOk.js"></script>
+    <section class="product-page spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="product_page_content">
+                        <div class="product__page__title">
+                            <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-6">
+                                    <div class="section-title">
+                                        <h4>자유게시판</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 mt-3 clearfix">
+                            <div class="board__list">
+                                <style>
+
+                                    .board__list {
+                                        color: white;
+                                    }
+
+                                        .board__list a {
+                                            padding-block: 50px;
+                                            padding-right: 50px;
+                                            color: white;
+                                        }
+
+                                            .board__list a:hover {
+                                                color: gray;
+                                            }
+
+                                </style>
+
+
+
+
+                                <span class="float-start me-2">총 @(cnt)개</span>
+                                <span>page @(page)/@(totalPage)</span>
+                                <span class="float-end">
+                                    <form name="frmPageRows">
+                                        <input type="hidden" name="page" value="@(page)">
+                                        <select class="form-select" name="pageRows">
+                                            <option value="10" selected="@(pageRows == 10)">10</option>
+                                            <option value="15" selected="@(pageRows == 15)">15</option>
+                                            <option value="20" selected="@(pageRows == 20)">20</option>
+                                            <option value="50" selected="@(pageRows == 50)">50</option>
+                                        </select>
+                                    </form>
+
+                                </span>
+
+
+                            </div>
+                            <table class="table table-hover product__page__title" style="color: white">
+                                <thead class="product__page__title" style=" color: white">
+                                    <tr>
+                                        <th>번호</th>
+                                        <th>제목</th>
+                                        <th>작성자</th>
+                                        <th>조회수</th>
+                                        <th>작성일</th>
+                                        <th>좋아요</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="color: white;">
+                                    @if (Model != null)
+                                    {
+                                        foreach (var write in Model)
+                                        {
+                                            <tr>
+                                                <td>@write.Id</td>
+                                                <td>
+                                                    <a style="color: white" asp-controller="Posts" asp-action="PostDetail"
+                                                       asp-route-id="@write.Id">@write.Title</a>
+                                                </td>
+                                                <td>@write.User.NickName</td>
+                                                <td>@write.ViewCnt</td>
+                                                <td>@write.Date</td>
+                                                <td>@write.LikeCnt</td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+
+
+                            <div class="row">
+                                <div class="col-12">
+
+                                    <a id="btnCreate" class="site-btn" asp-controller="Posts" asp-action="Create">글쓰기</a>
+
+                                    <a class="site-btn" asp-controller="Home" asp-action="Index">홈으로</a>
+                                </div>
+                            </div>
+                            <partial name="Pagination" />
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+
+
+

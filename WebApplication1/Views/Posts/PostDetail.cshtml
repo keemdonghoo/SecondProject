@@ -1,0 +1,181 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@model TeamProject.Models.Domain.Post
+
+@{
+
+}
+
+@{
+	string userIdString = HttpContextAccessor.HttpContext.Session.GetString("UserId");
+	long userId = 0; // 초기값 설정
+	string isLoggedIn = "false";
+
+	if (!string.IsNullOrEmpty(userIdString) && long.TryParse(userIdString, out userId))
+	{
+		// 유효한 사용자 ID가 있는 경우
+		isLoggedIn = HttpContextAccessor.HttpContext.Session.GetString("IsLoggedIn");
+
+	}
+	else
+	{
+		// 로그인하지 않은 사용자 또는 잘못된 사용자 ID의 경우
+		userId = 0;
+		isLoggedIn = "false";
+	}
+}
+
+<h2>조회 - @Model.Id</h2>
+<hr>
+<script src="~/js/DeletePost/DeletePost.js"></script>
+<link rel="stylesheet" href="~/css/comment.css" asp-append-version="true" />
+@if (isLoggedIn == "false")
+{
+	<script src="~/js/Loggedin/LoggedIn.js"></script>
+}
+
+@if (Model != null)
+{
+	<div class="mb-3 mt-3 clearfix">
+		<span class="float-start me-2">id: @Model.Id</span>
+		<span class="float-end ms-4">작성일: @Model.Date</span>
+		<span class="float-end">조회수: @Model.ViewCnt</span>
+	</div>
+
+
+	<section>
+		<form method="POST" name="frmDelete" asp-controller="Posts" asp-action="Delete">
+			<input type="hidden" asp-for="Id">
+		</form>
+
+
+		<div class="mb-3">
+			<label for="name">글 제목 :</label>
+			<span class="form-control">@Model.Title</span>
+		</div>
+
+		<div class="mb-3 mt-3">
+			<label for="content">글 내용:</label>
+			<span class="form-control">@Model.Content</span>
+		</div>
+
+		<div class="mb-3 mt-3">
+			<label for="attachment"> 첨부파일</label>
+			@foreach (var f in @Model.Attachments)
+			{
+				@if (f.IsImage)
+				{
+					<div class="image-container">
+						<img src="@f.RequestPath" class="img-thumbnail" alt="@f.Title">
+						<a class="btn btn-primary btn-sm" asp-controller="Posts" asp-action="Download" asp-route-id="@f.Id">다운로드</a>
+					</div>
+					<br>
+				}
+			}
+		</div>
+
+		<div class="mb-3 mt-3">
+			<label for="ViewCnt">조회수:</label>
+			<span class="form-control">@Model.ViewCnt</span>
+		</div>
+
+		
+
+		<div class="mb-3 mt-3">
+
+			<form method="POST" asp-controller="Like" asp-action="ToggleLike">
+				<input type="hidden" asp-for="@Model.Id" name="postId" />
+
+				<button type="submit" class="btn btn-primary" id="btnLike">
+					<span class="icon_like"></span>
+				</button>
+			</form>
+
+		</div>
+
+
+
+		
+
+		<form method="POST" name="frmDeleteComment" asp-controller="Comment" asp-action="DeleteComment">
+			<input type="hidden" asp-for="Id" name="commentId">
+		</form>
+
+
+		
+
+			@foreach (var comment in Model.Comments)
+			{
+			<li class="comment-item">
+				<div class="comment-header">
+					<span class="comment-date">@comment.RegDate</span>
+					<span class="comment-user">@comment.User.NickName</span>
+					@if (comment.User.Id == userId)
+					{
+						<button type="button" class="btn btn-outline-danger ms-2 btnDelComment" data-comment-id="@comment.Id">삭제</button>
+					}
+				</div>
+				<div class="comment-content">@comment.Content</div>
+			</li>
+			}
+
+
+		
+		<h3>댓글 작성</h3>
+		<form method="POST" asp-controller="Comment" asp-action="Add">
+			<input type="hidden" asp-for="@Model.Id" name="postId" />
+
+
+			<div class="mb-3">
+				<label for="content">내용:</label>
+				<textarea class="form-control" rows="1" name="content"></textarea>
+				<div><span class="text-danger">@TempData["ContentError"]</span></div>
+			</div>
+
+			<button type="submit" class="btn btn-primary" id="btnComment">댓글 작성</button>
+		</form>
+
+
+
+		<!-- 하단 링크 -->
+		<div class="d-flex">
+
+			@if (Model.UserId == userId)
+			{
+				<a class="btn btn-outline-dark"
+
+		   asp-controller="Posts" asp-action="Update" asp-route-id="@Model.Id">
+					수정
+				</a>
+			}
+			<a class="btn btn-outline-dark ms-2"
+		   asp-controller="Board" asp-action="List" asp-route-id="1">
+				목록
+			</a>
+			
+			@if (Model.UserId == userId)
+			{
+				<button type="button" class="btn btn-outline-danger ms-2" id="btnDel">삭제</button>
+			}
+
+			<a Id ="btnCreate"class="btn btn-outline-dark ms-2"
+		   asp-controller="Posts" asp-action="Create">
+				작성
+			</a>
+		</div>
+		<!-- 하단 링크 -->
+
+
+	</section>
+}
+
+else
+{
+	<script>
+		alert("데이터가 없습니다!");
+		history.back();
+	</script>
+}
+
+
+

@@ -1,0 +1,93 @@
+﻿@**@
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+}
+
+@{
+    ViewData["Title"] = "관리자 페이지";
+}
+
+<h1>관리자 페이지</h1>
+
+
+<!-- Css Styles -->
+<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
+<link rel="stylesheet" href="css/plyr.css" type="text/css">
+<link rel="stylesheet" href="css/nice-select.css" type="text/css">
+<link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
+<link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
+<link rel="stylesheet" href="css/style.css" type="text/css">
+<body>
+
+    <script src="~/js/DeleteUser/DeleteOk.js"></script>
+    <section class="product-page spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="product_page_content">
+                        <div class="product__page__title">
+                            <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-6">
+                                    <div class="section-title">
+                                        <h4>MyPage</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="list__style">
+                            <div class="col-lg-8 col-md-8 col-sm-6">
+                                <style>
+                                    .list__style {
+                                        border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+                                        padding-bottom: 10px;
+                                        margin-bottom: 30px;
+                                        color: white
+                                    }
+
+                                        .list__style a {
+                                            padding-block: 50px;
+                                            padding-right: 50px;
+                                            color: white;
+                                        }
+
+                                            .list__style a:hover {
+                                                color: gray;
+                                            }
+
+                                </style>
+
+                                <a asp-controller="Admin" asp-action="UserList">
+                                    개인정보관리
+                                </a>
+                                <a asp-controller="Admin" asp-action="PostList">
+                                    게시글관리
+                                </a>
+                                <a asp-controller="Admin" asp-action="CommentList">
+                                    댓글관리
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                        <!--
+
+                        -->
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>

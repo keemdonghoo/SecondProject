@@ -31,6 +31,8 @@
 /* Template default CSS
 /*----------------------------------------*/
 
+
+/* 배경색 */
 html,
 body {
 	height: 100%;
@@ -191,6 +193,7 @@ ol {
 	text-transform: uppercase;
 	display: inline-block;
 	padding: 12px 30px;
+	margin-right:5px;
 }
 
 /* Preloder */
@@ -420,6 +423,8 @@ ol {
 .header__right {
 	text-align: right;
 	padding: 20px 0 15px;
+	display:flex;
+	
 }
 
 .header__right a {
@@ -432,6 +437,8 @@ ol {
 .header__right a:last-child {
 	margin-right: 0;
 }
+
+
 
 .slicknav_menu {
 	display: none;

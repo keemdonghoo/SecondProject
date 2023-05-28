@@ -1,0 +1,39 @@
+﻿@model List<TeamProject.Models.Domain.Post>
+@{
+
+}
+<h2>게시판</h2>
+<table class="table table-hover product__page__title" style="color: white">
+    <thead class="product__page__title" style=" color: white">
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>조회수</th>
+            <th>작성일</th>
+        </tr>
+    </thead>
+    <tbody style="color: white;">
+        @if (Model != null)
+        {
+            foreach (var write in Model)
+            {
+                <tr>
+                    <td>@write.Id</td>
+                    <td>
+                        <a style="color: white" asp-controller="Posts" asp-action="PostDetail"
+                           asp-route-id="@write.Id">@write.Title</a>
+                    </td>
+                    <td>@write.User?.NickName</td>
+                    <td>@write.ViewCnt</td>
+                    <td>@write.Date</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<div class="row">
+    <div class="col-12">
+        <a class="site-btn" asp-controller="Posts" asp-action="Create">글쓰기</a>
+    </div>
+</div>

@@ -1,0 +1,48 @@
+﻿@model List<TeamProject.Models.Domain.Comment>
+@{
+
+}
+<h2>게시판</h2>
+<table class="table table-hover">
+    <thead class="table-success">
+        <tr>
+            <th>Check</th>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>조회수</th>
+            <th>작성일</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var comment in Model)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" name="selectedCommentIds[]" value="@comment.Id" />
+                    </td>
+                    <td>@comment.Id</td>
+                    <td>
+                        <a asp-controller="Posts" asp-action="PostDetail" asp-route-id="@comment.PostId">@comment.Post.Title</a>
+                    </td>
+                    <td>@comment.User.NickName</td>
+                    <td>@comment.Content</td>
+                    <td>@comment.RegDate</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<script src="~/js/DeleteComment/deleteComments.js"></script>
+<div class="row">
+    <div class="col-12">
+        <button type="button" class="btn btn-outline-danger ms-2" id="btnDel">선택한 댓글 삭제</button>
+        <form method="POST" name="frmDelete" asp-controller="Admin" asp-action="DeleteSelectedComments">
+            <input type="hidden" name="selectedCommentIds[]" />
+        </form>
+    </div>
+</div>
+<a asp-controller="Admin" asp-action="AdminPage" class="site-btn">관리자 페이지</a>

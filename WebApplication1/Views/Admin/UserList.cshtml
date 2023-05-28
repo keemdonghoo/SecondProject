@@ -1,0 +1,50 @@
+﻿@model List<TeamProject.Models.Domain.User>
+@{
+
+}
+
+<h2>게시판</h2>
+<table class="table table-hover">
+    <thead class="table-success">
+        <tr>
+            <th>Check</th>
+            <th>유저 고유 id</th>
+            <th>유저ID</th>
+            <th>유저 이름</th>
+            <th>유저 닉네임</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var user in Model)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" name="selectedUserIds[]" value="@user.Id" />
+
+                    </td>
+                    <td>
+                        <a asp-controller="Admin" asp-action="Update"
+                   asp-route-id="@user.Id">@user.Id</a>
+                    </td>
+                    <td>@user.Name</td>
+                    <td>@user.UserName</td>
+                    <td>@user.NickName</td>
+                   
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<script src="~/js/DeleteUser/deleteUsers.js"></script>
+<div class="row">
+    <div class="col-12">
+        <button type="button" class="btn btn-outline-danger ms-2" id="btnDel">선택한 회원 추방</button>
+        <form method="POST" name="frmDelete" asp-controller="Admin" asp-action="DeleteSelectedUsers">
+            <input type="hidden" name="selectedUserIds[]" />
+        </form>
+
+    </div>
+</div>
+<a asp-controller="Admin" asp-action="AdminPage" class="site-btn">관리자 페이지</a>

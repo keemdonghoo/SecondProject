@@ -1,0 +1,137 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@model TeamProject.Models.Domain.User
+
+@{
+
+}
+
+@{
+    string userIdString = HttpContextAccessor.HttpContext.Session.GetString("UserId");
+    long userId = 0; // 초기값 설정
+    string isLoggedIn = "false";
+
+    if (!string.IsNullOrEmpty(userIdString) && long.TryParse(userIdString, out userId))
+    {
+        // 유효한 사용자 ID가 있는 경우
+        isLoggedIn = HttpContextAccessor.HttpContext.Session.GetString("IsLoggedIn");
+
+    }
+    else
+    {
+        // 로그인하지 않은 사용자 또는 잘못된 사용자 ID의 경우
+        userId = 0;
+        isLoggedIn = "false";
+    }
+}
+
+@{
+    ViewData["Title"] = "마이페이지";
+}
+<!-- Css Styles -->
+<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
+<link rel="stylesheet" href="css/plyr.css" type="text/css">
+<link rel="stylesheet" href="css/nice-select.css" type="text/css">
+<link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
+<link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
+<link rel="stylesheet" href="css/style.css" type="text/css">
+<body>
+
+    <script src="~/js/DeleteUser/DeleteOk.js"></script>
+    <section class="product-page spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="product_page_content">
+                        <div class="product__page__title">
+                            <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-6">
+                                    <div class="section-title">
+                                        <h4>MyPage</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="list__style">
+                            <div class="col-lg-8 col-md-8 col-sm-6">
+                                <style>
+                                    .list__style {
+                                        border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+                                        padding-bottom: 10px;
+                                        margin-bottom: 30px;
+                                        color: white
+                                    }
+
+                                        .list__style a {
+                                            padding-block: 50px;
+                                            padding-right: 50px;
+                                            color: white;
+                                        }
+
+                                            .list__style a:hover {
+                                                color: gray;
+                                            }
+
+                                </style>
+
+                                <a asp-controller="User" asp-action="Update" asp-route-id="@userId">
+                                    개인정보관리
+                                </a>
+                                <a asp-controller="Posts" asp-action="Userspostlist" asp-route-id="@userId">
+                                    게시글관리
+                                </a>
+                                <a asp-controller="Comment" asp-action="Userscommentlist" asp-route-id="@userId">
+                                    댓글관리
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                        <table class="table table-hover product__page__title" style="color: white">
+                            <thead class="product__page__title" style=" color: white">
+                                <tr>
+                                    <th>번호</th>
+                                    <th>제목</th>
+                                    <th>작성자</th>
+                                    <th>조회수</th>
+                                    <th>작성일</th>
+                                </tr>
+                            </thead>
+                            <tbody style="color: white;">
+                                @if (Model != null)
+                                {
+                                    foreach (var write in Model.Posts)
+                                    {
+                                        <tr>
+                                            <td>@write.Id</td>
+                                            <td>
+                                                <a style="color: white" asp-controller="Posts" asp-action="PostDetail"
+                                                   asp-route-id="@write.Id">@write.Title</a>
+                                            </td>
+                                            <td>@write.User?.NickName</td>
+                                            <td>@write.ViewCnt</td>
+                                            <td>@write.Date</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn btn-outline-danger ms-2" id="btnDel">회원탈퇴</button>
+        <form method="POST" name="frmDelete" asp-controller="User" asp-action="Delete">
+            <input type="hidden" asp-for="Id">
+        </form>
+    </section>
+</body>

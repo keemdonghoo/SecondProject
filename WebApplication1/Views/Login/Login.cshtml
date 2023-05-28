@@ -1,0 +1,79 @@
+﻿@using System.Web.Mvc;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model TeamProject.Models.ViewModels.LoginRequest
+@{
+    ViewData["Title"] = "로그인";
+}
+<script>
+   
+    var errorMessageId = "@TempData["ErrorMessageId"]";
+    var errorMessagePw = "@TempData["ErrorMessagePw"]";
+    var errorNullId = "@TempData["NullId"]";
+    var errorNullPw = "@TempData["NullPw"]";
+
+    if(errorNullId != "")
+    {
+        alert("아이디를 입력하세요.")
+    }
+    else if (errorNullPw != "")
+    {
+        alert("비밀번호를 입력하세요.")
+    }
+
+    if (errorMessageId !== "") {
+        alert("존재하진 않는 ID입니다");
+    }
+    else if (errorMessagePw !== ""){
+        alert("비밀번호가 일치하지 않습니다.");
+    }
+</script>
+
+
+
+<body>
+    <section class="login spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+
+                    <div class="login__form">
+                        <h3>Login</h3>
+
+                        <form method="post" action="@Url.Action("Login", "Login")">
+
+                            <div class="input__item">
+                                <input type="text" name="name" placeholder="아이디를 입력하세요">
+                                <span class="icon_mail"></span>
+                            </div>
+
+                            <div class="input__item">
+                                <input type="password" name="password" placeholder="비밀번호를 입력하세요">
+                                <span class="icon_lock"></span>
+                            </div>
+                            <button type="submit" class="site-btn">Login Now</button>
+                        </form>
+
+
+
+                        <a asp-controller="Login" asp-action="FindID" class="forget_pass">Forgot Your Password?</a> <!--아이디 빌밀번호찾기-->
+
+                           
+
+
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="login__register">
+                        <h3>Dont’t Have An Account?</h3>
+                        <a asp-controller="Login" asp-action="SignUp" class="primary-btn">Register Now</a> <!--회원가입 페이지-->
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+   
+</body>
+

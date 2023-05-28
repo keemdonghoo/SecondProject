@@ -31,21 +31,30 @@ namespace WebApplication1.Repositories
             return null;
         }
 
+        public async Task<User?> DetailAsync(long id)
+        {
+            var existingUser = await movieDbContext.Users.FindAsync(id);
+            if (existingUser != null) return null;
+
+            await movieDbContext.SaveChangesAsync();
+            return existingUser;
+        }
+
         public async Task<IEnumerable<User>> GetAllAsync()
         {
             var user = await movieDbContext.Users.ToListAsync();
-            return user.OrderByDescending(x => x.Uid).ToList();
+            return user.OrderByDescending(x => x.UserUID).ToList();
             
         }
 
         public async Task<User?> GetAsync(long id)
         {
-            return await movieDbContext.Users.FirstOrDefaultAsync(x => x.Uid == id);
+            return await movieDbContext.Users.FirstOrDefaultAsync(x => x.UserUID == id);
         }
 
         public async Task<User?> UpdateAsync(User user)
         {
-            var existingUser = await movieDbContext.Users.FindAsync(user.Uid);
+            var existingUser = await movieDbContext.Users.FindAsync(user.UserUID);
             if (existingUser != null) return null;
 
             existingUser.PassWord = user.PassWord;

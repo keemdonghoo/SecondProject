@@ -1,0 +1,45 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model WebApplication1.Models.ViewMoldels.AddUserRequest
+@{
+    ViewData["Title"] = "회원가입";
+}
+
+<h2>작성</h2>
+<hr>
+<form method="post">
+    <div class="mb-3">
+        <label for="UserName">이름</label>
+        <input type="text" class="form-control" placeholder="이름을 입력하세요" asp-for="UserName">
+    </div>
+
+    <div class="mb-3 mt-3">
+        <label for="PhoneNum">핸드폰번호</label>
+        <input type="text" class="form-control" placeholder="핸드폰번호 입력하세요" asp-for="PhoneNum">
+    </div>
+
+    <div class="mb-3 mt-3">
+        <label for="Name">아이디</label>
+        <input type="text" class="form-control" placeholder="아이디를 입력하세요" asp-for="Name">
+    </div>
+
+    <div class="mb-3 mt-3">
+        <label for="PassWord">비밀번호</label>
+        <input type="text" class="form-control" placeholder="비밀번호를 입력하세요" asp-for="PassWord">
+    </div>
+
+    <div class="mb-3 mt-3">
+        <label for="Email">이메일</label>
+        <input type="text" class="form-control" placeholder="이메일을 입력하세요" asp-for="Email">
+    </div>
+
+    <div class="mb-3 mt-3">
+        <label for="NickName">닉네임</label>
+        <input type="text" class="form-control" placeholder="닉네임을 입력하세요" asp-for="NickName">
+    </div>
+
+
+    <button type="submit" class="btn btn-outline-dark">가입</button>
+
+</form>

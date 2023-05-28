@@ -9,6 +9,17 @@ namespace WebApplication1
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            // TempData provider ¼¼ÆÃ
+            builder.Services
+                .AddRazorPages()
+                .AddSessionStateTempDataProvider();
+
+            // Add services to the container.
+            builder.Services
+                .AddControllersWithViews()
+                .AddSessionStateTempDataProvider();
+
+            builder.Services.AddSession();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();

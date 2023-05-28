@@ -1,4 +1,5 @@
-﻿using WebApplication1.Models.Domain;
+﻿using System.ComponentModel;
+using WebApplication1.Models.Domain;
 
 namespace WebApplication1.Repositories
 {
@@ -9,5 +10,6 @@ namespace WebApplication1.Repositories
         Task<User> AddAsync(User user); // <-User (<Uid>,<u_Name>,u_PassWord,<u_userName>,u_phoneNum,u_nickName,u_isAdmin)
         Task<User?> UpdateAsync(User user);//(u_PassWord,u_phoneNum,u_nickName)
         Task<User?> DeleteAsync(long id);
+        Task<User?> DetailAsync(long id);
     }
 }

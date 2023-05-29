@@ -164,5 +164,19 @@ namespace TeamProject.Controllers
         {
             return View();
         }
-	}
+        [HttpGet("FindUserId")]
+        public async Task<IActionResult> FindUserId(string name, AddUserRequest addUserRequest)
+        {
+
+
+            var isExsist = await userRepository.GetByNameAsync(name);
+            if (isExsist == null)
+            {
+                //addUserRequest.NameCheck = true;
+                //TempData["NameCheck"] = addUserRequest.NameCheck;
+                return Ok(true);
+            }
+            return Ok(false);
+        }
+    }
 }

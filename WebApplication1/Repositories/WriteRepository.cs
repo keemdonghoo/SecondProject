@@ -334,5 +334,13 @@ namespace TeamProject.Repositories
             }
         }
 
+        public async Task<List<Review>?> GetIdReviewAsync(long movieUid)
+        {
+            return await movieDbContext.Reviews
+            .Where(a => a.MovieUid == movieUid)
+			.Include(a=>a.User)
+            .ToListAsync();
+        }
+
     }
 }

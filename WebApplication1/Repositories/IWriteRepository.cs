@@ -67,5 +67,7 @@ namespace TeamProject.Repositories
         //리뷰 작성
         //Task SaveReviewAsync(Review review, long movieId, string userId);
         Task SaveReviewAsync(Review review);
+
+        Task<List<Review>?> GetIdReviewAsync(long movieUid);
     }
 }

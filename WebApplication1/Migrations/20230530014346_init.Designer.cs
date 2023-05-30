@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TeamProject.Data;
 
@@ -11,9 +12,15 @@ using TeamProject.Data;
 namespace TeamProject.Migrations
 {
     [DbContext(typeof(MovieDbContext))]
-    partial class MovieDbContextModelSnapshot : ModelSnapshot
+<<<<<<<< HEAD:WebApplication1/Migrations/20230526080018_init.Designer.cs
+    [Migration("20230526080018_init")]
+========
+    [Migration("20230530014346_init")]
+>>>>>>>> 12bd5ebc9ff93017ca751e1dfea90f4001eeb6d8:WebApplication1/Migrations/20230530014346_init.Designer.cs
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

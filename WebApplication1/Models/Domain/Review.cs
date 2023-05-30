@@ -5,6 +5,7 @@ namespace TeamProject.Models.Domain
     [Table("Review")]
     public class Review
     {
+       
         public long Id { get; set; }
         public float Rate { get; set; }
         public string Content { get; set; }
@@ -13,9 +14,11 @@ namespace TeamProject.Models.Domain
         public User User { get; set; }
         public long UserId { get; set; }
 
-        [ForeignKey("Movie")]
+        [ForeignKey("MovieUid")]
         public long MovieUid { get; set; }
 
+  
         public Movie Movie { get; set; }
+
     }
 }

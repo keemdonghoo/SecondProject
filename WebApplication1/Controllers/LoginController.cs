@@ -219,8 +219,9 @@ namespace TeamProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PasswordUpdate(EditUserRequest editUserRequest)
+        public async Task<IActionResult> PasswordUpdate(NewPassWordRequest newPassWordRequest,string pw)
         {
+            var pass = pw;
             return RedirectToAction("Login");
         }
     }

@@ -2,6 +2,8 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    var regex = new System.Text.RegularExpressions.Regex(@"^(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':""\\|,.<>\/?]).{8,}$");
+}
 }
 @model TeamProject.Models.ViewModels.EditUserRequest
 <body>
@@ -41,18 +43,18 @@
                             <button onclick="findPw()" type="button" class="site-btn">Get Password</button>
 
 
-                            <div id="NewPassword" style="display: none;">
+                            <div id="NewPassword" style="display: none; padding-top:30px;">
                                 <div><span class="text-danger">@TempData["PassWordError"]</span></div>
                                 <div class="input__item">
-                                    <input type="password" placeholder="Password" asp-for="PassWord" value="@Model.PassWord">
+                                    <input type="password" placeholder="Password" asp-for="PassWord">
                                     <span class="icon_lock"></span>
                                 </div>
 
                                 <div class="input__item">
-                                    <input type="password" placeholder="Password Check" asp-for="PassWordCheck" value="@Model.PassWord">
+                                    <input type="password" placeholder="Password Check" asp-for="PassWordCheck">
                                     <span class="icon_lock"></span>
                                 </div>
-                                <button onclick="findPw()" type="button" class="site-btn">New Password</button>
+                                <button onclick="validatePassword()" type="button" class="site-btn">New Password</button>
                             </div>
 
 
@@ -134,9 +136,52 @@
         catch (error) {
             alert(`오류가 발생했습니다: ${error}`);
         }
-
-        
-
     }
+
+
+    function validatePassword() {
+        var pw = document.getElementById("PassWord").value;
+        var pwch = document.getElementById("PassWordCheck").value;
+        var regex = /^.*@(regex.ToString()).*$/;
+        if(pw === "")
+        {
+            alert("비밀번호를 입력해주세요.");
+            return;
+        }
+        else if(pwch === "")
+        {
+            alert("비밀번호를 확인해주세요.");
+            return;
+        }
+        // 비밀번호 일치 여부 확인
+        else if (!regex.test(pw)) {
+            alert("비밀번호는 최소 8자 이상이어야 하며, 대문자와 특수문자가 포함되어야 합니다.");
+            return;
+        }
+        else if (pw !== pwch) {
+            alert("비밀번호가 일치하지 않습니다.");
+            return;
+        }
+        else 
+        {
+            var data = { pw: pw };
+            $.ajax({
+                url: "/ControllerName/PasswordUpdate", // 액션 메서드의 경로로 변경
+                type: "POST",
+                data: data,
+                success: function (response) {
+                    // 요청이 성공했을 때 처리할 코드
+                    window.location.href = "/ControllerName/Login"; // 리디렉션 처리
+                },
+                error: function (xhr, status, error) {
+                    // 요청이 실패했을 때 처리할 코드
+                    alert("비밀번호 업데이트에 실패했습니다.");
+                }
+            });
+        }
+        // 정규표현식으로 비밀번호 검증
+        
+    }
+
 </script>
 

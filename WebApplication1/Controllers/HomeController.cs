@@ -39,7 +39,11 @@ namespace TeamProject.Controllers
         [Route("Home/Detail")]
         public async Task<IActionResult> Detail(string title)
         {
+            
             var movie = await _movieDbContext.Movies.FirstOrDefaultAsync(m => m.Title == title);
+
+            HttpContext.Session.SetString("MovieUid", movie.MovieUid.ToString());
+
             if (movie == null)
             {
                 return NotFound();
@@ -54,12 +58,7 @@ namespace TeamProject.Controllers
             return View(movie);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Detail (long MovieUid)
-        {
-            var reviews = await _writeRepository.GetIdReviewAsync(MovieUid);
-            return View(reviews);
-        }
+   
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -79,11 +78,12 @@ namespace TeamProject.Controllers
         public async Task<IActionResult> ReviewAdd([FromBody] ReviewAddModel model)
         {
             string userId = HttpContext.Session.GetString("UserId");
+            string movieUid = HttpContext.Session.GetString("MovieUid");
             try
             {
                 var addReview = new Review
                 {
-                    MovieUid = model.MovieUid,
+                    MovieUid = long.Parse(movieUid),
                     Rate = model.Rating,
                     Content = model.Review,
                     Date = DateTime.Now,
@@ -95,6 +95,7 @@ namespace TeamProject.Controllers
 
                 // 리뷰를 성공적으로 추가했음을 나타내는 JSON 객체를 반환
                 return Json(new { success = true, review = addReview });
+
             }
             catch (Exception ex)
             {

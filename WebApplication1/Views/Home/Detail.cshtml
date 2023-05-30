@@ -1,8 +1,33 @@
-﻿@model TeamProject.Models.Domain.Movie
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model TeamProject.Models.Domain.Movie
 @{
 }
 @* @Url.Action("Index", "Home") *@
+@{
+    string userIdString = HttpContextAccessor.HttpContext.Session.GetString("UserId");
+    long userId = 0; // 초기값 설정
+    string isLoggedIn = "false";
+
+    if (!string.IsNullOrEmpty(userIdString) && long.TryParse(userIdString, out userId))
+    {
+        // 유효한 사용자 ID가 있는 경우
+        isLoggedIn = HttpContextAccessor.HttpContext.Session.GetString("IsLoggedIn");
+
+    }
+    else
+    {
+        // 로그인하지 않은 사용자 또는 잘못된 사용자 ID의 경우
+        userId = 0;
+        isLoggedIn = "false";
+    }
+}
+
+@if (isLoggedIn == "false")
+{
+    <script src="~/js/Loggedin/LoggedIn.js"></script>
+}
 <script src="~/js/detail.js"></script>
+
 
 <body>
 
@@ -20,14 +45,15 @@
     </div>
     <!-- Breadcrumb End -->
     <!-- Anime Section Begin -->
+   
     <section class="anime-details spad">
         <div class="container">
             <div class="anime__details__content">
                 <div class="row">
                     <div class="col-lg-3">
                         <div class="anime__details__pic set-bg" data-setbg="">
-                            <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                            <div class="view"><i class="fa fa-eye"></i> 9141</div>
+                            <div class="comment"><i class="fa fa-comments"></i> @Model.Reviews.Count()</div>
+                            <div class="view"><i class="fa fa-star"></i> @Model.RateAvg</div>
                         </div>
                     </div>
                     <div class="col-lg-9">
@@ -58,7 +84,11 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <a href="#" class="follow-btn"><i class="fa fa-heart-o"></i> Follow</a>
+
                             <div class="anime__details__btn">
+                              
                                 <a href="#" class="follow-btn"><i class="fa fa-heart-o"></i> Trailer</a>
                             </div>
                         </div>
@@ -96,7 +126,7 @@
 
                     <!-- Review Text Start -->
                     <div class="anime__details__form">
-                        <form class="anime__review__form" asp-controller="Home" asp-action="ReviewAdd" method="post" onsubmit="return postReview(event)">
+                        <form class="anime__review__form" asp-controller="Home" asp-action="ReviewAdd" method="post">
                             <div class="anime__details__form">
 
                                 <!-- 리뷰 입력 부분 -->
@@ -123,7 +153,7 @@
                             <input type="hidden" id="movieId" name="movieId" value="@Model.MovieUid" />
 
                             <!-- 제출 버튼 -->
-                            <button type="submit"><i class="fa fa-location-arrow"></i> 완료</button>
+                            <button type="submit"><i class="fa fa-location-arrow" id="btnReview"></i> 완료</button>
                         </form>
                     </div>
                     <!-- Review Text End -->

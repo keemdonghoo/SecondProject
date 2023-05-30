@@ -13,6 +13,17 @@ namespace TeamProject
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            // TempData provider 세팅
+            builder.Services
+                .AddRazorPages()
+                .AddSessionStateTempDataProvider();
+
+            // Add services to the container.
+            builder.Services
+                .AddControllersWithViews()
+                .AddSessionStateTempDataProvider();
+
+            builder.Services.AddSession();
 
             // 나머지 서비스 설정
             builder.Services.AddScoped<ITMDBService, TMDBService>();

@@ -78,6 +78,8 @@ namespace TeamProject.Controllers
         public async Task<IActionResult> ReviewAdd([FromBody] ReviewAddModel model)
         {
             string userId = HttpContext.Session.GetString("UserId");
+            string movieUid = HttpContext.Session.GetString("MovieUid");
+
             if(userId == null)
             {
                 return null;

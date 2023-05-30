@@ -181,13 +181,40 @@ namespace TeamProject.Controllers
                     status = isExsist.Name;
                     return Ok(status);
                 }
-                else if(isExsist.PhoneNum != phone)
+                else if (isExsist.PhoneNum != phone)
                 {
                     status = "1";
                     return Ok(status);
                 }
             }
-            
+
+            return Ok(status);
+        }
+        [HttpGet("FindUserId")]
+        public async Task<IActionResult> FindUserPw(string id, string phone)
+        {
+            var isExsist = await userRepository.GetByNameAsync(id);
+
+            string status = "";
+            if (isExsist == null)
+            {
+
+                return Ok(status);
+            }
+            else if (isExsist != null)
+            {
+                if (isExsist.PhoneNum == phone)
+                {
+                    status = "2";
+                    return Ok(status);
+                }
+                else if (isExsist.PhoneNum != phone)
+                {
+                    status = "1";
+                    return Ok(status);
+                }
+            }
+
             return Ok(status);
         }
 

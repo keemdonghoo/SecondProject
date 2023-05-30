@@ -36,6 +36,20 @@
                                 <input type="text" placeholder="PhoneNumber" id="pnpw">
                                 <span class="icon_phone"></span>
                             </div>
+
+                            <div id="NewPassword" style="display: none;">
+                                <div class="input__item">
+                                    <input type="text" placeholder="User Name" id="Name">
+                                    <span class="icon_profile"></span>
+                                </div>
+                                <div class="input__item">
+                                    <input type="text" placeholder="PhoneNumber" id="pnid">
+                                    <span class="icon_phone"></span>
+                                </div>
+                                <button onclick="findPw()" type="button" class="site-btn">Get Password</button>
+                            </div>
+
+
                             <button onclick="findPw()" type="button" class="site-btn">Get Password</button>
                         </form>
                     </div>
@@ -52,7 +66,7 @@
         let phone = document.getElementById("pnid").value;
 
         if (name.trim() === "") {
-            alert("아이디를 입력하세요.");
+            alert("이름을 입력하세요.");
             return;
         }
         else if (phone.trim() === "") {
@@ -88,8 +102,35 @@
         let id = document.getElementById("ID").value;
         let phone = document.getElementById("pnpw").value;
 
-        alert(`${id}`);
-        alert(`${phone}`);
+        if (id.trim() === "") {
+            alert("아이디를 입력하세요.");
+            return;
+        }
+        else if (phone.trim() === "") {
+            alert("전화번호를 입력하세요.");
+            return;
+        }
+        try {
+            var url = `/FindUserPw?id=${id}&phone=${phone}`;
+            const response = await fetch(url);
+            const data = await response.text();
+
+            if (data === "") {
+                alert("존재하지 않는 사용자 정보 입니다.");
+                return;
+            }
+            else if (data === "1") {
+                alert("전화번호가 일치하지 않습니다.")
+            }
+            else if (data === "2") {
+                document.getElementById("NewPassword").style.display = "block";
+            }
+        }
+        catch (error) {
+            alert(`오류가 발생했습니다: ${error}`);
+        }
+
+        
 
     }
 </script>

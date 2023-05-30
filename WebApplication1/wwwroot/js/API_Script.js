@@ -146,8 +146,6 @@ async function renderMovies() {
 
                 <a href="javascript:void(0)" onclick="onMoviePosterClick(${bestMatch.id}, '${movie.movieNm}')">
                     <div class="product__item__pic" style="background-image: url('${posterUrl}');">
-                        <div class="comment"><i class="fa fa-comments"></i> ${commentCount}</div>
-                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
                     </div>
                 </a>
 

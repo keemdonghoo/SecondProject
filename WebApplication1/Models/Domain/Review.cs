@@ -17,6 +17,8 @@ namespace TeamProject.Models.Domain
         [ForeignKey("MovieUid")]
         public long MovieUid { get; set; }
 
+  
         public Movie Movie { get; set; }
+
     }
 }

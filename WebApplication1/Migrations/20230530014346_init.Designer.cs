@@ -12,7 +12,7 @@ using TeamProject.Data;
 namespace TeamProject.Migrations
 {
     [DbContext(typeof(MovieDbContext))]
-    [Migration("20230528130254_init")]
+    [Migration("20230530014346_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -85,6 +85,13 @@ namespace TeamProject.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Board");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Name = "자유게시판"
+                        });
                 });
 
             modelBuilder.Entity("TeamProject.Models.Domain.Comment", b =>
@@ -232,6 +239,9 @@ namespace TeamProject.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<long>("MovieId")
+                        .HasColumnType("bigint");
+
                     b.Property<long>("MovieUid")
                         .HasColumnType("bigint");
 
@@ -243,7 +253,7 @@ namespace TeamProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MovieUid");
+                    b.HasIndex("MovieId");
 
                     b.HasIndex("UserId");
 
@@ -422,7 +432,7 @@ namespace TeamProject.Migrations
                 {
                     b.HasOne("TeamProject.Models.Domain.Movie", "Movie")
                         .WithMany("Reviews")
-                        .HasForeignKey("MovieUid")
+                        .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

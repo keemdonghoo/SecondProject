@@ -74,16 +74,19 @@
                             <h5>Reviews</h5>
                         </div>
 
+                      
+                        @foreach (var review in Model.Reviews)
+                        {
                         <!-- 사용자가 리뷰를 작성함에 따라 실시간 추가 및 삭제 -->
                         <div class="anime__review__item">
                             <div class="anime__review__item__text">
-                                <h6>UserId <span> - </span> <span> DatTime.Now(YYYY-MM-DD HH-MM) </span></h6>
+                                    <h6>@review.User.NickName <span> - </span> <span> @review.Date</span></h6>
                                 <p>
-                                    Comment
+                                    @review.Content
                                 </p>
                             </div>
                         </div>
-
+                        }
 
                     </div>
 

@@ -44,7 +44,21 @@ namespace TeamProject.Controllers
             {
                 return NotFound();
             }
+            var reviews = await _writeRepository.GetIdReviewAsync(movie.MovieUid);
+            movie.Reviews = reviews;
+
+            int commentCount = reviews?.Count ?? 0;
+
+            ViewData["CommentCount"] = commentCount;
+
             return View(movie);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Detail (long MovieUid)
+        {
+            var reviews = await _writeRepository.GetIdReviewAsync(MovieUid);
+            return View(reviews);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

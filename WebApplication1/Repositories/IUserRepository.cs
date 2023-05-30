@@ -11,6 +11,7 @@ namespace TeamProject.Repositories
         Task<User?> GetAsync(long id);
 
         Task<User?> GetByNameAsync(string name);
+        Task<User?> GetByUserNameAsync(string name);
 
         // 유저 등록
         Task<User> AddAsync(User user); // <-User (<Uid>,<u_Name>,u_PassWord,<u_userName>,u_phoneNum,u_nickName,u_isAdmin)

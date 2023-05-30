@@ -92,13 +92,15 @@ async function init() {
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////
+
 function createReviewItem(review) {
     // div 생성
     const reviewDiv = document.createElement('div');
     reviewDiv.className = 'anime__review__item';
 
     // 내부 HTML 삽입
-    const userName = review.userNickname || 'Unknown User'; // 사용자 닉네임 가져오기
+    const userName = review.userNickname; // 사용자 닉네임 가져오기
     reviewDiv.innerHTML = `
     <div class="anime__review__item__text">
       <h6>${userName} <span> - </span> <span>${review.date}</span></h6>
@@ -133,6 +135,17 @@ function sendPost(url, data) {
 async function postReview(event) {
     event.preventDefault();
     event.stopPropagation();
+
+    //if (!window.isLoggedIn) {
+    //    alert("로그인 후 작성할 수 있습니다");
+
+    //    // 입력 포커스를 textarea로 이동시키고 입력한 텍스트 지우기
+    //    const textarea = document.querySelector('#review');
+    //    textarea.focus();
+    //    textarea.value = '';
+
+    //    return;
+    //}
 
     const form = event.target;
     const formData = new FormData(form);
@@ -172,10 +185,17 @@ async function postReview(event) {
             const reviewSection = document.querySelector('.anime__details__review');
             reviewSection.prepend(reviewItem);
 
+
             // 폼 필드 초기화
             form.reset();
+
         } else {
-            throw new Error('Failed to post review');
+            alert("로그인 후 작성할 수 있습니다");
+
+            // 입력 포커스를 textarea로 이동시키고 입력한 텍스트 지우기
+            const textarea = document.querySelector('#review');
+            textarea.focus();
+            textarea.value = '';
         }
     } catch (error) {
         console.error(error);
@@ -185,6 +205,8 @@ async function postReview(event) {
         form.querySelectorAll('button').forEach(button => {
             button.disabled = false;
         });
+
+        location.reload();
     }
 }
 

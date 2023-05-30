@@ -140,14 +140,16 @@ async function renderMovies() {
         const posterUrl = posterPath ? `${posterBaseUrl}${posterPath}` : "";
         const detailUrlBase = document.body.dataset.detailUrlBase;
 
+
+
         const movieItem = `
         <div class="col-lg-4 col-md-6 col-sm-6">
             <div class="product__item">
 
                 <a href="javascript:void(0)" onclick="onMoviePosterClick(${bestMatch.id}, '${movie.movieNm}')">
                     <div class="product__item__pic" style="background-image: url('${posterUrl}');">
-                        <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
+                        <div class="comment"><i class="fa fa-comments"></i>11</div>
+                        <div class="view"><i class="fa fa-eye"></i></div>
                     </div>
                 </a>
 

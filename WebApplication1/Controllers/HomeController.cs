@@ -39,13 +39,26 @@ namespace TeamProject.Controllers
         [Route("Home/Detail")]
         public async Task<IActionResult> Detail(string title)
         {
+            
             var movie = await _movieDbContext.Movies.FirstOrDefaultAsync(m => m.Title == title);
+
+            HttpContext.Session.SetString("MovieUid", movie.MovieUid.ToString());
+
             if (movie == null)
             {
                 return NotFound();
             }
+            var reviews = await _writeRepository.GetIdReviewAsync(movie.MovieUid);
+            movie.Reviews = reviews;
+
+            int commentCount = reviews?.Count ?? 0;
+
+            ViewData["CommentCount"] = commentCount;
+
             return View(movie);
         }
+
+   
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -65,11 +78,17 @@ namespace TeamProject.Controllers
         public async Task<IActionResult> ReviewAdd([FromBody] ReviewAddModel model)
         {
             string userId = HttpContext.Session.GetString("UserId");
+            string movieUid = HttpContext.Session.GetString("MovieUid");
+
+            if(userId == null)
+            {
+                return null;
+            }
             try
             {
                 var addReview = new Review
                 {
-                    MovieUid = model.MovieUid,
+                    MovieUid = long.Parse(movieUid),
                     Rate = model.Rating,
                     Content = model.Review,
                     Date = DateTime.Now,
@@ -77,10 +96,14 @@ namespace TeamProject.Controllers
                 };
 
                 // 리포지토리에서 리뷰 저장 구현
-                await _writeRepository.SaveReviewAsync(addReview); // 수정된 부분
+                await _writeRepository.SaveReviewAsync(addReview);
 
-                // 리뷰를 성공적으로 추가했음을 나타내는 JSON 객체를 반환
-                return Json(new { success = true, review = addReview });
+                // 영화의 제목을 얻습니다. 이를 위해 MovieUid를 사용해 DB에서 영화를 찾습니다.
+                var movie = await _movieDbContext.Movies.FirstOrDefaultAsync(m => m.MovieUid == addReview.MovieUid);
+                var movieTitle = movie?.Title ?? "";
+
+                // 성공적으로 리뷰를 추가한 후 'Detail' 액션으로 리다이렉트합니다.
+                return RedirectToAction(nameof(Detail), new { title = movieTitle });
             }
             catch (Exception ex)
             {
@@ -88,6 +111,7 @@ namespace TeamProject.Controllers
                 return Json(new { success = false, message = ex.Message });
             }
         }
+
 
 
     }

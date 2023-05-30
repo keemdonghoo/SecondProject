@@ -13,7 +13,7 @@ namespace TeamProject.Controllers
     {
        
         private readonly IUserRepository userRepository;
-        private readonly IWriteRepository writeRepository;
+        
         
         public LoginController(IUserRepository userRepository)
         {
@@ -49,15 +49,14 @@ namespace TeamProject.Controllers
 
 
         [HttpGet("CheckId")]
-        public async Task<IActionResult> CheckId(string name, AddUserRequest addUserRequest)
+        public async Task<IActionResult> CheckId(string id)
         {
             
             
-            var isExsist = await userRepository.GetByNameAsync(name);
+            var isExsist = await userRepository.GetByNameAsync(id);
             if (isExsist == null)
             {
-                //addUserRequest.NameCheck = true;
-                //TempData["NameCheck"] = addUserRequest.NameCheck;
+               
                 return Ok(true);
             }
             return Ok(false) ;
@@ -165,18 +164,64 @@ namespace TeamProject.Controllers
             return View();
         }
         [HttpGet("FindUserId")]
-        public async Task<IActionResult> FindUserId(string name, AddUserRequest addUserRequest)
+        public async Task<IActionResult> FindUserId(string name, string phone)
         {
+            var isExsist = await userRepository.GetByUserNameAsync(name);
 
-
-            var isExsist = await userRepository.GetByNameAsync(name);
+            string status = "";
             if (isExsist == null)
             {
-                //addUserRequest.NameCheck = true;
-                //TempData["NameCheck"] = addUserRequest.NameCheck;
-                return Ok(true);
+
+                return Ok(status);
             }
-            return Ok(false);
+            else if (isExsist != null)
+            {
+                if (isExsist.PhoneNum == phone)
+                {
+                    status = isExsist.Name;
+                    return Ok(status);
+                }
+                else if (isExsist.PhoneNum != phone)
+                {
+                    status = "1";
+                    return Ok(status);
+                }
+            }
+
+            return Ok(status);
+        }
+        [HttpGet("FindUserPw")]
+        public async Task<IActionResult> FindUserPw(string id, string phone)
+        {
+            var isExsist = await userRepository.GetByNameAsync(id);
+
+            string status = "";
+            if (isExsist == null)
+            {
+
+                return Ok(status);
+            }
+            else if (isExsist != null)
+            {
+                if (isExsist.PhoneNum == phone)
+                {
+                    status = "2";
+                    return Ok(status);
+                }
+                else if (isExsist.PhoneNum != phone)
+                {
+                    status = "1";
+                    return Ok(status);
+                }
+            }
+
+            return Ok(status);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PasswordUpdate(EditUserRequest editUserRequest)
+        {
+            return RedirectToAction("Login");
         }
     }
 }

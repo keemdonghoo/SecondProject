@@ -307,6 +307,17 @@ namespace TeamProject.Migrations
                             PassWord = "1234",
                             PhoneNum = "01022222222",
                             UserName = "User1"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            Email = "ilhoho@ggg.bbb",
+                            IsAdmin = false,
+                            Name = "일반회원1",
+                            NickName = "일회2",
+                            PassWord = "1234",
+                            PhoneNum = "01022222223",
+                            UserName = "User2"
                         });
                 });
 

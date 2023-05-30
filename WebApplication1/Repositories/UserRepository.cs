@@ -41,6 +41,13 @@ namespace TeamProject.Repositories
 
             return exsistingUser;
         }
+        public async Task<User?> GetByUserNameAsync(string userName)
+        {
+            var exsistingUser = await movieDbContext.Users.FirstOrDefaultAsync(u => u.UserName == userName);
+            if (exsistingUser == null) return null;
+
+            return exsistingUser;
+        }
 
         public async Task<User?> DeleteAsync(long id)
         {
@@ -89,5 +96,6 @@ namespace TeamProject.Repositories
             await movieDbContext.SaveChangesAsync();
             return existingUser;
         }
+
     }
 }

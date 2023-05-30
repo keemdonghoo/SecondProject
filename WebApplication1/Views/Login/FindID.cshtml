@@ -3,45 +3,6 @@
 *@
 @{
 }
-<script>
-    async function findId() {
-        let name = document.getElementById("Name").value;
-        let phone = document.getElementById("pnid").value;
-
-        if (name.trim() === "") {
-            alert("아이디를 입력하세요.");
-            return;
-        }
-        else if (phone.trim() === "") {
-            alert("전화번호를 입력하세요.");
-            return;
-        }
-        try {
-            const response = await fetch(`/FindUserId?name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}`);
-            const data = await response.text();
-            alert(`${data}`)
-            if (data === "0") {
-                alert("존재하지 않는 사용자 정보 입니다.");
-                return;
-            }
-            else if (data === "2") {
-                alert("이름 존재함");
-            }
-        }
-        catch (error) {
-            alert(`오류가 발생했습니다: ${error}`);
-        }
-    }
-
-    async function findPw() {
-        let id = document.getElementById("ID").value;
-        let phone = document.getElementById("pnpw").value;
-
-        alert(`${id}`);
-        alert(`${phone}`);
-
-    }
-</script>
 @model TeamProject.Models.ViewModels.LoginRequest
 <body>
     <section class="login spad">
@@ -59,14 +20,14 @@
                                 <input type="text" placeholder="PhoneNumber" id="pnid">
                                 <span class="icon_phone"></span>
                             </div>
-                            <button onclick="findId()" type="submit" class="site-btn">Get ID</button>
+                            <button onclick="findId()" type="button" class="site-btn">Get ID</button>
                         </form>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="login__form">
                         <h3>Find Password</h3>
-                        <form action="#">
+                        <form>
                             <div class="input__item">
                                 <input type="text" placeholder="User ID" id="ID">
                                 <span class="icon_profile"></span>
@@ -75,7 +36,7 @@
                                 <input type="text" placeholder="PhoneNumber" id="pnpw">
                                 <span class="icon_phone"></span>
                             </div>
-                            <button onclick="findPw()" type="submit" class="site-btn">Get Password</button>
+                            <button onclick="findPw()" type="button" class="site-btn">Get Password</button>
                         </form>
                     </div>
                 </div>
@@ -85,4 +46,51 @@
     </section>
 
 </body>
+<script>
+    async function findId() {
+        let name = document.getElementById("Name").value;
+        let phone = document.getElementById("pnid").value;
+
+        if (name.trim() === "") {
+            alert("아이디를 입력하세요.");
+            return;
+        }
+        else if (phone.trim() === "") {
+            alert("전화번호를 입력하세요.");
+            return;
+        }
+
+        //alert(`${name}`)
+        //alert(`${phone}`)
+        try {
+            var url = `/FindUserId?name=${encodeURIComponent(name)}&phone=${phone}`;
+            const response = await fetch(url);
+            const data = await response.text();
+            alert(`${data}`)
+            if (data === "") {
+                alert("존재하지 않는 사용자 정보 입니다.");
+                return;
+            }
+            else if(data === "1")
+            {
+                alert("전화번호가 일치하지 않습니다.")
+            }
+            else if (data.length > 2) {
+                alert(`${data}`);
+            }
+        }
+        catch (error) {
+            alert(`오류가 발생했습니다: ${error}`);
+        }
+    }
+
+    async function findPw() {
+        let id = document.getElementById("ID").value;
+        let phone = document.getElementById("pnpw").value;
+
+        alert(`${id}`);
+        alert(`${phone}`);
+
+    }
+</script>
 

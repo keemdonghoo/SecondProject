@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TeamProject.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class addmigrationinit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -121,14 +121,15 @@ namespace TeamProject.Migrations
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<long>(type: "bigint", nullable: false),
-                    MovieUid = table.Column<long>(type: "bigint", nullable: false)
+                    MovieUid = table.Column<long>(type: "bigint", nullable: false),
+                    MovieId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Review", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Review_Movie_MovieUid",
-                        column: x => x.MovieUid,
+                        name: "FK_Review_Movie_MovieId",
+                        column: x => x.MovieId,
                         principalTable: "Movie",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -237,12 +238,18 @@ namespace TeamProject.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Board",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 1L, "자유게시판" });
+
+            migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "Id", "Email", "IsAdmin", "Name", "NickName", "PassWord", "PhoneNum", "UserName" },
                 values: new object[,]
                 {
                     { 1L, "admin@ggg.aaa", true, "주인장", "주인장", "1234", "01011111111", "Admin1" },
-                    { 2L, "ilhoho@ggg.aaa", false, "일반회원", "일회1", "1234", "01022222222", "User1" }
+                    { 2L, "ilhoho@ggg.aaa", false, "일반회원", "일회1", "1234", "01022222222", "User1" },
+                    { 3L, "ilhoho@ggg.bbb", false, "일반회원1", "일회2", "1234", "01022222223", "User2" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -286,9 +293,9 @@ namespace TeamProject.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Review_MovieUid",
+                name: "IX_Review_MovieId",
                 table: "Review",
-                column: "MovieUid");
+                column: "MovieId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Review_UserId",

@@ -19,41 +19,6 @@ namespace MyMovieApp.Controllers
             _tmdbService = tmdbService;
         }
 
-        //[HttpGet]
-        //[Route("Movie/Detail")]
-        //public async Task<IActionResult> Detail(long id)
-        //{
-        //    try
-        //    {
-        //        var movie = await _context.Movies.FindAsync(id);
-
-        //        if (movie == null)
-        //        {
-        //            var movieData = await _tmdbService.GetMovieAsync(id);
-
-        //            if (movieData == null)
-        //            {
-        //                return NotFound();
-        //            }
-
-        //            movie = new Movie
-        //            {
-        //                MovieUid = movieData.Id,
-        //                RateAvg = 0.0f,
-        //            };
-
-        //            _context.Movies.Add(movie);
-        //            await _context.SaveChangesAsync();
-        //        }
-
-        //        return View(movie);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
-
         public class MovieData
         {
             public long tmdbid { get; set; }

@@ -159,5 +159,24 @@ namespace TeamProject.Controllers
 			// 로그아웃 후 리다이렉트할 페이지를 지정합니다. (예: 로그인 페이지, 홈 페이지 등)
 			return RedirectToAction("Index", "Home");
 		}
-	}
+        [HttpGet]
+        public IActionResult FindID()
+        {
+            return View();
+        }
+        [HttpGet("FindUserId")]
+        public async Task<IActionResult> FindUserId(string name, AddUserRequest addUserRequest)
+        {
+
+
+            var isExsist = await userRepository.GetByNameAsync(name);
+            if (isExsist == null)
+            {
+                //addUserRequest.NameCheck = true;
+                //TempData["NameCheck"] = addUserRequest.NameCheck;
+                return Ok(true);
+            }
+            return Ok(false);
+        }
+    }
 }

@@ -136,6 +136,7 @@
         try {
             let response = await fetch(`/CheckId?id=${id}`);
             let data = await response.json();
+           
 
             if (data) {
                 alert('사용 가능한 아이디입니다.');

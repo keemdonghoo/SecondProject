@@ -39,7 +39,11 @@ namespace TeamProject.Controllers
         [Route("Home/Detail")]
         public async Task<IActionResult> Detail(string title)
         {
+            
             var movie = await _movieDbContext.Movies.FirstOrDefaultAsync(m => m.Title == title);
+
+            HttpContext.Session.SetString("MovieUid", movie.MovieUid.ToString());
+
             if (movie == null)
             {
                 return NotFound();
@@ -54,6 +58,7 @@ namespace TeamProject.Controllers
             return View(movie);
         }
 
+   
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -81,7 +86,7 @@ namespace TeamProject.Controllers
             {
                 var addReview = new Review
                 {
-                    MovieUid = model.MovieUid,
+                    MovieUid = long.Parse(movieUid),
                     Rate = model.Rating,
                     Content = model.Review,
                     Date = DateTime.Now,

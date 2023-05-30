@@ -13,7 +13,7 @@ namespace TeamProject.Controllers
     {
        
         private readonly IUserRepository userRepository;
-        private readonly IWriteRepository writeRepository;
+        
         
         public LoginController(IUserRepository userRepository)
         {
@@ -49,15 +49,14 @@ namespace TeamProject.Controllers
 
 
         [HttpGet("CheckId")]
-        public async Task<IActionResult> CheckId(string name, AddUserRequest addUserRequest)
+        public async Task<IActionResult> CheckId(string name)
         {
             
             
             var isExsist = await userRepository.GetByNameAsync(name);
             if (isExsist == null)
             {
-                //addUserRequest.NameCheck = true;
-                //TempData["NameCheck"] = addUserRequest.NameCheck;
+               
                 return Ok(true);
             }
             return Ok(false) ;
@@ -164,19 +163,20 @@ namespace TeamProject.Controllers
         {
             return View();
         }
-        [HttpGet("FindUserId")]
-        public async Task<IActionResult> FindUserId(string name, AddUserRequest addUserRequest)
+        /*[HttpGet("FindUserId")]
+        public async Task<IActionResult> FindUserId(string name,string phone)
         {
-
-
-            var isExsist = await userRepository.GetByNameAsync(name);
+            var isExsist = await userRepository.GetByUserNameAsync(name);
+            
+            int status = 0;
             if (isExsist == null)
             {
-                //addUserRequest.NameCheck = true;
-                //TempData["NameCheck"] = addUserRequest.NameCheck;
-                return Ok(true);
+                
+                return Ok(status);
             }
-            return Ok(false);
-        }
+            status = 2;
+            return Ok(status);
+        }*/
+
     }
 }

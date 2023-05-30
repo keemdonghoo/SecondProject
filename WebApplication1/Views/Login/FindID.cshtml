@@ -3,7 +3,7 @@
 *@
 @{
 }
-@model TeamProject.Models.ViewModels.LoginRequest
+@model TeamProject.Models.ViewModels.EditUserRequest
 <body>
     <section class="login spad">
         <div class="container">
@@ -37,20 +37,24 @@
                                 <span class="icon_phone"></span>
                             </div>
 
+                            <button onclick="findPw()" type="button" class="site-btn">Get Password</button>
+
+
                             <div id="NewPassword" style="display: none;">
+                                <div><span class="text-danger">@TempData["PassWordError"]</span></div>
                                 <div class="input__item">
-                                    <input type="text" placeholder="User Name" id="Name">
-                                    <span class="icon_profile"></span>
+                                    <input type="password" placeholder="Password" asp-for="PassWord" value="@Model.PassWord">
+                                    <span class="icon_lock"></span>
                                 </div>
+
                                 <div class="input__item">
-                                    <input type="text" placeholder="PhoneNumber" id="pnid">
-                                    <span class="icon_phone"></span>
+                                    <input type="password" placeholder="Password Check" asp-for="PassWordCheck" value="@Model.PassWord">
+                                    <span class="icon_lock"></span>
                                 </div>
-                                <button onclick="findPw()" type="button" class="site-btn">Get Password</button>
+                                <button onclick="findPw()" type="button" class="site-btn">New Password</button>
                             </div>
 
 
-                            <button onclick="findPw()" type="button" class="site-btn">Get Password</button>
                         </form>
                     </div>
                 </div>

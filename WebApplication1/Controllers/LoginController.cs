@@ -190,7 +190,7 @@ namespace TeamProject.Controllers
 
             return Ok(status);
         }
-        [HttpGet("FindUserId")]
+        [HttpGet("FindUserPw")]
         public async Task<IActionResult> FindUserPw(string id, string phone)
         {
             var isExsist = await userRepository.GetByNameAsync(id);
@@ -218,5 +218,10 @@ namespace TeamProject.Controllers
             return Ok(status);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> PasswordUpdate(EditUserRequest editUserRequest)
+        {
+            return RedirectToAction("Login");
+        }
     }
 }

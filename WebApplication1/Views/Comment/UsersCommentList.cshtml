@@ -1,11 +1,13 @@
-﻿@model List<TeamProject.Models.Domain.Comment>
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model List<TeamProject.Models.Domain.Comment>
 @{
-
+    long userId = long.Parse(HttpContextAccessor.HttpContext.Session.GetString("UserId"));
 }
 <h2>게시판</h2>
 <table class="table table-hover">
     <thead class="table-success">
         <tr>
+            <th>Check</th>
             <th>번호</th>
             <th>댓글 내용</th>
             <th>작성자</th>
@@ -20,6 +22,9 @@
             {
                 <tr>
                     <td>
+                        <input type="checkbox" name="selectedCommentIds[]" value="@comment.Id" />
+                    </td>
+                    <td>
                         <a asp-controller="Posts" asp-action="Postdetail"
                    asp-route-id="@comment.PostId">@comment.Id</a>
                     </td>
@@ -32,3 +37,14 @@
     </tbody>
 </table>
 
+<script src="~/js/DeleteComment/DeleteComments.js"></script>
+<div class="row">
+    <div class="col-12">
+        <button type="button" class="btn btn-outline-danger ms-2" id="btnDel">선택한 댓글 삭제</button>
+        <a asp-controller="User" asp-action="MyPage" asp-route-id ="@userId" class="site-btn">마이페이지</a>
+        <form method="POST" name="frmDelete" asp-controller="Comment"  asp-action="DeleteSelectedComments">
+            <input type="hidden" name="selectedCommentIds[]" />
+        </form>
+
+    </div>
+</div>

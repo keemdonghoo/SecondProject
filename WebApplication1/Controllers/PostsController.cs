@@ -331,8 +331,24 @@ namespace TeamProject.Controllers
 
 
 
+        [HttpPost]
+        public async Task<IActionResult> DeleteSelectedPosts(string selectedPostIds)
+        {
+            if (!string.IsNullOrEmpty(selectedPostIds))
+            {
+                var postIds = selectedPostIds.Split(',')
+                    .Select(id => long.TryParse(id, out long postId) ? postId : 0)
+                    .Where(postId => postId != 0)
+                    .ToList();
 
-	}
+                await writeRepository.DeleteSelectedPosts(postIds);
+                return View("DeletePost", 1);
+            }
+
+            return View("DeletePost", 0);
+        }
+
+    }
 
 
 }

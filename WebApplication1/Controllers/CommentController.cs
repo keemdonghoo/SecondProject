@@ -91,12 +91,28 @@ namespace TeamProject.Controllers
 
         }
 
+        [HttpPost]
+        public async Task<IActionResult> DeleteSelectedComments(string selectedCommentIds)
+        {
+            if (!string.IsNullOrEmpty(selectedCommentIds))
+            {
+                var commentIds = selectedCommentIds.Split(',')
+                    .Select(id => long.TryParse(id, out long commentId) ? commentId : 0)
+                    .Where(commentId => commentId != 0)
+                    .ToList();
 
-	
+                await writeRepository.DeleteSelectedComments(commentIds);
+                return View("DeleteComment", 1);
+            }
+
+            return View("DeleteComment", 0);
+        }
 
 
 
-		[HttpGet("comment/userscommentlist/{userId}")]
+
+
+        [HttpGet("comment/userscommentlist/{userId}")]
 		public async Task<IActionResult> UsersCommentList(long userId)
 		{
 

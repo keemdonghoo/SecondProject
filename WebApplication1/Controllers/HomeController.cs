@@ -106,7 +106,7 @@ namespace TeamProject.Controllers
                 var movieTitle = movie?.Title ?? "";
 
                 // 성공적으로 리뷰를 추가한 후 'Detail' 액션으로 리다이렉트합니다.
-                return RedirectToAction(nameof(Detail), new { title = movieTitle });
+                return RedirectToAction("Detail", "Home", new { title = movieTitle });
             }
             catch (Exception ex)
             {

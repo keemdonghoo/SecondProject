@@ -27,6 +27,7 @@ async function onMoviePosterClick(tmdbId, title) {
 async function getNowPlayingMoviesInKorea() {
     //ad220407e8473f052ed2e60c74d2a622
     //295ad79fa848cceace936f1e2c005bf7
+    //const apiKey = "d70fd30eea1771386c8cc6e39165b568";
     const apiKey = "295ad79fa848cceace936f1e2c005bf7";
     const today = new Date();
     const year = today.getFullYear();

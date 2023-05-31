@@ -97,5 +97,15 @@ namespace TeamProject.Repositories
             return existingUser;
         }
 
+        public async Task<User?> UpdatPassAsync(User user)
+        {
+            var existingUser = await movieDbContext.Users.FindAsync(user.Id);
+            if (existingUser == null) return null;
+
+            existingUser.PassWord = user.PassWord;
+
+            await movieDbContext.SaveChangesAsync();
+            return existingUser;
+        }
     }
 }

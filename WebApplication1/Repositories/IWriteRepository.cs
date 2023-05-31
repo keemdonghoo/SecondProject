@@ -46,7 +46,10 @@ namespace TeamProject.Repositories
         Task<Post?> DeletePostAsync(long postId);
         // 관리자 선택한 게시글들 삭제하기
         Task<Post> DeleteSelectedPosts(List<long> postIds);
+        //관리자 선택한 댓글들 삭제
         Task<Comment> DeleteSelectedComments(List<long> commentIds);
+        //관리자 선택한 리뷰들 삭제
+        Task<Review> DeleteSelectedReviews(List<long> reviewIds);
         //특정 게시글 조회수 +1
         Task<Post?> IncViewCntAsync(long uid);
 
@@ -59,6 +62,9 @@ namespace TeamProject.Repositories
         //관리자용 모든 댓글 목록
         Task<List<Comment>> AdminGetAllCommentAsync();
 
+        //관리자용 모든 리뷰 목록
+        Task<List<Review>> AdminGetAllReviewAsync();
+
 
         Task<IEnumerable<Post>> GetFromRowAsync(long boardId, int fromRow, int pageRows);
 
@@ -69,5 +75,9 @@ namespace TeamProject.Repositories
         Task SaveReviewAsync(Review review);
 
         Task<List<Review>?> GetIdReviewAsync(long movieUid);
+
+        Task<bool> ToggleFavoriteAsync(long userUid, long movieUid);
+        Task<IEnumerable<Favorite>> GetUserFavoriteAsync(long userId);
+
     }
 }

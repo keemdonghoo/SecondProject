@@ -11,8 +11,6 @@ using TeamProject.Data;
 
 namespace TeamProject.Migrations
 {
-    [DbContext(typeof(MovieDbContext))]
-    [Migration("20230531055621_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -85,13 +83,6 @@ namespace TeamProject.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Board");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            Name = "자유게시판"
-                        });
                 });
 
             modelBuilder.Entity("TeamProject.Models.Domain.Comment", b =>
@@ -239,9 +230,6 @@ namespace TeamProject.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("MovieId")
-                        .HasColumnType("bigint");
-
                     b.Property<long>("MovieUid")
                         .HasColumnType("bigint");
 
@@ -253,7 +241,7 @@ namespace TeamProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MovieId");
+                    b.HasIndex("MovieUid");
 
                     b.HasIndex("UserId");
 
@@ -320,17 +308,6 @@ namespace TeamProject.Migrations
                             PassWord = "1234",
                             PhoneNum = "01022222222",
                             UserName = "User1"
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            Email = "ilhoho@ggg.bbb",
-                            IsAdmin = false,
-                            Name = "일반회원1",
-                            NickName = "일회2",
-                            PassWord = "1234",
-                            PhoneNum = "01022222223",
-                            UserName = "User2"
                         });
                 });
 
@@ -432,7 +409,7 @@ namespace TeamProject.Migrations
                 {
                     b.HasOne("TeamProject.Models.Domain.Movie", "Movie")
                         .WithMany("Reviews")
-                        .HasForeignKey("MovieId")
+                        .HasForeignKey("MovieUid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

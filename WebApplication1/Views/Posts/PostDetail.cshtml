@@ -28,6 +28,7 @@
 <h2>조회 - @Model.Id</h2>
 <hr>
 <script src="~/js/DeletePost/DeletePost.js"></script>
+<script src="~/js/check/AddLike.js"></script>
 <link rel="stylesheet" href="~/css/comment.css" asp-append-version="true" />
 @if (isLoggedIn == "false")
 {
@@ -83,13 +84,20 @@
 
 		<div class="mb-3 mt-3">
 
-			<form method="POST" asp-controller="Like" asp-action="ToggleLike">
+			<form method="POST" name="frmLike" asp-controller="Like" asp-action="ToggleLike">
 				<input type="hidden" asp-for="@Model.Id" name="postId" />
 
 				<button type="submit" class="btn btn-primary" id="btnLike">
 					<span class="icon_like"></span>
 				</button>
 			</form>
+
+			@if (TempData["Notification"] != null)
+			{
+				<script>
+					alert('@Html.Raw(TempData["Notification"])');
+				</script>
+			}
 
 		</div>
 

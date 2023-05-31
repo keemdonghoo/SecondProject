@@ -9,6 +9,7 @@ using Controller = Microsoft.AspNetCore.Mvc.Controller;
 using TeamProject.Models.Domain;
 using TeamProject.Models.ViewModels;
 using TeamProject.Repositories;
+using System.Text.Json;
 
 namespace TeamProject.Controllers
 {
@@ -86,7 +87,7 @@ namespace TeamProject.Controllers
             {
                 var addReview = new Review
                 {
-                    MovieUid = long.Parse(movieUid),
+                    MovieUid = model.MovieUid,
                     Rate = model.Rating,
                     Content = model.Review,
                     Date = DateTime.Now,

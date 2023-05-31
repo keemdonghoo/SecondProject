@@ -10,6 +10,7 @@
     
     <!-- JQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="~/js/Logout/Logout.js"></script>
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -69,19 +70,20 @@
              
                 @if (isLoggedIn == "true")
                 {
-                    @if (isAdmin == "True")
-                    {
-                        <a asp-controller="Admin" asp-action="Adminpage"><span class="icon_star"></span></a>
-                    }
+                  
                     <div class="col-lg-2">
                         <div class="header__right">
+                            @if (isAdmin == "True")
+                            {
+                                <a asp-controller="Admin" asp-action="Adminpage"><span class="icon_star"></span></a>
+                            }
                             <a asp-controller="User" asp-action="Mypage"><span class="icon_profile"></span></a>
                             <a href="#" class="search"><span class="icon_search"></span></a>
                             <div id="searchBox" style="width: 0; overflow: hidden; transition: width 0.5s;">
                                 <input type="text" placeholder="Search..." />
                             </div>
-                            <form method="post" asp-controller="Login" asp-action="Logout">
-                                <button type="submit" class="logout-button">
+                            <form method="post" name="frmLogout" asp-controller="Login" asp-action="Logout">
+                                <button type="submit" class="logout-button" id="btnLogout">
                                     <span class="icon_lock-open"></span>
                                 </button>
                             </form>
@@ -162,6 +164,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    
     @await RenderSectionAsync("Scripts", required: false)
 
 </body>

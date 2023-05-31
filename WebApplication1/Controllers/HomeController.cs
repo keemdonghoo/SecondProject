@@ -43,6 +43,8 @@ namespace TeamProject.Controllers
             var movie = await _movieDbContext.Movies.FirstOrDefaultAsync(m => m.Title == title);
 
             HttpContext.Session.SetString("MovieUid", movie.MovieUid.ToString());
+            HttpContext.Session.SetString("Title", movie.Title);
+            HttpContext.Session.SetString("MovieId",movie.Id.ToString());
 
             if (movie == null)
             {
@@ -79,6 +81,7 @@ namespace TeamProject.Controllers
         {
             string userId = HttpContext.Session.GetString("UserId");
             string movieUid = HttpContext.Session.GetString("MovieUid");
+            string movieId = HttpContext.Session.GetString("MovieId");
             try
             {
                 var addReview = new Review

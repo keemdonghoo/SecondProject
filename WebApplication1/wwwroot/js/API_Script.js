@@ -26,7 +26,7 @@ async function onMoviePosterClick(tmdbId, title) {
 
 //한국영화진흥위원회 API를 사용하여 최대한 현재 상영중인 영화 받아오기
 async function getNowPlayingMoviesInKorea() {
-    const apiKey = "295ad79fa848cceace936f1e2c005bf7";
+    const apiKey = "d70fd30eea1771386c8cc6e39165b568";
     const today = new Date();
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, '0');

@@ -14,7 +14,7 @@
             <th>유저 닉네임</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody style="color: white;">
         @if (Model != null)
         {
             foreach (var user in Model)
@@ -25,7 +25,7 @@
 
                     </td>
                     <td>
-                        <a asp-controller="Admin" asp-action="Update"
+                        <a style="color: white" asp-controller="Admin" asp-action="Update"
                    asp-route-id="@user.Id">@user.Id</a>
                     </td>
                     <td>@user.Name</td>
@@ -41,6 +41,7 @@
 <div class="row">
     <div class="col-12">
         <button type="button" class="btn btn-outline-danger ms-2" id="btnDel">선택한 회원 추방</button>
+        <a asp-controller="Admin" asp-action="AdminPage" class="site-btn">관리자 페이지</a>
         <form method="POST" name="frmDelete" asp-controller="Admin" asp-action="DeleteSelectedUsers">
             <input type="hidden" name="selectedUserIds[]" />
         </form>

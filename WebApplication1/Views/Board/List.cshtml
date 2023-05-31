@@ -10,12 +10,27 @@
     int pageRows = (int)ViewData["pageRows"];  // 한 '페이지' 에 표시할 글 개수
 }
 @{
-    string isLoggeIn = HttpContextAccessor.HttpContext.Session.GetString("IsLoggedIn");
+    	string userIdString = HttpContextAccessor.HttpContext.Session.GetString("UserId");
+	long userId = 0; // 초기값 설정
+	string isLoggedIn = "false";
+
+	if (!string.IsNullOrEmpty(userIdString) && long.TryParse(userIdString, out userId))
+	{
+		// 유효한 사용자 ID가 있는 경우
+		isLoggedIn = HttpContextAccessor.HttpContext.Session.GetString("IsLoggedIn");
+
+	}
+	else
+	{
+		// 로그인하지 않은 사용자 또는 잘못된 사용자 ID의 경우
+		userId = 0;
+		isLoggedIn = "false";
+	}
 
 }
-<script src="~/js/Board/List.js"></script>
+<script src="~/js/Post/List.js"></script>
 
-@if (isLoggeIn == "false")
+@if (isLoggedIn == "false")
 {
     <script src="~/js/Loggedin/LoggedIn.js"></script>
 }

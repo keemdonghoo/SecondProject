@@ -1,0 +1,50 @@
+﻿@model List<TeamProject.Models.Domain.Review>
+@{
+
+}
+<h2>게시판</h2>
+<table class="table table-hover">
+    <thead class="table-success">
+        <tr>
+            <th>Check</th>
+            <th>번호</th>
+            <th>영화 제목</th>
+            <th>작성자</th>
+            <th>리뷰 내용</th>
+            <th>평점</th>
+        </tr>
+    </thead>
+    <tbody style="color: white;">
+        @if (Model != null)
+        {
+            foreach (var review in Model)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" name="selectedReviewIds[]" value="@review.Id" />
+                    </td>
+                    <td>@review.Id</td>
+                    <td>
+                        <a asp-controller="Home" asp-action="Detail" asp-route-title="@review.Movie.Title">@review.Movie.Title</a>
+
+                    </td>
+                    <td>@review.User.NickName</td>
+                    <td>@review.Content</td>
+                    <td>@review.Rate</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<script src="~/js/DeleteReview/deleteReviews.js"></script>
+<div class="row">
+    <div class="col-12">
+        <button type="button" class="btn btn-outline-danger ms-2" id="btnDel">선택한 리뷰 삭제</button>
+        <a asp-controller="Admin" asp-action="AdminPage" class="site-btn">관리자 페이지</a>
+        <form method="POST" name="frmDelete" asp-controller="Admin" asp-action="DeleteSelectedReviews">
+            <input type="hidden" name="selectedReviewIds[]" />
+        </form>
+    </div>
+</div>
+

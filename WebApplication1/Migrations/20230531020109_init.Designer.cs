@@ -12,15 +12,7 @@ using TeamProject.Data;
 namespace TeamProject.Migrations
 {
     [DbContext(typeof(MovieDbContext))]
-<<<<<<<< HEAD:WebApplication1/Migrations/20230530000230_init.Designer.cs
-    [Migration("20230530000230_init")]
-========
-<<<<<<<< HEAD:WebApplication1/Migrations/20230526080018_init.Designer.cs
-    [Migration("20230526080018_init")]
-========
-    [Migration("20230530014346_init")]
->>>>>>>> 12bd5ebc9ff93017ca751e1dfea90f4001eeb6d8:WebApplication1/Migrations/20230530014346_init.Designer.cs
->>>>>>>> c014818b9d191dc8ba9771e3a1b1aa243abce540:WebApplication1/Migrations/20230526080018_init.Designer.cs
+    [Migration("20230531020109_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -32,21 +24,6 @@ namespace TeamProject.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("FavoriteMovie", b =>
-                {
-                    b.Property<long>("FavoritesId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("MoviesId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("FavoritesId", "MoviesId");
-
-                    b.HasIndex("MoviesId");
-
-                    b.ToTable("FavoriteMovie");
-                });
 
             modelBuilder.Entity("TeamProject.Models.Domain.Attachment", b =>
                 {
@@ -140,6 +117,9 @@ namespace TeamProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
+                    b.Property<long>("MovieId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -148,6 +128,8 @@ namespace TeamProject.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MovieId");
 
                     b.HasIndex("UserId");
 
@@ -342,21 +324,6 @@ namespace TeamProject.Migrations
                         });
                 });
 
-            modelBuilder.Entity("FavoriteMovie", b =>
-                {
-                    b.HasOne("TeamProject.Models.Domain.Favorite", null)
-                        .WithMany()
-                        .HasForeignKey("FavoritesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TeamProject.Models.Domain.Movie", null)
-                        .WithMany()
-                        .HasForeignKey("MoviesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("TeamProject.Models.Domain.Attachment", b =>
                 {
                     b.HasOne("TeamProject.Models.Domain.Post", "Post")
@@ -389,11 +356,19 @@ namespace TeamProject.Migrations
 
             modelBuilder.Entity("TeamProject.Models.Domain.Favorite", b =>
                 {
+                    b.HasOne("TeamProject.Models.Domain.Movie", "Movie")
+                        .WithMany("Favorites")
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("TeamProject.Models.Domain.User", "User")
                         .WithMany("Favorites")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Movie");
 
                     b.Navigation("User");
                 });
@@ -462,6 +437,8 @@ namespace TeamProject.Migrations
 
             modelBuilder.Entity("TeamProject.Models.Domain.Movie", b =>
                 {
+                    b.Navigation("Favorites");
+
                     b.Navigation("Reviews");
                 });
 

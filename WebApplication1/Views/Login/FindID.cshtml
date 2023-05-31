@@ -139,7 +139,8 @@
     }
 
 
-    function validatePassword() {
+    async function validatePassword() {
+        var id = document.getElementById("ID").value;
         var pw = document.getElementById("PassWord").value;
         var pwch = document.getElementById("PassWordCheck").value;
         var regex = /^.*@(regex.ToString()).*$/;
@@ -164,20 +165,22 @@
         }
         else 
         {
-            var data = { pw: pw };
-            $.ajax({
-                url: "/ControllerName/PasswordUpdate", // 액션 메서드의 경로로 변경
-                type: "POST",
-                data: data,
-                success: function (response) {
-                    // 요청이 성공했을 때 처리할 코드
-                    window.location.href = "/ControllerName/Login"; // 리디렉션 처리
-                },
-                error: function (xhr, status, error) {
-                    // 요청이 실패했을 때 처리할 코드
-                    alert("비밀번호 업데이트에 실패했습니다.");
+            try{
+                var url = `/PasswordUpdate?pw=${pw}&id=${id}`;
+                let response = await fetch(url);
+                let data = await response.json();
+
+                if(data){
+                    alert("비밀번호 설정이 완료 되었습니다.")
+                    window.location.href = "/Login/Login";
                 }
-            });
+                else alert("비밀번호 수정오류")
+            }
+            catch (error) {
+                alert(`오류가 발생했습니다: ${error}`);
+            }
+
+            
         }
         // 정규표현식으로 비밀번호 검증
         

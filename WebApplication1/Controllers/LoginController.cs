@@ -218,11 +218,24 @@ namespace TeamProject.Controllers
             return Ok(status);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> PasswordUpdate(NewPassWordRequest newPassWordRequest,string pw)
+        [HttpGet("PasswordUpdate")]
+        public async Task<IActionResult> PasswordUpdate(string pw,string id)
         {
-            var pass = pw;
-            return RedirectToAction("Login");
+            var user = await userRepository.GetByNameAsync(id);
+            var upUser = new User
+            {
+                Id = user.Id,
+                PassWord = pw,
+            };
+            var upPass = await userRepository.UpdatPassAsync(upUser);
+            if (upPass == null)
+            {
+                // 수정 실패하면 List 로
+                return Ok(false);
+            }
+            return Ok(true);
+
+            
         }
     }
 }

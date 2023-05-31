@@ -30,9 +30,6 @@
     <link rel="stylesheet" href="~/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="~/css/style.css" type="text/css">
 
-    @*<script>
-        window.isLoggedIn = '@User.Identity.IsAuthenticated' === 'True';
-    </script>*@
 </head>
 
 <body>
@@ -56,10 +53,8 @@
                     <div class="header__nav">
                         <nav class="header__menu mobile-menu">
                             <ul>
-                                <li><a asp-controller="Home" asp-action="Index">Homepage</a></li> <!--홈버튼-->                               
-
+                                <li><a asp-controller="Home" asp-action="Index">Homepage</a></li>
                                 <li><a asp-controller="Board" asp-action="List" asp-route-id="1">게시판</a></li>
-                                <li><a href="#">Contacts</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -155,7 +150,6 @@
     <!-- Footer Section End -->
 
     <!-- Js Plugins -->
-    <script src="~/js/DbSearch.js"></script>
     <script src="~/js/jquery-3.3.1.min.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
     <script src="~/js/player.js"></script>
@@ -167,7 +161,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    
+    <script src="~/js/SearchMovie.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 
 </body>

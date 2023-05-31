@@ -1,12 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TeamProject.Data;
+using System.Diagnostics;
+using TeamProject.Models;
 using TeamProject.Models.Domain;
+using ActionResult = Microsoft.AspNetCore.Mvc.ActionResult;
+using Controller = Microsoft.AspNetCore.Mvc.Controller;
 using System;
 using TeamProject.Repositories;
 using Microsoft.IdentityModel.Tokens;
+using TeamProject.Models.ViewModels;
+using System.Text.Json;
 
-namespace MyMovieApp.Controllers
+namespace TeamProject.Controllers
 {
     public class MovieController : Controller
     {
@@ -68,5 +74,7 @@ namespace MyMovieApp.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+
     }
 }

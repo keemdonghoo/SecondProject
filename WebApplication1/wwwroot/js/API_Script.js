@@ -1,5 +1,4 @@
 async function onMoviePosterClick(tmdbId, title) {
-    console.log(`tmdbId: ${tmdbId}, title: ${title}`);
     const response = await fetch('/Movie/EnsureMovieInDatabase', {
         method: 'POST',
         headers: {
@@ -26,7 +25,10 @@ async function onMoviePosterClick(tmdbId, title) {
 
 //한국영화진흥위원회 API를 사용하여 최대한 현재 상영중인 영화 받아오기
 async function getNowPlayingMoviesInKorea() {
-    const apiKey = "d70fd30eea1771386c8cc6e39165b568";
+    //ad220407e8473f052ed2e60c74d2a622
+    //295ad79fa848cceace936f1e2c005bf7
+    //const apiKey = "d70fd30eea1771386c8cc6e39165b568";
+    const apiKey = "295ad79fa848cceace936f1e2c005bf7";
     const today = new Date();
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, '0');
@@ -98,16 +100,19 @@ function findBestMatch(originalTitle, searchResults) {
     let bestMatchDistance = Infinity;
 
     for (const result of searchResults) {
-        const distance = levenshteinDistance(originalTitle.toLowerCase(), result.title.toLowerCase());
+        if (originalTitle && result.title) {
+            const distance = levenshteinDistance(originalTitle.toLowerCase(), result.title.toLowerCase());
 
-        if (distance < bestMatchDistance) {
-            bestMatch = result;
-            bestMatchDistance = distance;
+            if (distance < bestMatchDistance) {
+                bestMatch = result;
+                bestMatchDistance = distance;
+            }
         }
     }
 
     return bestMatch;
 }
+
 
 
 //영화 제목 및 포스터 받아오기

@@ -1,11 +1,14 @@
-﻿@model List<TeamProject.Models.Domain.Post>
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model List<TeamProject.Models.Domain.Post>
 @{
-
+    long userId = long.Parse(HttpContextAccessor.HttpContext.Session.GetString("UserId"));
+}
 }
 <h2>게시판</h2>
 <table class="table table-hover product__page__title" style="color: white">
     <thead class="product__page__title" style=" color: white">
         <tr>
+            <th>Check</th>
             <th>번호</th>
             <th>제목</th>
             <th>작성자</th>
@@ -19,6 +22,9 @@
             foreach (var write in Model)
             {
                 <tr>
+                    <td>
+                        <input type="checkbox" name="selectedPostIds[]" value="@write.Id" />
+                    </td>
                     <td>@write.Id</td>
                     <td>
                         <a style="color: white" asp-controller="Posts" asp-action="PostDetail"
@@ -32,8 +38,14 @@
         }
     </tbody>
 </table>
+<script src="~/js/DeletePost/DeletePosts.js"></script>
 <div class="row">
     <div class="col-12">
-        <a class="site-btn" asp-controller="Posts" asp-action="Create">글쓰기</a>
+        <button type="button" class="btn btn-outline-danger ms-2" id="btnDel">선택한 글 삭제</button>
+        <a asp-controller="User" asp-action="MyPage" asp-route-id="@userId" class="site-btn">마이페이지</a>
+        <form method="POST" name="frmDelete" asp-controller="Posts" asp-action="DeleteSelectedPosts">
+            <input type="hidden" name="selectedPostIds[]" />
+        </form>
+
     </div>
 </div>

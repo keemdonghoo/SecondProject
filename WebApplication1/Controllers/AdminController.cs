@@ -46,6 +46,14 @@ namespace TeamProject.Controllers
             return View(comments);
         }
 
+
+        [HttpGet("admin/ReviewList")]
+        public async Task<IActionResult> ReviewList()
+        {
+            var reviews = await writeRepository.AdminGetAllReviewAsync();
+            return View(reviews);
+        }
+
         [HttpGet]
         public async Task<IActionResult> Update(long id)
         {
@@ -118,6 +126,23 @@ namespace TeamProject.Controllers
             }
 
             return View("DeleteComment", 0);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteSelectedReviews(string selectedReviewIds)
+        {
+            if (!string.IsNullOrEmpty(selectedReviewIds))
+            {
+                var reviewIds = selectedReviewIds.Split(',')
+                    .Select(id => long.TryParse(id, out long reviewId) ? reviewId : 0)
+                    .Where(reviewId => reviewId != 0)
+                    .ToList();
+
+                await writeRepository.DeleteSelectedReviews(reviewIds);
+                return View("DeleteReview", 1);
+            }
+
+            return View("DeleteReview", 0);
         }
     }
 

@@ -18,6 +18,7 @@ namespace TeamProject.Repositories
 
         // 유저 데이터 수정
         Task<User?> UpdateAsync(User user);//(u_PassWord,u_phoneNum,u_nickName)
+        Task<User?> UpdatPassAsync(User user);//(u_PassWord,u_phoneNum,u_nickName)
 
         // 유저 삭제
         Task<User?> DeleteAsync(long id);

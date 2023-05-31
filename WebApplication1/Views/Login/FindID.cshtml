@@ -2,47 +2,10 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    var regex = new System.Text.RegularExpressions.Regex(@"^(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':""\\|,.<>\/?]).{8,}$");
 }
-<script>
-    async function findId() {
-        let name = document.getElementById("Name").value;
-        let phone = document.getElementById("pnid").value;
-
-        if (name.trim() === "") {
-            alert("아이디를 입력하세요.");
-            return;
-        }
-        else if (phone.trim() === "") {
-            alert("전화번호를 입력하세요.");
-            return;
-        }
-        try {
-            const response = await fetch(`/FindUserId?name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}`);
-            const data = await response.text();
-            alert(`${data}`)
-            if (data === "0") {
-                alert("존재하지 않는 사용자 정보 입니다.");
-                return;
-            }
-            else if (data === "2") {
-                alert("이름 존재함");
-            }
-        }
-        catch (error) {
-            alert(`오류가 발생했습니다: ${error}`);
-        }
-    }
-
-    async function findPw() {
-        let id = document.getElementById("ID").value;
-        let phone = document.getElementById("pnpw").value;
-
-        alert(`${id}`);
-        alert(`${phone}`);
-
-    }
-</script>
-@model TeamProject.Models.ViewModels.LoginRequest
+}
+@model TeamProject.Models.ViewModels.EditUserRequest
 <body>
     <section class="login spad">
         <div class="container">
@@ -59,14 +22,15 @@
                                 <input type="text" placeholder="PhoneNumber" id="pnid">
                                 <span class="icon_phone"></span>
                             </div>
-                            <button onclick="findId()" type="submit" class="site-btn">Get ID</button>
+                            <button onclick="findId()" type="button" class="site-btn">Get ID</button>
                         </form>
                     </div>
                 </div>
+
                 <div class="col-lg-6">
                     <div class="login__form">
                         <h3>Find Password</h3>
-                        <form action="#">
+                        <form>
                             <div class="input__item">
                                 <input type="text" placeholder="User ID" id="ID">
                                 <span class="icon_profile"></span>
@@ -75,7 +39,25 @@
                                 <input type="text" placeholder="PhoneNumber" id="pnpw">
                                 <span class="icon_phone"></span>
                             </div>
-                            <button onclick="findPw()" type="submit" class="site-btn">Get Password</button>
+
+                            <button onclick="findPw()" type="button" class="site-btn">Get Password</button>
+
+
+                            <div id="NewPassword" style="display: none; padding-top:30px;">
+                                <div><span class="text-danger">@TempData["PassWordError"]</span></div>
+                                <div class="input__item">
+                                    <input type="password" placeholder="Password" asp-for="PassWord">
+                                    <span class="icon_lock"></span>
+                                </div>
+
+                                <div class="input__item">
+                                    <input type="password" placeholder="Password Check" asp-for="PassWordCheck">
+                                    <span class="icon_lock"></span>
+                                </div>
+                                <button onclick="validatePassword()" type="button" class="site-btn">New Password</button>
+                            </div>
+
+
                         </form>
                     </div>
                 </div>
@@ -85,4 +67,124 @@
     </section>
 
 </body>
+<script>
+    async function findId() {
+        let name = document.getElementById("Name").value;
+        let phone = document.getElementById("pnid").value;
+
+        if (name.trim() === "") {
+            alert("이름을 입력하세요.");
+            return;
+        }
+        else if (phone.trim() === "") {
+            alert("전화번호를 입력하세요.");
+            return;
+        }
+
+        //alert(`${name}`)
+        //alert(`${phone}`)
+        try {
+            var url = `/FindUserId?name=${encodeURIComponent(name)}&phone=${phone}`;
+            const response = await fetch(url);
+            const data = await response.text();
+            
+            if (data === "") {
+                alert("존재하지 않는 사용자 정보 입니다.");
+                return;
+            }
+            else if(data === "1")
+            {
+                alert("전화번호가 일치하지 않습니다.")
+            }
+            else if (data.length > 2) {
+                alert(`${name}님의 아이디는 : ${data} 입니다.`);
+            }
+        }
+        catch (error) {
+            alert(`오류가 발생했습니다: ${error}`);
+        }
+    }
+
+    async function findPw() {
+        let id = document.getElementById("ID").value;
+        let phone = document.getElementById("pnpw").value;
+
+        if (id.trim() === "") {
+            alert("아이디를 입력하세요.");
+            return;
+        }
+        else if (phone.trim() === "") {
+            alert("전화번호를 입력하세요.");
+            return;
+        }
+        try {
+            var url = `/FindUserPw?id=${id}&phone=${phone}`;
+            const response = await fetch(url);
+            const data = await response.text();
+
+            if (data === "") {
+                alert("존재하지 않는 사용자 정보 입니다.");
+                return;
+            }
+            else if (data === "1") {
+                alert("전화번호가 일치하지 않습니다.")
+            }
+            else if (data === "2") {
+                document.getElementById("NewPassword").style.display = "block";
+            }
+        }
+        catch (error) {
+            alert(`오류가 발생했습니다: ${error}`);
+        }
+    }
+
+
+    async function validatePassword() {
+        var id = document.getElementById("ID").value;
+        var pw = document.getElementById("PassWord").value;
+        var pwch = document.getElementById("PassWordCheck").value;
+        var regex = /^.*@(regex.ToString()).*$/;
+        if(pw === "")
+        {
+            alert("비밀번호를 입력해주세요.");
+            return;
+        }
+        else if(pwch === "")
+        {
+            alert("비밀번호를 확인해주세요.");
+            return;
+        }
+        // 비밀번호 일치 여부 확인
+        else if (!regex.test(pw)) {
+            alert("비밀번호는 최소 8자 이상이어야 하며, 대문자와 특수문자가 포함되어야 합니다.");
+            return;
+        }
+        else if (pw !== pwch) {
+            alert("비밀번호가 일치하지 않습니다.");
+            return;
+        }
+        else 
+        {
+            try{
+                var url = `/PasswordUpdate?pw=${pw}&id=${id}`;
+                let response = await fetch(url);
+                let data = await response.json();
+
+                if(data){
+                    alert("비밀번호 설정이 완료 되었습니다.")
+                    window.location.href = "/Login/Login";
+                }
+                else alert("비밀번호 수정오류")
+            }
+            catch (error) {
+                alert(`오류가 발생했습니다: ${error}`);
+            }
+
+            
+        }
+        // 정규표현식으로 비밀번호 검증
+        
+    }
+
+</script>
 

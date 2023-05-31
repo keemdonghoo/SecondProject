@@ -49,11 +49,11 @@ namespace TeamProject.Controllers
 
 
         [HttpGet("CheckId")]
-        public async Task<IActionResult> CheckId(string name)
+        public async Task<IActionResult> CheckId(string id)
         {
             
             
-            var isExsist = await userRepository.GetByNameAsync(name);
+            var isExsist = await userRepository.GetByNameAsync(id);
             if (isExsist == null)
             {
                
@@ -163,20 +163,79 @@ namespace TeamProject.Controllers
         {
             return View();
         }
-        /*[HttpGet("FindUserId")]
-        public async Task<IActionResult> FindUserId(string name,string phone)
+        [HttpGet("FindUserId")]
+        public async Task<IActionResult> FindUserId(string name, string phone)
         {
             var isExsist = await userRepository.GetByUserNameAsync(name);
-            
-            int status = 0;
+
+            string status = "";
             if (isExsist == null)
             {
-                
+
                 return Ok(status);
             }
-            status = 2;
-            return Ok(status);
-        }*/
+            else if (isExsist != null)
+            {
+                if (isExsist.PhoneNum == phone)
+                {
+                    status = isExsist.Name;
+                    return Ok(status);
+                }
+                else if (isExsist.PhoneNum != phone)
+                {
+                    status = "1";
+                    return Ok(status);
+                }
+            }
 
+            return Ok(status);
+        }
+        [HttpGet("FindUserPw")]
+        public async Task<IActionResult> FindUserPw(string id, string phone)
+        {
+            var isExsist = await userRepository.GetByNameAsync(id);
+
+            string status = "";
+            if (isExsist == null)
+            {
+
+                return Ok(status);
+            }
+            else if (isExsist != null)
+            {
+                if (isExsist.PhoneNum == phone)
+                {
+                    status = "2";
+                    return Ok(status);
+                }
+                else if (isExsist.PhoneNum != phone)
+                {
+                    status = "1";
+                    return Ok(status);
+                }
+            }
+
+            return Ok(status);
+        }
+
+        [HttpGet("PasswordUpdate")]
+        public async Task<IActionResult> PasswordUpdate(string pw,string id)
+        {
+            var user = await userRepository.GetByNameAsync(id);
+            var upUser = new User
+            {
+                Id = user.Id,
+                PassWord = pw,
+            };
+            var upPass = await userRepository.UpdatPassAsync(upUser);
+            if (upPass == null)
+            {
+                // 수정 실패하면 List 로
+                return Ok(false);
+            }
+            return Ok(true);
+
+            
+        }
     }
 }

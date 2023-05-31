@@ -1,0 +1,36 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+
+@model List<TeamProject.Models.Domain.Favorite>
+
+@{
+    string movieTitle = HttpContextAccessor.HttpContext.Session.GetString("Title");
+
+}
+<h2>내 재생목록</h2>
+<table class="table table-hover">
+    <thead class="table-success">
+        <tr>
+            <th>재생목록 이름</th>
+            <th>영화 이름</th>
+         
+
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var favorite in Model)
+            {
+                <tr>
+                    <td>@favorite.Name</td>
+                    <td>
+                        <a asp-controller="Home" asp-action="Detail" asp-route-title="@favorite.Movie.Title">@favorite.Movie.Title</a>
+
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+

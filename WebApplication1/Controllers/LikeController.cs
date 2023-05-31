@@ -22,7 +22,14 @@ namespace TeamProject.Controllers
 
 				var isLiked = await writeRepository.ToggleLikeAsync(userUid, postId);
 
-
+				if (isLiked)
+				{
+					TempData["Notification"] = "글을 좋아요 하셨습니다.";
+				}
+				else
+				{
+					TempData["Notification"] = "좋아요를 취소하셨습니다.";
+				}
 
 				return RedirectToAction("PostDetail", "Posts", new { id = postId });
 			}

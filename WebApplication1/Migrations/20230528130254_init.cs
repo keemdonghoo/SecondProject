@@ -66,12 +66,19 @@ namespace TeamProject.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<long>(type: "bigint", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MovieId = table.Column<long>(type: "bigint", nullable: false),
+                    UserId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Favorite", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Favorite_Movie_MovieId",
+                        column: x => x.MovieId,
+                        principalTable: "Movie",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Favorite_User_UserId",
                         column: x => x.UserId,
@@ -136,30 +143,6 @@ namespace TeamProject.Migrations
                         name: "FK_Review_User_UserId",
                         column: x => x.UserId,
                         principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "FavoriteMovie",
-                columns: table => new
-                {
-                    FavoritesId = table.Column<long>(type: "bigint", nullable: false),
-                    MoviesId = table.Column<long>(type: "bigint", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FavoriteMovie", x => new { x.FavoritesId, x.MoviesId });
-                    table.ForeignKey(
-                        name: "FK_FavoriteMovie_Favorite_FavoritesId",
-                        column: x => x.FavoritesId,
-                        principalTable: "Favorite",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_FavoriteMovie_Movie_MoviesId",
-                        column: x => x.MoviesId,
-                        principalTable: "Movie",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -242,7 +225,8 @@ namespace TeamProject.Migrations
                 values: new object[,]
                 {
                     { 1L, "admin@ggg.aaa", true, "주인장", "주인장", "1234", "01011111111", "Admin1" },
-                    { 2L, "ilhoho@ggg.aaa", false, "일반회원", "일회1", "1234", "01022222222", "User1" }
+                    { 2L, "ilhoho@ggg.aaa", false, "일반회원", "일회1", "1234", "01022222222", "User1" },
+                    { 3L, "ilhoho@ggg.bbb", false, "일반회원1", "일회2", "1234", "01022222223", "User2" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -261,14 +245,14 @@ namespace TeamProject.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Favorite_MovieId",
+                table: "Favorite",
+                column: "MovieId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Favorite_UserId",
                 table: "Favorite",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_FavoriteMovie_MoviesId",
-                table: "FavoriteMovie",
-                column: "MoviesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Like_PostId",
@@ -306,16 +290,13 @@ namespace TeamProject.Migrations
                 name: "Comment");
 
             migrationBuilder.DropTable(
-                name: "FavoriteMovie");
+                name: "Favorite");
 
             migrationBuilder.DropTable(
                 name: "Like");
 
             migrationBuilder.DropTable(
                 name: "Review");
-
-            migrationBuilder.DropTable(
-                name: "Favorite");
 
             migrationBuilder.DropTable(
                 name: "Post");

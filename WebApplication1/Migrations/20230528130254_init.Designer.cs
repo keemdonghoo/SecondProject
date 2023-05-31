@@ -12,11 +12,11 @@ using TeamProject.Data;
 namespace TeamProject.Migrations
 {
     [DbContext(typeof(MovieDbContext))]
-<<<<<<<< HEAD:WebApplication1/Migrations/20230531055621_init.Designer.cs
-    [Migration("20230531055621_init")]
+<<<<<<<< HEAD:WebApplication1/Migrations/20230531020109_init.Designer.cs
+    [Migration("20230531020109_init")]
 ========
-    [Migration("20230526064234_init")]
->>>>>>>> e5f8a957a467c880de0a1cfc4ebd5a0d1a90bf91:WebApplication1/Migrations/20230526064234_init.Designer.cs
+    [Migration("20230528130254_init")]
+>>>>>>>> 581aae32be872b1ba21a19d19ca693d2ee7ede2f:WebApplication1/Migrations/20230528130254_init.Designer.cs
     partial class init
     {
         /// <inheritdoc />
@@ -28,21 +28,6 @@ namespace TeamProject.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("FavoriteMovie", b =>
-                {
-                    b.Property<long>("FavoritesId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("MoviesId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("FavoritesId", "MoviesId");
-
-                    b.HasIndex("MoviesId");
-
-                    b.ToTable("FavoriteMovie");
-                });
 
             modelBuilder.Entity("TeamProject.Models.Domain.Attachment", b =>
                 {
@@ -129,6 +114,9 @@ namespace TeamProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
+                    b.Property<long>("MovieId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -137,6 +125,8 @@ namespace TeamProject.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MovieId");
 
                     b.HasIndex("UserId");
 
@@ -314,22 +304,18 @@ namespace TeamProject.Migrations
                             PassWord = "1234",
                             PhoneNum = "01022222222",
                             UserName = "User1"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            Email = "ilhoho@ggg.bbb",
+                            IsAdmin = false,
+                            Name = "일반회원1",
+                            NickName = "일회2",
+                            PassWord = "1234",
+                            PhoneNum = "01022222223",
+                            UserName = "User2"
                         });
-                });
-
-            modelBuilder.Entity("FavoriteMovie", b =>
-                {
-                    b.HasOne("TeamProject.Models.Domain.Favorite", null)
-                        .WithMany()
-                        .HasForeignKey("FavoritesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TeamProject.Models.Domain.Movie", null)
-                        .WithMany()
-                        .HasForeignKey("MoviesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("TeamProject.Models.Domain.Attachment", b =>
@@ -364,11 +350,19 @@ namespace TeamProject.Migrations
 
             modelBuilder.Entity("TeamProject.Models.Domain.Favorite", b =>
                 {
+                    b.HasOne("TeamProject.Models.Domain.Movie", "Movie")
+                        .WithMany("Favorites")
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("TeamProject.Models.Domain.User", "User")
                         .WithMany("Favorites")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Movie");
 
                     b.Navigation("User");
                 });
@@ -437,6 +431,8 @@ namespace TeamProject.Migrations
 
             modelBuilder.Entity("TeamProject.Models.Domain.Movie", b =>
                 {
+                    b.Navigation("Favorites");
+
                     b.Navigation("Reviews");
                 });
 

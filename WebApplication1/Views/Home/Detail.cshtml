@@ -27,6 +27,11 @@
 	<script src="~/js/Loggedin/LoggedIn.js"></script>
 }
 <script src="~/js/detail.js"></script>
+<script src="~/js/DeleteReview/DeleteReview.js"></script>
+
+<form method="POST" name="frmDeleteReview" asp-controller="Home" asp-action="DeleteReview">
+	<input type="hidden" asp-for="Id" name="reviewId">
+</form>
 
 
 
@@ -124,7 +129,7 @@
 							<h5>Reviews</h5>
 						</div>
 
-
+						
 						@foreach (var review in Model.Reviews)
 						{
 							<!-- 사용자가 리뷰를 작성함에 따라 실시간 추가 및 삭제 -->
@@ -133,6 +138,14 @@
 									<h6>@review.User.NickName <span> - </span> <span> @review.Date</span></h6>
 									<p>
 										@review.Content
+										@if (review.User.Id == userId)
+										{
+											<button type="button"
+													class="btn btn-outline-danger ms-2 btnDelReview"
+													data-review-id="@review.Id">
+												삭제
+											</button>
+										}
 									</p>
 								</div>
 							</div>

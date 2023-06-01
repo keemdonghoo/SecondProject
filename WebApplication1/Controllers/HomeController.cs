@@ -115,6 +115,23 @@ namespace TeamProject.Controllers
         }
 
 
+		[HttpPost]
+		public async Task<IActionResult> DeleteReview(long ReviewId)
+		{
+			var deleteReview = await _writeRepository.DeleteReviewAsync(ReviewId);
 
-    }
+			if (deleteReview != null)
+			{
+				// 삭제 성공
+				return View("Delete", 1);
+			}
+
+			// 삭제 실패
+			return View("Delete", 0);
+
+		}
+
+
+
+	}
 }

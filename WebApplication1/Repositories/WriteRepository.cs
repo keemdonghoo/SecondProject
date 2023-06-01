@@ -125,8 +125,20 @@ namespace TeamProject.Repositories
             return null;
         }
 
-        // 관리자 선택한 댓글들 삭제하기
-        public async Task<Comment> DeleteSelectedComments(List<long> commentIds)
+		public async Task<Review?> DeleteReviewAsync(long Id)
+		{
+			var existingReview= await movieDbContext.Reviews.FindAsync(Id);
+			if (existingReview != null)
+			{
+				movieDbContext.Reviews.Remove(existingReview);
+				await movieDbContext.SaveChangesAsync();  // DELETE
+				return existingReview;
+			}
+			return null;
+		}
+
+		// 관리자 선택한 댓글들 삭제하기
+		public async Task<Comment> DeleteSelectedComments(List<long> commentIds)
         {
 
 

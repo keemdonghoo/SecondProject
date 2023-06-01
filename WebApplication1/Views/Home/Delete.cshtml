@@ -1,0 +1,19 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@{
+string movieTitle = HttpContextAccessor.HttpContext.Session.GetString("Title");
+}
+@if (Model <= 0)
+{
+    <script>
+        alert("삭제 실패");
+        history.back();
+    </script>
+}
+else
+{
+    <script>
+        alert("삭제 성공");
+        location.href = "/Home/Detail/?title=@Html.Raw(movieTitle)";
+    </script>
+}

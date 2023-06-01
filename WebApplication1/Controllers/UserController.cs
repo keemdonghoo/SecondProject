@@ -122,6 +122,10 @@ namespace TeamProject.Controllers
 		[HttpPost]
         public async Task<IActionResult> Delete(long id)
         {
+            HttpContext.Session.Remove("UserId");
+            HttpContext.Session.Remove("IsLoggedIn");
+            HttpContext.Session.Remove("IsAdmin");
+
             var deleteUser = await userRepository.DeleteAsync(id);
 
             if (deleteUser != null)

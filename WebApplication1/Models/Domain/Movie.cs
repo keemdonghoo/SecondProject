@@ -11,6 +11,8 @@ namespace TeamProject.Models.Domain
         //영화제목
         public string Title { get; set; }
 
+        //public string poster_path { get; set; }
+
         //영화 고유 ID
         public long MovieUid { get; set; }
         //영화 평균 평점

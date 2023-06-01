@@ -136,17 +136,6 @@ async function postReview(event) {
     event.preventDefault();
     event.stopPropagation();
 
-    //if (!window.isLoggedIn) {
-    //    alert("로그인 후 작성할 수 있습니다");
-
-    //    // 입력 포커스를 textarea로 이동시키고 입력한 텍스트 지우기
-    //    const textarea = document.querySelector('#review');
-    //    textarea.focus();
-    //    textarea.value = '';
-
-    //    return;
-    //}
-
     const form = event.target;
     const formData = new FormData(form);
 
@@ -189,24 +178,32 @@ async function postReview(event) {
             // 폼 필드 초기화
             form.reset();
 
-        } else {
-            alert("로그인 후 작성할 수 있습니다");
+            
 
-            // 입력 포커스를 textarea로 이동시키고 입력한 텍스트 지우기
+        } else {
+            
+
+            var confirmLogin = confirm("로그인이 필요한 서비스입니다. 로그인하시겠습니까?");
+            if (confirmLogin) {
+                // 로그인 페이지로 이동하는 코드 추가
+                window.location.href = "/login/login";
+            }
             const textarea = document.querySelector('#review');
             textarea.focus();
             textarea.value = '';
+            return false;
         }
     } catch (error) {
         console.error(error);
     } finally {
+        
         // 폼 잠금 해제
         form.classList.remove('disabled');
         form.querySelectorAll('button').forEach(button => {
             button.disabled = false;
         });
 
-        location.reload();
+
     }
 }
 

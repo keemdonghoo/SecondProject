@@ -144,6 +144,26 @@ namespace TeamProject.Repositories
             return null;
         }
 
+        // 관리자 선택한 리뷰들 삭제하기
+        public async Task<Review> DeleteSelectedReviews(List<long> reviewIds)
+        {
+
+
+            var existingReviews = await movieDbContext.Reviews
+                .Where(review => reviewIds.Contains(review.Id))
+                .ToListAsync();
+
+            if (existingReviews != null)
+            {
+                movieDbContext.Reviews.RemoveRange(existingReviews);
+                await movieDbContext.SaveChangesAsync();
+
+            }
+
+            return null;
+        }
+
+
         //게시판 id=1 의 게시글 목록 불러오기
         public async Task<List<Post>?> GetAllPostAsync(long boardId = 1)
         {
@@ -170,6 +190,7 @@ namespace TeamProject.Repositories
             return posts.OrderByDescending(x => x.Id).ToList();
         }
 
+        // 관리자 모든 댓글 불러오기
         public async Task<List<Comment>> AdminGetAllCommentAsync()
         {
             var comments = await movieDbContext.Comments
@@ -178,6 +199,16 @@ namespace TeamProject.Repositories
                 .ToListAsync();
 
             return comments.OrderByDescending(x => x.Id).ToList();
+        }
+
+        public async Task<List<Review>> AdminGetAllReviewAsync()
+        {
+            var reviews = await movieDbContext.Reviews
+                .Include(c => c.Movie) // 게시물 데이터 로드
+                .Include(u => u.User)
+                .ToListAsync();
+
+            return reviews.OrderByDescending(x => x.Id).ToList();
         }
 
         //특정 게시글의 댓글 불러오기
@@ -197,6 +228,17 @@ namespace TeamProject.Repositories
             return comments.OrderByDescending(x => x.Id).ToList();
         }
 
+        //특정 유저의 재생목록
+        public async Task<IEnumerable<Favorite>> GetUserFavoriteAsync(long userId)
+        {
+            var favorites = await movieDbContext.Favorites
+                .Include(p=>p.User)
+                .Include(p=>p.Movie)
+                .Where(x => x.UserId == userId)
+                .ToListAsync();
+                
+            return favorites.OrderByDescending(x => x.MovieId).ToList();
+        }
 
         //특정 MovieUID의 영화 상세정보 가져오기
         public async Task<Movie> GetMovieDetailAsync(long uid)
@@ -253,6 +295,39 @@ namespace TeamProject.Repositories
             // 변경 후의 상태를 반환한다.
             // Like가 삭제되었다면 false를, 추가되었다면 true를 반환한다.
             return existingLike == null;
+        }
+
+        //좋아요 토글
+        public async Task<bool> ToggleFavoriteAsync(long userUid, long movieId)
+        {
+            // UserUID와 PostUID로 기존의 Like를 찾는다.
+            var existingFavorite = await movieDbContext.Favorites
+                .FirstOrDefaultAsync(l => l.UserId == userUid && l.MovieId == movieId);
+
+          
+            var post = movieDbContext.Movies.FirstOrDefault(p => p.Id == movieId);
+            if (post != null)
+            {
+                // 만약 Like가 이미 있다면, 삭제한다.
+                if (existingFavorite != null)
+                {
+                    movieDbContext.Favorites.Remove(existingFavorite);
+                   
+                }
+                else // 그렇지 않으면 새로운 Like를 추가한다.
+                {
+                    var newFavorite = new Favorite { UserId = userUid, MovieId = movieId, Name = "내 플레이리스트" };
+                    await movieDbContext.Favorites.AddAsync(newFavorite);
+                
+                }
+            }
+
+            // 변경 사항을 저장한다.
+            await movieDbContext.SaveChangesAsync();
+
+            // 변경 후의 상태를 반환한다.
+            // Like가 삭제되었다면 false를, 추가되었다면 true를 반환한다.
+            return existingFavorite == null;
         }
 
 
@@ -346,6 +421,7 @@ namespace TeamProject.Repositories
             .Include(a => a.User)
             .ToListAsync();
         }
+
 
     }
 }

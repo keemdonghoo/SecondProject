@@ -1,0 +1,22 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@{
+    long userId = long.Parse(HttpContextAccessor.HttpContext.Session.GetString("UserId"));
+}
+
+@{
+    if (Model <= 0)
+    {
+        <script>
+            alert("삭제 실패");
+            history.back();
+        </script>
+    }
+    else
+    {
+        <script>
+            alert("삭제 완료되었습니다");
+            location.href = "/Posts/Userspostlist/@userId";
+        </script>
+    }
+}

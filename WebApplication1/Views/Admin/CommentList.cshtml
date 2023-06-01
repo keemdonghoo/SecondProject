@@ -14,7 +14,7 @@
             <th>작성일</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody style="color: white;">
         @if (Model != null)
         {
             foreach (var comment in Model)
@@ -25,7 +25,7 @@
                     </td>
                     <td>@comment.Id</td>
                     <td>
-                        <a asp-controller="Posts" asp-action="PostDetail" asp-route-id="@comment.PostId">@comment.Post.Title</a>
+                        <a style="color: white" asp-controller="Posts" asp-action="PostDetail" asp-route-id="@comment.PostId">@comment.Post.Title</a>
                     </td>
                     <td>@comment.User.NickName</td>
                     <td>@comment.Content</td>
@@ -40,9 +40,10 @@
 <div class="row">
     <div class="col-12">
         <button type="button" class="btn btn-outline-danger ms-2" id="btnDel">선택한 댓글 삭제</button>
+        <a asp-controller="Admin" asp-action="AdminPage" class="site-btn">관리자 페이지</a>
         <form method="POST" name="frmDelete" asp-controller="Admin" asp-action="DeleteSelectedComments">
             <input type="hidden" name="selectedCommentIds[]" />
         </form>
     </div>
 </div>
-<a asp-controller="Admin" asp-action="AdminPage" class="site-btn">관리자 페이지</a>
+

@@ -22,21 +22,6 @@ namespace TeamProject.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("FavoriteMovie", b =>
-                {
-                    b.Property<long>("FavoritesId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("MoviesId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("FavoritesId", "MoviesId");
-
-                    b.HasIndex("MoviesId");
-
-                    b.ToTable("FavoriteMovie");
-                });
-
             modelBuilder.Entity("TeamProject.Models.Domain.Attachment", b =>
                 {
                     b.Property<long>("Id")
@@ -122,6 +107,9 @@ namespace TeamProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
+                    b.Property<long>("MovieId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -130,6 +118,8 @@ namespace TeamProject.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MovieId");
 
                     b.HasIndex("UserId");
 
@@ -310,21 +300,6 @@ namespace TeamProject.Migrations
                         });
                 });
 
-            modelBuilder.Entity("FavoriteMovie", b =>
-                {
-                    b.HasOne("TeamProject.Models.Domain.Favorite", null)
-                        .WithMany()
-                        .HasForeignKey("FavoritesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TeamProject.Models.Domain.Movie", null)
-                        .WithMany()
-                        .HasForeignKey("MoviesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("TeamProject.Models.Domain.Attachment", b =>
                 {
                     b.HasOne("TeamProject.Models.Domain.Post", "Post")
@@ -357,11 +332,19 @@ namespace TeamProject.Migrations
 
             modelBuilder.Entity("TeamProject.Models.Domain.Favorite", b =>
                 {
+                    b.HasOne("TeamProject.Models.Domain.Movie", "Movie")
+                        .WithMany("Favorites")
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("TeamProject.Models.Domain.User", "User")
                         .WithMany("Favorites")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Movie");
 
                     b.Navigation("User");
                 });
@@ -430,6 +413,8 @@ namespace TeamProject.Migrations
 
             modelBuilder.Entity("TeamProject.Models.Domain.Movie", b =>
                 {
+                    b.Navigation("Favorites");
+
                     b.Navigation("Reviews");
                 });
 

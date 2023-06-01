@@ -80,10 +80,13 @@ namespace TeamProject.Controllers
         [Route("Home/ReviewAdd")]
         public async Task<IActionResult> ReviewAdd([FromBody] ReviewAddModel model)
         {
-            string userId = HttpContext.Session.GetString("UserId");
+			Console.WriteLine("ReviewAdd() 호출");
+			//세션에 저장되어있는 사용자와 영화 아이디 가져오기
+			string userId = HttpContext.Session.GetString("UserId");
             string movieUid = HttpContext.Session.GetString("MovieUid");
+            string movieTitle = HttpContext.Session.GetString("Title");
 
-            if(userId == null)
+            if (userId == null)
             {
                 return null;
             }
@@ -104,10 +107,10 @@ namespace TeamProject.Controllers
 
                 // 영화의 제목을 얻습니다. 이를 위해 MovieUid를 사용해 DB에서 영화를 찾습니다.
                 var movie = await _movieDbContext.Movies.FirstOrDefaultAsync(m => m.MovieUid == addReview.MovieUid);
-                var movieTitle = movie?.Title ?? "";
+                //var movieTitle = movie?.Title ?? "";
 
                 // 성공적으로 리뷰를 추가한 후 'Detail' 액션으로 리다이렉트합니다.
-                return RedirectToAction("Detail", "Home", new { title = movieTitle });
+                return RedirectToAction("Detail", "Home", new { title = movieTitle});
             }
             catch (Exception ex)
             {

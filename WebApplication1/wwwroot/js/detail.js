@@ -1,21 +1,6 @@
-async function fetchMovieVideos(movieId) {
-    const apiKey = 'a64af89e63ea55dc53158eca732fee02';
-    const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${apiKey}&language=en-US`);
-    const data = await response.json();
-    return data.results;
-}
-
-async function getMovieTrailer(movieId) {
-    const videos = await fetchMovieVideos(movieId);
-    const trailer = videos.find(video => video.type === 'Trailer');
-    if (trailer) {
-        return `https://www.youtube.com/watch?v=${trailer.key}`;
-    }
-    return null;
-}
-
+const apiKey = 'a64af89e63ea55dc53158eca732fee02';
+//받아온 영화제목 데이터로 해당 영화 상세정보 받아오기
 async function fetchMovieDetails(title) {
-    const apiKey = 'a64af89e63ea55dc53158eca732fee02';
     const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(title)}&language=ko-KR`);
     const data = await response.json();
     if (data.results.length > 0) {
@@ -26,12 +11,21 @@ async function fetchMovieDetails(title) {
     }
     return null;
 }
-
-async function getMovieDetails(title) {
-    const movieDetails = await fetchMovieDetails(title);
-    return movieDetails;
+//해당 영화 트레일러 받아오기
+async function fetchMovieVideos(movieId) {
+    const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${apiKey}&language=en-US`);
+    const data = await response.json();
+    const trailer = data.results.find(video => video.type === 'Trailer');
+    if (trailer) {
+        return `https://www.youtube.com/watch?v=${trailer.key}`;
+    }
+    return null;
 }
-
+//포스터 기본 URL
+function createImageUrl(path) {
+    return `https://image.tmdb.org/t/p/w500${path}`;
+}
+//받아온 상세정보 화면에 출력
 function displayMovieDetails(movieDetails) {
     if (!movieDetails) return;
 
@@ -72,17 +66,15 @@ function getParameterByName(name, url = window.location.href) {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
-
+//시작
 async function init() {
     const title = getParameterByName("title");
     if (title) {
-        const movieDetails = await getMovieDetails(title);
+        const movieDetails = await fetchMovieDetails(title);
         displayMovieDetails(movieDetails);
 
-        // 트레일러 링크 가져오기
-        const trailerLink = await getMovieTrailer(movieDetails.id);
+        const trailerLink = await fetchMovieVideos(movieDetails.id);
         if (trailerLink) {
-            // 트레일러 버튼에 링크 추가하기
             const trailerBtn = document.querySelector('.anime__details__btn a');
             trailerBtn.href = trailerLink;
             trailerBtn.target = '_blank';
@@ -92,9 +84,11 @@ async function init() {
     }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////
 
+///////////////////////////////////////////////////////////////////////////////////////
+//화면에 리뷰 출력
 function createReviewItem(review) {
+    Console.WriteLine("createReviewItem() 호출");
     // div 생성
     const reviewDiv = document.createElement('div');
     reviewDiv.className = 'anime__review__item';
@@ -111,10 +105,7 @@ function createReviewItem(review) {
     return reviewDiv;
 }
 
-
-
-//리뷰 항목 생성
-// ajax로 post 요청을 보내는 함수
+// AJAX를 사용하여 HTTP POST 요청을 보내는 역할
 function sendPost(url, data) {
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
@@ -132,18 +123,16 @@ function sendPost(url, data) {
     });
 }
 
+//폼 제출 이벤트가 발생했을 때 호출
+//폼 데이터를 가져와서 DB에 저장
 async function postReview(event) {
+    Console.WriteLine("postReview() 호출");
     event.preventDefault();
     event.stopPropagation();
 
     const form = event.target;
     const formData = new FormData(form);
 
-    // 폼 잠금
-    form.classList.add('disabled');
-    form.querySelectorAll('button').forEach(button => {
-        button.disabled = true;
-    });
 
     try {
         const data = {
@@ -188,7 +177,7 @@ async function postReview(event) {
                 // 로그인 페이지로 이동하는 코드 추가
                 window.location.href = "/login/login";
             }
-            const textarea = document.querySelector('#review');
+            const textarea = document.querySelector('#reviewtext');
             textarea.focus();
             textarea.value = '';
             return false;
@@ -196,20 +185,17 @@ async function postReview(event) {
     } catch (error) {
         console.error(error);
     } finally {
-        
-        // 폼 잠금 해제
-        form.classList.remove('disabled');
-        form.querySelectorAll('button').forEach(button => {
-            button.disabled = false;
-        });
+        const textarea = document.querySelector('#reviewtext');
+        textarea.focus();
+        textarea.value = '';
 
+        location.reload();
+        return false;
 
     }
 }
 
-
-
-document.addEventListener('DOMContentLoaded', async function () {
+document.addEventListener('DOMContentLoaded', init , async function () {
     const title = getParameterByName("title");
     if (title) {
         const movieDetails = await getMovieDetails(title);

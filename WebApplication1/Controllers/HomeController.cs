@@ -77,17 +77,18 @@ namespace TeamProject.Controllers
         }
 
         [HttpPost]
-        [Route("Home/ReviewAdd")]
         public async Task<IActionResult> ReviewAdd([FromBody] ReviewAddModel model)
         {
             string userId = HttpContext.Session.GetString("UserId");
             string movieUid = HttpContext.Session.GetString("MovieUid");
+            string movieTitle = HttpContext.Session.GetString("Title");
+			string movieId = HttpContext.Session.GetString("MovieId");
 
-            if(userId == null)
+			if (userId == null)
             {
                 return null;
             }
-            string movieId = HttpContext.Session.GetString("MovieId");
+          
             try
             {
                 var addReview = new Review
@@ -102,9 +103,6 @@ namespace TeamProject.Controllers
                 // 리포지토리에서 리뷰 저장 구현
                 await _writeRepository.SaveReviewAsync(addReview);
 
-                // 영화의 제목을 얻습니다. 이를 위해 MovieUid를 사용해 DB에서 영화를 찾습니다.
-                var movie = await _movieDbContext.Movies.FirstOrDefaultAsync(m => m.MovieUid == addReview.MovieUid);
-                var movieTitle = movie?.Title ?? "";
 
                 // 성공적으로 리뷰를 추가한 후 'Detail' 액션으로 리다이렉트합니다.
                 return RedirectToAction("Detail", "Home", new { title = movieTitle });

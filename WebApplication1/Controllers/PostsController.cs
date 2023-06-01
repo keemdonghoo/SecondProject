@@ -162,8 +162,7 @@ namespace TeamProject.Controllers
                     string savedFileName = formFile.FileName; // 저장할 파일명
                     var fileFullPath = Path.Combine(UploadDir, savedFileName);
 
-                    // 파일명이 이미 존재하는 경우 파일명 변경
-                    // face01.png => face01(1).png => face01(2).png => ...
+                   
                     int filecnt = 1;
                     while (new FileInfo(fileFullPath).Exists)
                     {

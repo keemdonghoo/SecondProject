@@ -20,7 +20,7 @@
                             <input type="hidden" asp-for="Name" />
 
                             <!--비밀번호-->
-                            <div><span class="text-danger">@TempData["PassWordError"]</span></div>
+                       
                             <div class="input__item">
                                 <input type="text"  asp-for="PassWord" value="@Model.PassWord" readonly>
                                 <span class="icon_lock"></span>
@@ -28,7 +28,7 @@
 
                            
                             <!--UserName-->
-                            <div><span class="text-danger">@TempData["UserNameError"]</span></div>
+                          
                             <div class="input__item">
 
                                 <input type="text" class="form-control" asp-for="UserName" readonly>

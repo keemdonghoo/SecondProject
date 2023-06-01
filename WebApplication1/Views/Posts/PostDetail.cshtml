@@ -37,7 +37,7 @@
 
 @if (Model != null)
 {
-	<div class="mb-3 mt-3 clearfix">
+	<div class="mb-3 mt-3 clearfix" style="color: white;">
 		<span class="float-start me-2">id: @Model.Id</span>
 		<span class="float-end ms-4">작성일: @Model.Date</span>
 		<span class="float-end">조회수: @Model.ViewCnt</span>
@@ -50,17 +50,17 @@
 		</form>
 
 
-		<div class="mb-3">
+		<div class="mb-3" style="color: white;">
 			<label for="name">글 제목 :</label>
 			<span class="form-control">@Model.Title</span>
 		</div>
 
-		<div class="mb-3 mt-3">
+		<div class="mb-3 mt-3" style="color: white;">
 			<label for="content">글 내용:</label>
 			<span class="form-control">@Model.Content</span>
 		</div>
 
-		<div class="mb-3 mt-3">
+		<div class="mb-3 mt-3" style="color: white;">
 			<label for="attachment"> 첨부파일</label>
 			@foreach (var f in @Model.Attachments)
 			{
@@ -75,9 +75,13 @@
 			}
 		</div>
 
-		<div class="mb-3 mt-3">
+		<div class="mb-3 mt-3" style="color: white;">
 			<label for="ViewCnt">조회수:</label>
 			<span class="form-control">@Model.ViewCnt</span>
+		</div>
+		<div class="mb-3 mt-3" style="color: white;">
+			<label for="ViewCnt">좋아요 수:</label>
+			<span class="form-control">@Model.LikeCnt</span>
 		</div>
 
 		
@@ -114,27 +118,32 @@
 
 			@foreach (var comment in Model.Comments)
 			{
-			<li class="comment-item">
-				<div class="comment-header">
-					<span class="comment-date">@comment.RegDate</span>
-					<span class="comment-user">@comment.User.NickName</span>
-					@if (comment.User.Id == userId)
-					{
-						<button type="button" class="btn btn-outline-danger ms-2 btnDelComment" data-comment-id="@comment.Id">삭제</button>
-					}
-				</div>
-				<div class="comment-content">@comment.Content</div>
-			</li>
+			<div class="anime__review__item">
+				<div class="anime__review__item__text">
+					<h6>@comment.User.NickName <span> - </span> <span> @comment.RegDate</span></h6>
+					<p>
+						@comment.Content
+						@if (comment.User.Id == userId)
+						{
+							<button type="button" 
+								class="btn btn-outline-danger ms-2 btnDelComment" 
+								data-comment-id="@comment.Id">삭제</button>
+						}
+					</p>
+				</div>		
+			</div>
 			}
 
 
+		<div class="section-title">
+			<h5>Your Comment</h5>
+		</div>
 		
-		<h3>댓글 작성</h3>
 		<form method="POST" asp-controller="Comment" asp-action="Add">
 			<input type="hidden" asp-for="@Model.Id" name="postId" />
 
 
-			<div class="mb-3">
+			<div class="mb-3" style="color: white;">
 				<label for="content">내용:</label>
 				<textarea class="form-control" rows="1" name="content"></textarea>
 				<div><span class="text-danger">@TempData["ContentError"]</span></div>

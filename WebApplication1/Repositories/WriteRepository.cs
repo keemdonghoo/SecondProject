@@ -297,10 +297,10 @@ namespace TeamProject.Repositories
             return existingLike == null;
         }
 
-        //좋아요 토글
+        
         public async Task<bool> ToggleFavoriteAsync(long userUid, long movieId)
         {
-            // UserUID와 PostUID로 기존의 Like를 찾는다.
+            // UserUID와 MovieId로 기존의 Favorite찾기
             var existingFavorite = await movieDbContext.Favorites
                 .FirstOrDefaultAsync(l => l.UserId == userUid && l.MovieId == movieId);
 
@@ -308,7 +308,7 @@ namespace TeamProject.Repositories
             var post = movieDbContext.Movies.FirstOrDefault(p => p.Id == movieId);
             if (post != null)
             {
-                // 만약 Like가 이미 있다면, 삭제한다.
+                // 만약 이미 있다면, 삭제한다.
                 if (existingFavorite != null)
                 {
                     movieDbContext.Favorites.Remove(existingFavorite);

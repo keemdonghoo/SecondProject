@@ -41,7 +41,7 @@ namespace TeamProject.Controllers
                 // 예외 발생 시 적절한 처리 방법을 선택하십시오.
                 // 예를 들어, 로그를 기록하고 오류 페이지로 리디렉션할 수 있습니다.
                 return RedirectToAction("Error", "Home");
-            }
+            }   
         }
 
 

@@ -14,6 +14,7 @@
             <th>작성자</th>
             <th>조회수</th>
             <th>작성일</th>
+            <th>좋아요 수</th>
         </tr>
     </thead>
     <tbody style="color: white;">
@@ -28,11 +29,12 @@
                     <td>@write.Id</td>
                     <td>
                         <a style="color: white" asp-controller="Posts" asp-action="PostDetail"
-                           asp-route-id="@write.Id">@write.Title</a>
+                           asp-route-id="@write.Id">@write.Title    </a>
                     </td>
                     <td>@write.User?.NickName</td>
                     <td>@write.ViewCnt</td>
                     <td>@write.Date</td>
+                    <td>@write.LikeCnt</td>
                 </tr>
             }
         }

@@ -11,12 +11,7 @@ using TeamProject.Data;
 
 namespace TeamProject.Migrations
 {
-    [DbContext(typeof(MovieDbContext))]
-<<<<<<<< HEAD:WebApplication1/Migrations/20230531055621_init.Designer.cs
-    [Migration("20230531055621_init")]
-========
-    [Migration("20230526064234_init")]
->>>>>>>> e5f8a957a467c880de0a1cfc4ebd5a0d1a90bf91:WebApplication1/Migrations/20230526064234_init.Designer.cs
+
     partial class init
     {
         /// <inheritdoc />

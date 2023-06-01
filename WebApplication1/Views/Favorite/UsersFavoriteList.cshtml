@@ -17,7 +17,7 @@
 
         </tr>
     </thead>
-    <tbody>
+    <tbody style="color: white;">
         @if (Model != null)
         {
             foreach (var favorite in Model)
@@ -25,7 +25,10 @@
                 <tr>
                     <td>@favorite.Name</td>
                     <td>
-                        <a asp-controller="Home" asp-action="Detail" asp-route-title="@favorite.Movie.Title">@favorite.Movie.Title</a>
+                        <a style="color: white" asp-controller="Home" 
+                        asp-action="Detail"
+                        asp-route-title="@favorite.Movie.Title">
+                        @favorite.Movie.Title</a>
 
                     </td>
                 </tr>

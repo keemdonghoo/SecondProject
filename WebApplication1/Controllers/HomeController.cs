@@ -123,10 +123,10 @@ namespace TeamProject.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> GetReviews(long movieId)
+		public async Task<IActionResult> GetReviews(long movieid)
 		{
 			// 영화에 대한 모든 리뷰를 조회합니다.
-			var reviews = await _movieDbContext.Reviews.Where(r => r.MovieUid == movieId).ToListAsync();
+			var reviews = await _movieDbContext.Reviews.Where(r => r.MovieUid == movieid).ToListAsync();
 
 			// 이 부분에서, reviews를 HTML로 변환해주어야 합니다.
 			// 이 작업은 당신이 사용하는 뷰 엔진에 따라 달라집니다.

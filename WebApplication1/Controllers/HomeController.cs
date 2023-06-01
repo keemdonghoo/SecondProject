@@ -133,6 +133,23 @@ namespace TeamProject.Controllers
 			// 예를 들어, 만약 당신이 Razor를 사용한다면, PartialView를 사용해
 			// 리뷰 리스트를 HTML로 변환할 수 있습니다.
 
+		[HttpPost]
+		public async Task<IActionResult> DeleteReview(long ReviewId)
+		{
+			var deleteReview = await _writeRepository.DeleteReviewAsync(ReviewId);
+
+			if (deleteReview != null)
+			{
+				// 삭제 성공
+				return View("Delete", 1);
+			}
+
+			// 삭제 실패
+			return View("Delete", 0);
+
+		}
+
+
 			var html = await this.RenderViewAsync("_ReviewsPartial", reviews, true);
 
 			return Content(html, "text/html");

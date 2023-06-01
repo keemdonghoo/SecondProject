@@ -77,7 +77,6 @@ namespace TeamProject.Controllers
         }
 
         [HttpPost]
-        [Route("Home/ReviewAdd")]
         public async Task<IActionResult> ReviewAdd([FromBody] ReviewAddModel model)
         {
 			Console.WriteLine("ReviewAdd() 호출");
@@ -85,12 +84,13 @@ namespace TeamProject.Controllers
 			string userId = HttpContext.Session.GetString("UserId");
             string movieUid = HttpContext.Session.GetString("MovieUid");
             string movieTitle = HttpContext.Session.GetString("Title");
+			string movieId = HttpContext.Session.GetString("MovieId");
 
-            if (userId == null)
+			if (userId == null)
             {
                 return null;
             }
-            string movieId = HttpContext.Session.GetString("MovieId");
+          
             try
             {
                 var addReview = new Review

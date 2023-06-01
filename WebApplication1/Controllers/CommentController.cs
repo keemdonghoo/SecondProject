@@ -41,14 +41,10 @@ namespace TeamProject.Controllers
 			if (addCommentRequest.HasError)
 			{
 				TempData["ContentError"] = addCommentRequest.ErrorContent;
-
-
 				TempData["Content"] = addCommentRequest.Content;
 
 				return RedirectToAction("PostDetail", "Posts", new { id = postId });
 			};
-
-
 			try
 			{
 

@@ -10,12 +10,11 @@
             <th>Check</th>
             <th>번호</th>
             <th>댓글 내용</th>
-            <th>작성자</th>
             <th>작성일</th>
   
         </tr>
     </thead>
-    <tbody>
+    <tbody style="color: white;">
         @if (Model != null)
         {
             foreach (var comment in Model)
@@ -25,11 +24,10 @@
                         <input type="checkbox" name="selectedCommentIds[]" value="@comment.Id" />
                     </td>
                     <td>
-                        <a asp-controller="Posts" asp-action="Postdetail"
+                        <a style="color: white" asp-controller="Posts" asp-action="Postdetail"
                    asp-route-id="@comment.PostId">@comment.Id</a>
                     </td>
                     <td>@comment.Content</td>
-                    <td>@comment.User?.NickName</td>
                     <td>@comment.RegDate</td>
                 </tr>
             }

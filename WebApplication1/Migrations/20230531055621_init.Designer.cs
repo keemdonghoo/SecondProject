@@ -11,6 +11,7 @@ using TeamProject.Data;
 
 namespace TeamProject.Migrations
 {
+
     partial class init
     {
         /// <inheritdoc />

@@ -28,6 +28,7 @@ namespace TeamProject.Controllers
 
 
         [HttpGet]
+        //회원가입 초기 세팅
         public IActionResult SignUp(AddUserRequest addUserRequest)
         {
             addUserRequest = new()
@@ -40,19 +41,14 @@ namespace TeamProject.Controllers
                 PhoneNum = (string)TempData["PhoneNum"],
                 NickName = (string)TempData["NickName"],
                 Email = (string)TempData["Email"],
-            };
-            
-            //ViewData["page"] = HttpContext.Session.GetInt32("page") ?? 1;
-
+            };            
             return View(addUserRequest);
         }
 
 
         [HttpGet("CheckId")]
         public async Task<IActionResult> CheckId(string id)
-        {
-            
-            
+        {           
             var isExsist = await userRepository.GetByNameAsync(id);
             if (isExsist == null)
             {

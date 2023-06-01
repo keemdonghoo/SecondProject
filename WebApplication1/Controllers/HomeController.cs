@@ -122,17 +122,6 @@ namespace TeamProject.Controllers
 			}
 		}
 
-		[HttpGet]
-		public async Task<IActionResult> GetReviews(long movieid)
-		{
-			// 영화에 대한 모든 리뷰를 조회합니다.
-			var reviews = await _movieDbContext.Reviews.Where(r => r.MovieUid == movieid).ToListAsync();
-
-			// 이 부분에서, reviews를 HTML로 변환해주어야 합니다.
-			// 이 작업은 당신이 사용하는 뷰 엔진에 따라 달라집니다.
-			// 예를 들어, 만약 당신이 Razor를 사용한다면, PartialView를 사용해
-			// 리뷰 리스트를 HTML로 변환할 수 있습니다.
-
 		[HttpPost]
 		public async Task<IActionResult> DeleteReview(long ReviewId)
 		{
@@ -150,44 +139,7 @@ namespace TeamProject.Controllers
 		}
 
 
-			var html = await this.RenderViewAsync("_ReviewsPartial", reviews, true);
-
-			return Content(html, "text/html");
-		}
-
-		private async Task<string> RenderViewAsync<TModel>(string viewName, TModel model, bool partial = false)
-		{
-			if (string.IsNullOrEmpty(viewName))
-			{
-				viewName = ControllerContext.ActionDescriptor.ActionName;
-			}
-
-			ViewData.Model = model;
-
-			using (var writer = new StringWriter())
-			{
-				IViewEngine viewEngine = HttpContext.RequestServices.GetService(typeof(ICompositeViewEngine)) as ICompositeViewEngine;
-				ViewEngineResult viewResult = viewEngine.FindView(ControllerContext, viewName, !partial);
-
-				if (viewResult.Success == false)
-				{
-					return $"A view with the name {viewName} could not be found";
-				}
-
-				ViewContext viewContext = new ViewContext(
-					ControllerContext,
-					viewResult.View,
-					ViewData,
-					TempData,
-					writer,
-					new HtmlHelperOptions()
-				);
-
-				await viewResult.View.RenderAsync(viewContext);
-
-				return writer.GetStringBuilder().ToString();
-			}
-		}
+			
 
 	}
 }

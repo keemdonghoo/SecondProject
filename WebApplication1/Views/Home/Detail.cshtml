@@ -64,25 +64,6 @@
 			});
 		});
 	});
-
-	function refreshReviewSection() {
-		var movieId = $("#movieId").val();
-
-		$.ajax({
-			url: '/Home/GetReviews',
-			type: 'GET',
-			data: {
-				movieid: movieId
-			},
-			success: function (response) {
-				// 서버로부터 반환된 새로운 리뷰 HTML을 리뷰 섹션에 덮어쓰기
-				$(".anime__details__review").html(response);
-			},
-			error: function (jqXHR, textStatus, errorThrown) {
-				console.log(textStatus, errorThrown);
-			}
-		});
-	}
 </script>
 
 

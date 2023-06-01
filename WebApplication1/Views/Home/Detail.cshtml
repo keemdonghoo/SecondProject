@@ -28,6 +28,57 @@
 }
 <script src="~/js/detail.js"></script>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+	$(document).ready(function () {
+		$(".anime__review__form").on("submit", function (e) {
+			e.preventDefault();
+
+			var reviewText = $("#reviewtext").val();
+			var rating = parseInt($("#rating").val());
+			var movieId = parseInt($("#movieId").val());
+
+			$.ajax({
+				url: '/Home/ReviewAdd',
+				type: 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify({
+					review: reviewText,
+					rating: rating,
+					movieUid: movieId
+				}),
+				success: function (response) {
+					// 성공시, 리뷰 섹션을 새로 고침합니다.
+					// response 에서 필요한 데이터를 가져와서 사용할 수 있습니다.
+					refreshReviewSection();
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					console.log(textStatus, errorThrown);
+				}
+				
+			});
+		});
+	});
+
+	function refreshReviewSection() {
+		var movieId = $("#movieId").val();
+
+		$.ajax({
+			url: '/Home/GetReviews',
+			type: 'GET',
+			data: {
+				movieid: movieId
+			},
+			success: function (response) {
+				// 서버로부터 반환된 새로운 리뷰 HTML을 리뷰 섹션에 덮어쓰기
+				$(".anime__details__review").html(response);
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				console.log(textStatus, errorThrown);
+			}
+		});
+	}
+</script>
 
 
 <body>
@@ -127,7 +178,7 @@
 
 						@foreach (var review in Model.Reviews)
 						{
-							<!-- 사용자가 리뷰를 작성함에 따라 실시간 추가 및 삭제 -->
+							<!-- 리뷰 작성 테이블-->
 							<div class="anime__review__item">
 								<div class="anime__review__item__text">
 									<h6>@review.User.NickName <span> - </span> <span> @review.Date</span></h6>
@@ -146,7 +197,7 @@
 
 					<!-- Review Text Start -->
 					<div class="anime__details__form">
-						<form class="anime__review__form" action="/Home/ReviewAdd" method="post">
+						<form class="anime__review__form" asp-controller="Home" asp-action="ReviewAdd" method="post">
 							<div class="anime__details__form">
 
 								<!-- 리뷰 입력 부분 -->

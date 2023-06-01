@@ -17,7 +17,7 @@ namespace TeamProject.Repositories
 
         //새로운 게시글 생성하기
         public async Task<Post> AddPostAsync(Post post)
-        {
+        {            
             await movieDbContext.Posts.AddAsync(post);
             var changes = await movieDbContext.SaveChangesAsync();
 

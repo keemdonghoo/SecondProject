@@ -1,3 +1,4 @@
+//TMDB API KEY
 const apiKey = 'a64af89e63ea55dc53158eca732fee02';
 //받아온 영화제목 데이터로 해당 영화 상세정보 받아오기
 async function fetchMovieDetails(title) {
@@ -25,7 +26,7 @@ async function fetchMovieVideos(movieId) {
 function createImageUrl(path) {
     return `https://image.tmdb.org/t/p/w500${path}`;
 }
-//받아온 상세정보 화면에 출력
+//상세정보 화면에 출력
 function displayMovieDetails(movieDetails) {
     if (!movieDetails) return;
 
@@ -185,12 +186,12 @@ async function postReview(event) {
     } catch (error) {
         console.error(error);
     } finally {
-        const textarea = document.querySelector('#reviewtext');
-        textarea.focus();
-        textarea.value = '';
+        //const textarea = document.querySelector('#reviewtext');
+        //textarea.focus();
+        //textarea.value = '';
 
-        location.reload();
-        return false;
+        //location.reload();
+        
 
     }
 }

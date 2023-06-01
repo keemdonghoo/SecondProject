@@ -178,7 +178,7 @@ async function postReview(event) {
             // 폼 필드 초기화
             form.reset();
 
-            location.reload();
+            
 
         } else {
             
@@ -196,13 +196,14 @@ async function postReview(event) {
     } catch (error) {
         console.error(error);
     } finally {
+        
         // 폼 잠금 해제
         form.classList.remove('disabled');
         form.querySelectorAll('button').forEach(button => {
             button.disabled = false;
         });
 
-        localtion.reload();
+
     }
 }
 

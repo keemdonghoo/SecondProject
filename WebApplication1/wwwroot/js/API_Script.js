@@ -25,9 +25,6 @@ async function onMoviePosterClick(tmdbId, title) {
 
 //한국영화진흥위원회 API를 사용하여 최대한 현재 상영중인 영화 받아오기
 async function getNowPlayingMoviesInKorea() {
-    //ad220407e8473f052ed2e60c74d2a622
-    //295ad79fa848cceace936f1e2c005bf7
-    //const apiKey = "d70fd30eea1771386c8cc6e39165b568";
     const apiKey = "295ad79fa848cceace936f1e2c005bf7";
     const today = new Date();
     const year = today.getFullYear();
@@ -115,13 +112,15 @@ function findBestMatch(originalTitle, searchResults) {
 
 
 
-//영화 제목 및 포스터 받아오기
+//영화 제목 및 포스터 출력
 async function renderMovies() {
+    //현재 상영중인 영화 목록 받아오기
     const nowPlayingMovies = await getNowPlayingMoviesInKorea();
     const container = document.getElementById("movie-container");
 
     for (const movie of nowPlayingMovies) {
         const searchQuery = movie.movieNmEn || movie.movieNm;
+        //영화 포스터 가져오기
         const searchResult = await requestTMDBSearchAsync(searchQuery, movie.prdtYear);
 
         if (!searchResult) {
@@ -151,7 +150,7 @@ async function renderMovies() {
         <div class="col-lg-4 col-md-6 col-sm-6">
             <div class="product__item">
 
-                <a href="javascript:void(0)" onclick="onMoviePosterClick(${bestMatch.id}, '${movie.movieNm}')">
+                <a href="#" onclick="onMoviePosterClick(${bestMatch.id}, '${movie.movieNm}')">
                     <div class="product__item__pic" style="background-image: url('${posterUrl}');">
                         <div class="comment"><i class="fa fa-comments"></i>11</div>
                         <div class="view"><i class="fa fa-eye"></i></div>
@@ -163,7 +162,7 @@ async function renderMovies() {
                         <li>Active</li>
                         <li>Movie</li>
                     </ul>
-                    <h5><a href="javascript:void(0)" onclick="onMoviePosterClick(${bestMatch.id}, '${movie.movieNm}')">${movie.movieNm}</a></h5>
+                    <h5><a href="#" onclick="onMoviePosterClick(${bestMatch.id}, '${movie.movieNm}')">${movie.movieNm}</a></h5>
                     <input type="hidden" value="${bestMatch.id}" />
                 </div>
             </div>

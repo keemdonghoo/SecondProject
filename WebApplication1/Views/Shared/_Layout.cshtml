@@ -75,17 +75,18 @@
                             {
                                 <a asp-controller="Admin" asp-action="Adminpage"><span class="icon_star"></span></a>
                             }
-                            <a asp-controller="User" asp-action="Mypage"><span class="icon_profile"></span></a>
-                            <a href="#" class="search"><span class="icon_search"></span></a>
-                            <div id="searchBox" style="width: 0; overflow: hidden; transition: width 0.5s;">
-                                <input type="text" placeholder="Search..." />
-                            </div>
                             <form method="post" name="frmLogout" asp-controller="Login" asp-action="Logout">
                                 <button type="submit" class="logout-button" id="btnLogout">
                                     <span class="icon_lock-open"></span>
                                 </button>
                             </form>
+                            <a asp-controller="User" asp-action="Mypage"><span class="icon_profile"></span></a>
+                            
                            
+                        </div>
+                        <a href="#" class="search"><span class="icon_search"></span></a>
+                        <div id="searchBox" style="width: 0; overflow: hidden; transition: width 0.5s;">
+                            <input type="text" placeholder="Search..." />
                         </div>
                     </div>
                

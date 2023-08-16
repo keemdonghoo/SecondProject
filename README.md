@@ -25,11 +25,11 @@
 
 <br>
 
-### **[제작 시연 영상]**
+### **[시연 & 발표영상 Link]]**
 
 <br>
 
-[ 시연 & 발표영상 Link ]: https://youtu.be/eLDauLhBbwQ
+[시연 & 발표영상 Link]: https://youtu.be/eLDauLhBbwQ
 
 <br>
 <br>

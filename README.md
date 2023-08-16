@@ -80,7 +80,7 @@
 ![게시글상세](./img/postDetail.png)
 <br><br>
 
-![게시글 댓글](./img/postComment.png)
+![게시글 댓글](./img/PostComment.png)
 <br><br>
 
 - 게시글의 상세페이지에서 내가 작성한 글, 댓글만 삭제하거나 수정할 수 있도록 구현. 
